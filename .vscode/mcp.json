@@ -1,8 +1,9 @@
 {
 	"servers": {
-		"next-devtools": {
-			"command": "npx",
-			"args": ["-y", "next-devtools-mcp@latest"]
+		"next-devtools-mcp": {
+			"url": "http://localhost:3000/_next/mcp",
+			"type": "http"
 		}
-	}
+	},
+	"inputs": []
 }

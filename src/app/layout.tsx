@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Noto_Serif, Figtree } from "next/font/google";
+import {
+	Figtree,
+	Geist,
+	Geist_Mono,
+	Inter,
+	Noto_Serif, Raleway, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const figtreeHeading = Figtree({subsets:['latin'],variable:'--font-heading'});
+const ibmPlexSansHeading = IBM_Plex_Sans({subsets:['latin'],variable:'--font-heading'});
 
-const notoSerif = Noto_Serif({subsets:['latin'],variable:'--font-serif'});
+const notoSerif = Noto_Serif({ subsets: ["latin"], variable: "--font-serif" });
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const raleway = Raleway({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -36,11 +42,11 @@ export default function RootLayout({
         				"h-full",
         				"antialiased",
         				geistSans.variable,
-        				geistMono.variable,
-        				inter.variable,
-        			, "font-serif", notoSerif.variable, figtreeHeading.variable)}
+        				geistMono.variable, notoSerif.variable, "font-sans", raleway.variable, ibmPlexSansHeading.variable)}
 		>
-			<body className="min-h-full flex flex-col">{children}</body>
+			<body className="min-h-full flex flex-col">
+				<TooltipProvider>{children}</TooltipProvider>
+			</body>
 		</html>
 	);
 }

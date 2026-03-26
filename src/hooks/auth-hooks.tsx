@@ -3,8 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { doLogin } from "@/app/login/action";
-import { isEmailValid } from "@/lib/email-validator";
+import { doLogin } from "@/app/actions/auth";
 import { LoginSchema } from "@/types/auth";
 
 export const useLogin = () => {
@@ -18,12 +17,12 @@ export const useLogin = () => {
 		},
 	});
 
-	const { mutate, isPending, error } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: doLogin,
 		onSuccess: (data) => {
 			if (!data.success) throw new Error("Login Failed");
 			toast.info("Login Success");
-			router.push("/");
+			router.push("/dashboard");
 		},
 		onError: (error) => {
 			console.log(error);
@@ -31,7 +30,7 @@ export const useLogin = () => {
 		},
 	});
 
-	const onSubmit = (values: LoginSchema) => mutate(values)
+	const onSubmit = (values: LoginSchema) => mutate(values);
 
 	return { form, onSubmit, isPending };
 };

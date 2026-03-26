@@ -1,108 +1,180 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { base64url, compactDecrypt, decodeJwt } from "jose";
+import { type NextProxy, type NextRequest, NextResponse } from "next/server";
+import {
+	API_BASE_URL,
+	APPWRITE_ENDPOINT,
+	APPWRITE_PROJECT_ID,
+	SESSION_SECRET,
+} from "./lib/constants";
 
-const AUTH_COOKIE_NAME = "auth_token";
+if (!SESSION_SECRET) throw new Error("Missing SESSION_SECRET env variable");
+if (!APPWRITE_PROJECT_ID)
+	throw new Error("Missing APPWRITE_PROJECT_ID env variable");
+if (!API_BASE_URL) throw new Error("Missing API_BASE_URL env variable");
+
+const ACCESS_TOKEN = "token";
+const APPWRITE_SESSION_COOKIE = "mail_session";
 const API_PREFIX = "/api/proxy";
-const PUBLIC_PATHS = ["/", "/login"];
-const PROTECTED_PREFIXES = ["/dashboard"];
+const REFRESH_BUFFER_MS = 10_000;
+const PROTECTED_PREFIXES = ["/dashboard"] as const;
 
-const isPublicPath = (pathname: string) => {
-	if (PUBLIC_PATHS.includes(pathname)) return true;
-	if (pathname.startsWith("/_next") || pathname === "/favicon.ico") return true;
-	return false;
+// Decryption cache with 5s TTL
+const decryptCache = new Map<string, { value: string; expires: number }>();
+
+const cleanupDecryptCache = (): void => {
+	const now = Date.now();
+	for (const [key, entry] of decryptCache) {
+		if (entry.expires <= now) decryptCache.delete(key);
+	}
 };
 
-const isProtectedPath = (pathname: string) => {
-	return PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+const isProtectedPath = (pathname: string): boolean =>
+	PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+
+interface SessionResult {
+	jwt: string;
+	exp: number;
+	refreshed: boolean;
+}
+
+const getTokenExp = (token: string): number | null => {
+	try {
+		const { exp } = decodeJwt(token);
+		return exp ?? null;
+	} catch {
+		return null;
+	}
 };
 
-const handleProxyApi = async (request: NextRequest) => {
-	const baseUrl = process.env.API_BASE_URL;
+const decryptAppwriteSession = async (
+	encrypted: string,
+): Promise<string | null> => {
+	const cached = decryptCache.get(encrypted);
+	if (cached && cached.expires > Date.now()) return cached.value;
 
-	if (!baseUrl) {
-		return NextResponse.json(
-			{ detail: "API_BASE_URL belum dikonfigurasi" },
-			{ status: 500 },
-		);
+	try {
+		const key = base64url.decode(SESSION_SECRET);
+		const { plaintext } = await compactDecrypt(encrypted, key);
+		const value = new TextDecoder().decode(plaintext);
+		decryptCache.set(encrypted, { value, expires: Date.now() + 5_000 });
+		return value;
+	} catch {
+		console.warn("[proxy] Failed to decrypt Appwrite session");
+		return null;
 	}
+};
 
-	const targetPath = request.nextUrl.pathname.replace(API_PREFIX, "");
-	const targetUrl = `${baseUrl}${targetPath}${request.nextUrl.search}`;
-
-	const headers = new Headers(request.headers);
-	headers.delete("host");
-	headers.delete("accept-encoding");
-
-	const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-	if (token) {
-		headers.set("authorization", `Bearer ${token}`);
-	}
-
-	const body =
-		request.method === "GET" || request.method === "HEAD"
-			? undefined
-			: await request.text();
-
-	const upstream = await fetch(targetUrl, {
-		method: request.method,
-		headers,
-		body,
-	});
-
-	const contentType = upstream.headers.get("content-type") || "";
-
-	if (
-		targetPath === "/auth/login" &&
-		contentType.includes("application/json")
-	) {
-		const payload = await upstream.json();
-		const response = NextResponse.json(payload, { status: upstream.status });
-
-		if (upstream.ok && payload?.accessToken) {
-			response.cookies.set(AUTH_COOKIE_NAME, payload.accessToken, {
-				httpOnly: true,
-				sameSite: "lax",
-				secure: process.env.NODE_ENV === "production",
-				path: "/",
-				maxAge: Number(payload.expiresIn ?? 3600),
-			});
+const refreshJwt = async (appwriteCookie: string): Promise<string | null> => {
+	try {
+		const res = await fetch(`${APPWRITE_ENDPOINT}/v1/account/jwt`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Appwrite-Response-Format": "1.6.0",
+				"X-Appwrite-Project": APPWRITE_PROJECT_ID,
+				Cookie: appwriteCookie,
+			},
+		});
+		if (!res.ok) {
+			console.warn(`[proxy] JWT refresh failed: ${res.status}`);
+			return null;
 		}
+		const { jwt } = (await res.json()) as { jwt: string };
+		return jwt;
+	} catch (err) {
+		console.error("[proxy] JWT refresh error:", err);
+		return null;
+	}
+};
 
+const setCookieOnResponse = (
+	response: NextResponse,
+	jwt: string,
+	exp: number,
+): void => {
+	const maxAge = exp - Math.floor(Date.now() / 1000);
+	response.cookies.set(ACCESS_TOKEN, jwt, {
+		path: "/",
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
+		maxAge,
+	});
+};
+
+const resolveSession = async (
+	request: NextRequest,
+): Promise<SessionResult | null> => {
+	const token = request.cookies.get(ACCESS_TOKEN)?.value;
+	if (token) {
+		const exp = getTokenExp(token);
+		if (exp && exp * 1000 > Date.now() + REFRESH_BUFFER_MS) {
+			return { jwt: token, exp, refreshed: false };
+		}
+	}
+
+	const encrypted = request.cookies.get(APPWRITE_SESSION_COOKIE)?.value;
+	if (!encrypted) return null;
+
+	const awCookie = await decryptAppwriteSession(encrypted);
+	if (!awCookie) return null;
+
+	const newJwt = await refreshJwt(awCookie);
+	if (!newJwt) return null;
+
+	const exp = getTokenExp(newJwt);
+	if (!exp) return null;
+
+	return { jwt: newJwt, exp, refreshed: true };
+};
+
+export const proxy: NextProxy = async (request, event) => {
+	const { pathname } = request.nextUrl;
+	const session = await resolveSession(request);
+
+	// Periodic cleanup of expired decrypt cache entries
+	event.waitUntil(Promise.resolve().then(cleanupDecryptCache));
+
+	// API proxy — use NextResponse.rewrite() instead of manual fetch
+	if (pathname.startsWith(API_PREFIX)) {
+		const targetUrl = new URL(
+			`${API_BASE_URL}${pathname.replace(API_PREFIX, "")}${request.nextUrl.search}`,
+		);
+		const requestHeaders = new Headers(request.headers);
+		if (session?.jwt)
+			requestHeaders.set("authorization", `Bearer ${session.jwt}`);
+		requestHeaders.delete("host");
+		requestHeaders.delete("accept-encoding");
+
+		const response = NextResponse.rewrite(targetUrl, {
+			request: { headers: requestHeaders },
+		});
+		if (session?.refreshed)
+			setCookieOnResponse(response, session.jwt, session.exp);
 		return response;
 	}
 
-	const passthrough = new NextResponse(upstream.body, {
-		status: upstream.status,
-		headers: upstream.headers,
-	});
-
-	return passthrough;
-};
-
-export const proxy = async (request: NextRequest) => {
-	const { pathname } = request.nextUrl;
-
-	if (pathname.startsWith(API_PREFIX)) {
-		return handleProxyApi(request);
+	// Redirect logged-in users away from login
+	if (pathname === "/login" && session) {
+		const response = NextResponse.redirect(new URL("/dashboard", request.url));
+		if (session.refreshed)
+			setCookieOnResponse(response, session.jwt, session.exp);
+		return response;
 	}
 
-	if (pathname === "/login" && request.cookies.get(AUTH_COOKIE_NAME)?.value) {
-		return NextResponse.redirect(new URL("/dashboard", request.url));
-	}
-
-	if (
-		isProtectedPath(pathname) &&
-		!request.cookies.get(AUTH_COOKIE_NAME)?.value
-	) {
+	// Redirect unauthenticated users to login
+	if (isProtectedPath(pathname) && !session) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
 
-	if (isPublicPath(pathname)) {
-		return NextResponse.next();
-	}
-
-	return NextResponse.next();
+	// Pass through
+	const response = NextResponse.next();
+	if (session) setCookieOnResponse(response, session.jwt, session.exp);
+	return response;
 };
 
 export const config = {
-	mathcher: ["/((?!_next/static|_next/image).*)"],
+	matcher: [
+		"/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+	],
 };

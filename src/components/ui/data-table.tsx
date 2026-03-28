@@ -10,7 +10,6 @@ import {
 	type ColumnDef,
 	flexRender,
 	getCoreRowModel,
-	type Table as TanstackTable,
 	useReactTable,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";

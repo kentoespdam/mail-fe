@@ -132,7 +132,7 @@ export function useQuickMessageContent() {
 								title="Edit pesan"
 								className="h-8 w-8 hover:bg-primary/10 hover:text-primary"
 							>
-								<IconPencil className="h-4 w-4" />
+								<IconPencil className="size-4" />
 							</Button>
 							<Button
 								variant="ghost"
@@ -141,7 +141,7 @@ export function useQuickMessageContent() {
 								title="Hapus pesan"
 								className="h-8 w-8 bg-destructive text-destructive hover:bg-destructive/10 hover:text-destructive"
 							>
-								<IconTrash className="h-4 w-4" />
+								<IconTrash className="size-4" />
 							</Button>
 						</div>
 					);

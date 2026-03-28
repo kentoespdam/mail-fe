@@ -3,11 +3,11 @@ import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import "./globals.css";
-import { Inter, Noto_Sans, Source_Sans_3, Merriweather, Public_Sans, Figtree } from "next/font/google";
+import { Inter, Noto_Sans, Source_Sans_3, Merriweather, Public_Sans, Figtree, Geist } from "next/font/google";
 
 const merriweatherHeading = Merriweather({subsets:['latin'],variable:'--font-heading'});
 
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -25,7 +25,7 @@ export default function RootLayout({
 			className={cn(
         				"h-full",
         				"antialiased"
-        			, "font-sans", figtree.variable, merriweatherHeading.variable)}
+        			, "font-sans", geist.variable, merriweatherHeading.variable)}
 		>
 			<body className="min-h-full flex flex-col">
 				<TooltipProvider>{children}</TooltipProvider>

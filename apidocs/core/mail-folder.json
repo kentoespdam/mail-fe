@@ -1,0 +1,474 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Mail Service API",
+		"description": "API untuk manajemen surat digital PERUMDAMTS",
+		"contact": {
+			"name": "PERUMDAMTS",
+			"email": "admin@perumdamts.id"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://192.168.1.214:8081",
+			"description": "Generated server url"
+		}
+	],
+	"security": [
+		{
+			"Bearer Token": []
+		}
+	],
+	"paths": {
+		"/api/v1/mail/folders/{id}": {
+			"put": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "renameFolder",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MailFolderRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/MailFolderResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "deleteFolder",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/v1/mail/folders/move": {
+			"put": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "moveMails",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MoveMailRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/v1/mail/mails/{id}/restore": {
+			"post": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "restoreMail_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/v1/mail/mails/{id}/delete": {
+			"post": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "deleteMail_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/v1/mail/folders": {
+			"get": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "getFolderTree",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/MailFolderResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "createFolder",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MailFolderRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/MailFolderResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/folders/{id}/mails": {
+			"get": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "getMailsInFolder",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"default": 0
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"default": 20
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/MailSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/folders/counters": {
+			"get": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "getCounters",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FolderCounterResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/trash": {
+			"delete": {
+				"tags": [
+					"mail-folder-controller"
+				],
+				"operationId": "emptyTrash",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"MailFolderRequest": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"maxLength": 45,
+						"minLength": 0
+					},
+					"parentFolderId": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"required": [
+					"name",
+					"parentFolderId"
+				]
+			},
+			"MailFolderResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"parentFolderId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"ownerId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"name": {
+						"type": "string"
+					},
+					"iconCls": {
+						"type": "string"
+					},
+					"system": {
+						"type": "boolean"
+					},
+					"unread": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"total": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			},
+			"MoveMailRequest": {
+				"type": "object",
+				"properties": {
+					"mailIds": {
+						"type": "array",
+						"items": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					"fromFolderId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"toFolderId": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"required": [
+					"fromFolderId",
+					"mailIds",
+					"toFolderId"
+				]
+			},
+			"MailSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"mailNumber": {
+						"type": "string"
+					},
+					"mailDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"createdByName": {
+						"type": "string"
+					},
+					"toStr": {
+						"type": "string"
+					},
+					"readStatus": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"folderId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"attachmentQty": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"createdDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"mailTypeName": {
+						"type": "string"
+					},
+					"mailCategoryName": {
+						"type": "string"
+					},
+					"circulationName": {
+						"type": "string"
+					},
+					"restoreFolderId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"restoreFolderName": {
+						"type": "string"
+					},
+					"rootMailId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"parentMailId": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"FolderCounterResponse": {
+				"type": "object",
+				"properties": {
+					"folderId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"folderName": {
+						"type": "string"
+					},
+					"unread": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"total": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"Bearer Token": {
+				"type": "http",
+				"name": "Bearer Token",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

@@ -1,0 +1,506 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Mail Service API",
+		"description": "API untuk manajemen surat digital PERUMDAMTS",
+		"contact": {
+			"name": "PERUMDAMTS",
+			"email": "admin@perumdamts.id"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://192.168.1.214:8081",
+			"description": "Generated server url"
+		}
+	],
+	"security": [
+		{
+			"Bearer Token": []
+		}
+	],
+	"paths": {
+		"/api/v1/mails/{mailId}/recipients": {
+			"get": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "getRecipients",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipientResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "addRecipient",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipientRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/RecipientResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "deleteBatch",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipientDeleteBatchRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/copy-thread/{refId}": {
+			"post": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "copyThread",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "refId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipientResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/copy-from/{refId}": {
+			"post": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "copyFrom",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "refId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RecipientResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/batch": {
+			"post": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "addBatch",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipientBatchRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/BatchRecipientResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/{rid}": {
+			"delete": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "deleteRecipient",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "rid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			},
+			"patch": {
+				"tags": [
+					"mail-recipient-controller"
+				],
+				"operationId": "updateNotifFlags",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "rid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipientNotifPatchRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/RecipientResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"RecipientResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"userId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"empId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"empName": {
+						"type": "string"
+					},
+					"posName": {
+						"type": "string"
+					},
+					"circulation": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"circulationName": {
+						"type": "string"
+					},
+					"emailNotif": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"smsNotif": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"notified": {
+						"type": "boolean"
+					},
+					"read": {
+						"type": "boolean"
+					},
+					"folderPosition": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"RecipientRequest": {
+				"type": "object",
+				"properties": {
+					"empId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"circulation": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"required": [
+					"circulation",
+					"empId"
+				]
+			},
+			"RecipientDeleteBatchRequest": {
+				"type": "object",
+				"properties": {
+					"ids": {
+						"type": "array",
+						"items": {
+							"type": "integer",
+							"format": "int64"
+						},
+						"minItems": 1
+					}
+				},
+				"required": [
+					"ids"
+				]
+			},
+			"RecipientBatchRequest": {
+				"type": "object",
+				"properties": {
+					"empIds": {
+						"type": "array",
+						"items": {
+							"type": "integer",
+							"format": "int32"
+						},
+						"minItems": 1
+					},
+					"circulation": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"required": [
+					"circulation",
+					"empIds"
+				]
+			},
+			"BatchRecipientResponse": {
+				"type": "object",
+				"properties": {
+					"succeeded": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/RecipientResponse"
+						}
+					},
+					"failed": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/FailedRecipient"
+						}
+					},
+					"totalRequested": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalSucceeded": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalFailed": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"RecipientNotifPatchRequest": {
+				"type": "object",
+				"properties": {
+					"emailNotif": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"smsNotif": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"FailedRecipient": {
+				"type": "object",
+				"properties": {
+					"empId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"reason": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"Bearer Token": {
+				"type": "http",
+				"name": "Bearer Token",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

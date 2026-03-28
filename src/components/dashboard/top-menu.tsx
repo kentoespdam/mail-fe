@@ -88,7 +88,7 @@ const MenuAplikasi = () => (
 						Master Mail
 					</MenubarSubTrigger>
 					<MenubarSubContent>
-						<MenubarItem render={<Link href="#" />}>
+						<MenubarItem render={<Link href="/master/pesan-singkat" />}>
 							<IconMailFast />
 							Pesan Singkat
 						</MenubarItem>

@@ -1,0 +1,274 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Mail Service API",
+		"description": "API untuk manajemen surat digital PERUMDAMTS",
+		"contact": {
+			"name": "PERUMDAMTS",
+			"email": "admin@perumdamts.id"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://192.168.1.214:8081",
+			"description": "Generated server url"
+		}
+	],
+	"security": [
+		{
+			"Bearer Token": []
+		}
+	],
+	"paths": {
+		"/api/v1/attachments": {
+			"get": {
+				"tags": [
+					"attachment-controller"
+				],
+				"operationId": "findByOwner",
+				"parameters": [
+					{
+						"name": "refType",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"enum": [
+								1,
+								2
+							]
+						}
+					},
+					{
+						"name": "refId",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AttachmentResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"attachment-controller"
+				],
+				"operationId": "upload",
+				"parameters": [
+					{
+						"name": "refType",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"enum": [
+								1,
+								2
+							]
+						}
+					},
+					{
+						"name": "refId",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "docNotes",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"file"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AttachmentResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/attachments/{id}": {
+			"get": {
+				"tags": [
+					"attachment-controller"
+				],
+				"operationId": "findById_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AttachmentResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"attachment-controller"
+				],
+				"operationId": "delete_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/v1/attachments/{id}/download": {
+			"get": {
+				"tags": [
+					"attachment-controller"
+				],
+				"operationId": "download",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string",
+									"format": "binary"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"AttachmentResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"refType": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"refId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"originalFilename": {
+						"type": "string"
+					},
+					"fileExt": {
+						"type": "string"
+					},
+					"fileSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"docNotes": {
+						"type": "string"
+					},
+					"uploadDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"uploadByName": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"Bearer Token": {
+				"type": "http",
+				"name": "Bearer Token",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

@@ -16,7 +16,7 @@ const ACCESS_TOKEN = "token";
 const APPWRITE_SESSION_COOKIE = "mail_session";
 const API_PREFIX = "/api/proxy";
 const REFRESH_BUFFER_MS = 10_000;
-const PROTECTED_PREFIXES = ["/persuratan", "/publikasi"] as const;
+const PROTECTED_PREFIXES = ["/persuratan", "/publikasi", "/master"] as const;
 
 // Decryption cache with 5s TTL
 const decryptCache = new Map<string, { value: string; expires: number }>();

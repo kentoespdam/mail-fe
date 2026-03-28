@@ -1,0 +1,694 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Mail Service API",
+		"description": "API untuk manajemen surat digital PERUMDAMTS",
+		"contact": {
+			"name": "PERUMDAMTS",
+			"email": "admin@perumdamts.id"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://192.168.1.214:8081",
+			"description": "Generated server url"
+		}
+	],
+	"security": [
+		{
+			"Bearer Token": []
+		}
+	],
+	"paths": {
+		"/api/v1/archives/{id}": {
+			"put": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "updateDraft_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ArchiveUpdateRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ArchiveResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "deleteArchive",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/v1/archives/{id}/access": {
+			"get": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "getAccess",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveAccessResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "setAccess",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ArchiveAccessRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveAccessResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives": {
+			"get": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "searchWithAcl",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ArchiveSearchRequest"
+						}
+					},
+					{
+						"name": "positionIds",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "integer",
+								"format": "int32"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "createDraft_1",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ArchiveCreateRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ArchiveResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives/{id}/publish": {
+			"post": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "publish",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ArchiveResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives/search": {
+			"get": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "findForAdmin",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ArchiveSearchRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives/report": {
+			"get": {
+				"tags": [
+					"mail-archive-controller"
+				],
+				"operationId": "report_1",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ArchiveReportRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveReportResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"ArchiveUpdateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"mailId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"archiveDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"rack": {
+						"type": "string"
+					},
+					"shelf": {
+						"type": "string"
+					},
+					"box": {
+						"type": "string"
+					},
+					"folderPosition": {
+						"type": "string"
+					},
+					"keywordFlag": {
+						"type": "string"
+					}
+				}
+			},
+			"ArchiveResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"archiveNumber": {
+						"type": "string"
+					},
+					"archiveDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"mailId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"categoryId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"categoryName": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"status": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"officeCode": {
+						"type": "string"
+					},
+					"rack": {
+						"type": "string"
+					},
+					"shelf": {
+						"type": "string"
+					},
+					"box": {
+						"type": "string"
+					},
+					"folderPosition": {
+						"type": "string"
+					},
+					"keywordFlag": {
+						"type": "string"
+					},
+					"attachmentQty": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"createdDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"publishedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdBy": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"createdByName": {
+						"type": "string"
+					}
+				}
+			},
+			"ArchiveAccessResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"archiveId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"positionId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"accessLevel": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"grantedDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"grantedBy": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ArchiveAccessRequest": {
+				"type": "object",
+				"properties": {
+					"entries": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AccessEntry"
+						},
+						"minItems": 1
+					}
+				},
+				"required": [
+					"entries"
+				]
+			},
+			"ArchiveSearchRequest": {
+				"type": "object",
+				"properties": {
+					"keyword": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"startDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"endDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ArchiveSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"archiveNumber": {
+						"type": "string"
+					},
+					"archiveDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"categoryName": {
+						"type": "string"
+					},
+					"status": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"officeCode": {
+						"type": "string"
+					},
+					"attachmentQty": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"createdDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdByName": {
+						"type": "string"
+					}
+				}
+			},
+			"ArchiveCreateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": {
+						"type": "string",
+						"minLength": 1
+					},
+					"content": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"mailId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"archiveDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"rack": {
+						"type": "string"
+					},
+					"shelf": {
+						"type": "string"
+					},
+					"box": {
+						"type": "string"
+					},
+					"folderPosition": {
+						"type": "string"
+					},
+					"keywordFlag": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"subject"
+				]
+			},
+			"ArchiveReportRequest": {
+				"type": "object",
+				"properties": {
+					"categoryId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"startDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"endDate": {
+						"type": "string",
+						"format": "date"
+					}
+				}
+			},
+			"ArchiveReportResponse": {
+				"type": "object",
+				"properties": {
+					"categoryName": {
+						"type": "string"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalArchives": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalDraft": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalArchived": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			},
+			"AccessEntry": {
+				"type": "object",
+				"properties": {
+					"positionId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"accessLevel": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"Bearer Token": {
+				"type": "http",
+				"name": "Bearer Token",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

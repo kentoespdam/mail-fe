@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lora, Source_Sans_3, Inter, Noto_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Lora, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-const notoSansHeading = Noto_Sans({subsets:['latin'],variable:'--font-heading'});
+const loraHeading = Lora({ subsets: ["latin"], variable: "--font-heading" });
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const sourceSans3 = Source_Sans_3({
+	subsets: ["latin"],
+	variable: "--font-sans",
+});
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -38,8 +41,8 @@ export default function RootLayout({
 				geistSans.variable,
 				geistMono.variable,
 				"font-sans",
-				inter.variable,
-				notoSansHeading.variable,
+				sourceSans3.variable,
+				loraHeading.variable,
 			)}
 		>
 			<body className="min-h-full flex flex-col">

@@ -1,8 +1,4 @@
-import {
-	type FieldValues,
-	type Path,
-	type UseFormReturn,
-} from "react-hook-form";
+import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { Field, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 
@@ -21,12 +17,7 @@ const InputFileControll = <TData extends FieldValues>({
 	return (
 		<Field>
 			<FieldLabel htmlFor={id}>{label}</FieldLabel>
-			<Input
-				id={id}
-				type="file"
-				accept={accept}
-				{...form.register(id)}
-			/>
+			<Input id={id} type="file" accept={accept} {...form.register(id)} />
 		</Field>
 	);
 };

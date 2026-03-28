@@ -1,9 +1,13 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID } from "@/lib/constants";
 import { isEmailValid } from "@/lib/email-validator";
-import { createSession, deleteSession } from "@/lib/session";
+import {
+	createSession,
+	deleteSession,
+	getAppwriteSession,
+	getSession,
+} from "@/lib/session";
 import type { LoginSchema } from "@/types/auth";
 
 export const doLogin = async (formData: LoginSchema) => {
@@ -92,6 +96,26 @@ const createJwt = async (setCookie: string) => {
 };
 
 export async function logout() {
+	const [session, appwriteCookie] = await Promise.all([
+		getSession(),
+		getAppwriteSession(),
+	]);
+
+	if (session && appwriteCookie) {
+		try {
+			await fetch(`${APPWRITE_ENDPOINT}/v1/account/sessions/current`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					"X-Appwrite-Response-Format": "1.6.0",
+					"X-Appwrite-Project": APPWRITE_PROJECT_ID,
+					Cookie: appwriteCookie,
+				},
+			});
+		} catch {
+			// Continue with local cleanup even if Appwrite call fails
+		}
+	}
+
 	await deleteSession();
-	redirect("/login");
 }

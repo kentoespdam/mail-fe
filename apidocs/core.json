@@ -1,0 +1,1702 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Mail Service API",
+		"description": "API untuk manajemen surat digital PERUMDAMTS",
+		"contact": { "name": "PERUMDAMTS", "email": "admin@perumdamts.id" },
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://192.168.1.214:8081",
+			"description": "Generated server url"
+		}
+	],
+	"security": [{ "Bearer Token": [] }],
+	"paths": {
+		"/api/v1/publications/{id}": {
+			"get": {
+				"tags": ["publication-controller"],
+				"operationId": "findById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/PublicationDto" }
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["publication-controller"],
+				"operationId": "update",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"data": {
+										"$ref": "#/components/schemas/UpdatePublicationRequest"
+									},
+									"file": { "type": "string", "format": "binary" }
+								},
+								"required": ["data"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/PublicationDto" }
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["publication-controller"],
+				"operationId": "delete",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mails/{id}": {
+			"put": {
+				"tags": ["mail-controller"],
+				"operationId": "updateDraft",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/MailUpdateRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/MailResponse" }
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["mail-controller"],
+				"operationId": "deleteMail",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mail/folders/{id}": {
+			"put": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "renameFolder",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/MailFolderRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/MailFolderResponse" }
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "deleteFolder",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mail/folders/move": {
+			"put": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "moveMails",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/MoveMailRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": { "200": { "description": "OK" } }
+			}
+		},
+		"/api/v1/archives/{id}": {
+			"put": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "updateDraft_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/ArchiveUpdateRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/ArchiveResponse" }
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "deleteArchive",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/archives/{id}/access": {
+			"get": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "getAccess",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveAccessResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "setAccess",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/ArchiveAccessRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveAccessResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/publications": {
+			"get": {
+				"tags": ["publication-controller"],
+				"operationId": "list",
+				"parameters": [
+					{
+						"name": "filter",
+						"in": "query",
+						"required": true,
+						"schema": { "$ref": "#/components/schemas/PublicationFilter" }
+					},
+					{
+						"name": "offset",
+						"in": "query",
+						"required": false,
+						"schema": { "type": "integer", "format": "int32", "default": 0 }
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"required": false,
+						"schema": { "type": "integer", "format": "int32", "default": 20 }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/PublicationDto" }
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["publication-controller"],
+				"operationId": "create",
+				"requestBody": {
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"data": {
+										"$ref": "#/components/schemas/CreatePublicationRequest"
+									},
+									"file": { "type": "string", "format": "binary" }
+								},
+								"required": ["data"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/PublicationDto" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails": {
+			"post": {
+				"tags": ["mail-controller"],
+				"operationId": "createDraft",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/MailCreateRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/MailResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients": {
+			"get": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "getRecipients",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/RecipientResponse" }
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "addRecipient",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/RecipientRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/RecipientResponse" }
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "deleteBatch",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipientDeleteBatchRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/copy-thread/{refId}": {
+			"post": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "copyThread",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					},
+					{
+						"name": "refId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/RecipientResponse" }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/copy-from/{refId}": {
+			"post": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "copyFrom",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					},
+					{
+						"name": "refId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/RecipientResponse" }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/batch": {
+			"post": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "addBatch",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/RecipientBatchRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/BatchRecipientResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{id}/send": {
+			"post": {
+				"tags": ["mail-controller"],
+				"operationId": "send",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/MailResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{id}/restore": {
+			"post": {
+				"tags": ["mail-controller"],
+				"operationId": "restoreMail",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mails/{id}/read": {
+			"post": {
+				"tags": ["mail-controller"],
+				"operationId": "markRead",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mails/send": {
+			"post": {
+				"tags": ["mail-controller"],
+				"operationId": "sendMail",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/MailSendRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/MailResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/mails/{id}/restore": {
+			"post": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "restoreMail_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mail/mails/{id}/delete": {
+			"post": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "deleteMail_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/mail/folders": {
+			"get": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "getFolderTree",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/MailFolderResponse" }
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "createFolder",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/MailFolderRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/MailFolderResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/attachments": {
+			"get": {
+				"tags": ["attachment-controller"],
+				"operationId": "findByOwner",
+				"parameters": [
+					{
+						"name": "refType",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32", "enum": [1, 2] }
+					},
+					{
+						"name": "refId",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/AttachmentResponse" }
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["attachment-controller"],
+				"operationId": "upload",
+				"parameters": [
+					{
+						"name": "refType",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32", "enum": [1, 2] }
+					},
+					{
+						"name": "refId",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					},
+					{
+						"name": "docNotes",
+						"in": "query",
+						"required": false,
+						"schema": { "type": "string" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": { "type": "string", "format": "binary" }
+								},
+								"required": ["file"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/AttachmentResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives": {
+			"get": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "searchWithAcl",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": { "$ref": "#/components/schemas/ArchiveSearchRequest" }
+					},
+					{
+						"name": "positionIds",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "array",
+							"items": { "type": "integer", "format": "int32" }
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "createDraft_1",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/ArchiveCreateRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/ArchiveResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives/{id}/publish": {
+			"post": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "publish",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/ArchiveResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{mailId}/recipients/{rid}": {
+			"delete": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "deleteRecipient",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					},
+					{
+						"name": "rid",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			},
+			"patch": {
+				"tags": ["mail-recipient-controller"],
+				"operationId": "updateNotifFlags",
+				"parameters": [
+					{
+						"name": "mailId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					},
+					{
+						"name": "rid",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int64" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RecipientNotifPatchRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/RecipientResponse" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/{id}/thread": {
+			"get": {
+				"tags": ["mail-controller"],
+				"operationId": "getThread",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/MailSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/search": {
+			"get": {
+				"tags": ["mail-controller"],
+				"operationId": "search",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": { "$ref": "#/components/schemas/MailSearchRequest" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/MailSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/report": {
+			"get": {
+				"tags": ["mail-controller"],
+				"operationId": "report",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": { "$ref": "#/components/schemas/MailReportRequest" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": { "$ref": "#/components/schemas/MailReportResponse" }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/folders/{id}/mails": {
+			"get": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "getMailsInFolder",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": { "type": "integer", "format": "int32", "default": 0 }
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"required": false,
+						"schema": { "type": "integer", "format": "int32", "default": 20 }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/MailSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/folders/counters": {
+			"get": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "getCounters",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FolderCounterResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/attachments/{id}": {
+			"get": {
+				"tags": ["attachment-controller"],
+				"operationId": "findById_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": { "$ref": "#/components/schemas/AttachmentResponse" }
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["attachment-controller"],
+				"operationId": "delete_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": { "204": { "description": "No Content" } }
+			}
+		},
+		"/api/v1/attachments/{id}/download": {
+			"get": {
+				"tags": ["attachment-controller"],
+				"operationId": "download",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "integer", "format": "int32" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": { "schema": { "type": "string", "format": "binary" } }
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives/search": {
+			"get": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "findForAdmin",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": { "$ref": "#/components/schemas/ArchiveSearchRequest" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveSummaryResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/archives/report": {
+			"get": {
+				"tags": ["mail-archive-controller"],
+				"operationId": "report_1",
+				"parameters": [
+					{
+						"name": "request",
+						"in": "query",
+						"required": true,
+						"schema": { "$ref": "#/components/schemas/ArchiveReportRequest" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ArchiveReportResponse"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mail/trash": {
+			"delete": {
+				"tags": ["mail-folder-controller"],
+				"operationId": "emptyTrash",
+				"responses": { "204": { "description": "No Content" } }
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"UpdatePublicationRequest": {
+				"type": "object",
+				"properties": {
+					"title": { "type": "string", "minLength": 1 },
+					"description": { "type": "string" },
+					"documentTypeId": { "type": "integer", "format": "int32" },
+					"publish": { "type": "boolean" }
+				},
+				"required": ["documentTypeId", "title"]
+			},
+			"PublicationDto": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int32" },
+					"title": { "type": "string" },
+					"description": { "type": "string" },
+					"documentTypeId": { "type": "integer", "format": "int32" },
+					"documentTypeName": { "type": "string" },
+					"status": { "type": "string" },
+					"publishedDate": { "type": "string", "format": "date-time" },
+					"fileName": { "type": "string" },
+					"filePath": { "type": "string" },
+					"fileSize": { "type": "integer", "format": "int32" },
+					"createdByName": { "type": "string" },
+					"createdByTitle": { "type": "string" },
+					"createdByUserId": { "type": "integer", "format": "int32" },
+					"createdAt": { "type": "string", "format": "date-time" },
+					"updatedAt": { "type": "string", "format": "date-time" },
+					"totalCount": { "type": "integer", "format": "int32" }
+				}
+			},
+			"MailUpdateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": { "type": "string" },
+					"content": { "type": "string" },
+					"note": { "type": "string" },
+					"mailTypeId": { "type": "integer", "format": "int32" },
+					"mailCategoryId": { "type": "integer", "format": "int32" },
+					"mailDate": { "type": "string", "format": "date" },
+					"maxResponseDate": { "type": "string", "format": "date" },
+					"noSuratMasuk": { "type": "string" },
+					"asalSuratMasuk": { "type": "string" },
+					"tglSuratMasuk": { "type": "string" },
+					"tujuanSuratKeluar": { "type": "string" },
+					"penerimaSuratKeluar": { "type": "string" }
+				}
+			},
+			"MailResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int32" },
+					"mailNumber": { "type": "string" },
+					"mailDate": { "type": "string", "format": "date" },
+					"mailTypeId": { "type": "integer", "format": "int32" },
+					"mailTypeName": { "type": "string" },
+					"mailCategoryId": { "type": "integer", "format": "int32" },
+					"mailCategoryName": { "type": "string" },
+					"subject": { "type": "string" },
+					"content": { "type": "string" },
+					"note": { "type": "string" },
+					"maxResponseDate": { "type": "string", "format": "date" },
+					"status": { "type": "integer", "format": "int32" },
+					"rootMailId": { "type": "integer", "format": "int32" },
+					"parentMailId": { "type": "integer", "format": "int32" },
+					"attachmentQty": { "type": "integer", "format": "int32" },
+					"toStr": { "type": "string" },
+					"createdDate": { "type": "string", "format": "date-time" },
+					"updatedDate": { "type": "string", "format": "date-time" },
+					"createdBy": { "type": "integer", "format": "int32" },
+					"createdByName": { "type": "string" },
+					"noSuratMasuk": { "type": "string" },
+					"asalSuratMasuk": { "type": "string" },
+					"tglSuratMasuk": { "type": "string" },
+					"tujuanSuratKeluar": { "type": "string" },
+					"penerimaSuratKeluar": { "type": "string" }
+				}
+			},
+			"MailFolderRequest": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "maxLength": 45, "minLength": 0 },
+					"parentFolderId": { "type": "integer", "format": "int32" }
+				},
+				"required": ["name", "parentFolderId"]
+			},
+			"MailFolderResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int32" },
+					"parentFolderId": { "type": "integer", "format": "int32" },
+					"ownerId": { "type": "integer", "format": "int32" },
+					"name": { "type": "string" },
+					"iconCls": { "type": "string" },
+					"system": { "type": "boolean" },
+					"unread": { "type": "integer", "format": "int64" },
+					"total": { "type": "integer", "format": "int64" }
+				}
+			},
+			"MoveMailRequest": {
+				"type": "object",
+				"properties": {
+					"mailIds": {
+						"type": "array",
+						"items": { "type": "integer", "format": "int32" }
+					},
+					"fromFolderId": { "type": "integer", "format": "int32" },
+					"toFolderId": { "type": "integer", "format": "int32" }
+				},
+				"required": ["fromFolderId", "mailIds", "toFolderId"]
+			},
+			"ArchiveUpdateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": { "type": "string" },
+					"content": { "type": "string" },
+					"categoryId": { "type": "integer", "format": "int32" },
+					"mailId": { "type": "integer", "format": "int64" },
+					"archiveDate": { "type": "string", "format": "date" },
+					"year": { "type": "integer", "format": "int32" },
+					"rack": { "type": "string" },
+					"shelf": { "type": "string" },
+					"box": { "type": "string" },
+					"folderPosition": { "type": "string" },
+					"keywordFlag": { "type": "string" }
+				}
+			},
+			"ArchiveResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int64" },
+					"archiveNumber": { "type": "string" },
+					"archiveDate": { "type": "string", "format": "date" },
+					"mailId": { "type": "integer", "format": "int64" },
+					"categoryId": { "type": "integer", "format": "int32" },
+					"categoryName": { "type": "string" },
+					"subject": { "type": "string" },
+					"content": { "type": "string" },
+					"status": { "type": "integer", "format": "int32" },
+					"year": { "type": "integer", "format": "int32" },
+					"officeCode": { "type": "string" },
+					"rack": { "type": "string" },
+					"shelf": { "type": "string" },
+					"box": { "type": "string" },
+					"folderPosition": { "type": "string" },
+					"keywordFlag": { "type": "string" },
+					"attachmentQty": { "type": "integer", "format": "int32" },
+					"createdDate": { "type": "string", "format": "date-time" },
+					"updatedDate": { "type": "string", "format": "date-time" },
+					"publishedAt": { "type": "string", "format": "date-time" },
+					"createdBy": { "type": "integer", "format": "int32" },
+					"createdByName": { "type": "string" }
+				}
+			},
+			"AccessEntry": {
+				"type": "object",
+				"properties": {
+					"positionId": { "type": "integer", "format": "int32" },
+					"accessLevel": { "type": "integer", "format": "int32" }
+				}
+			},
+			"ArchiveAccessRequest": {
+				"type": "object",
+				"properties": {
+					"entries": {
+						"type": "array",
+						"items": { "$ref": "#/components/schemas/AccessEntry" },
+						"minItems": 1
+					}
+				},
+				"required": ["entries"]
+			},
+			"ArchiveAccessResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int32" },
+					"archiveId": { "type": "integer", "format": "int64" },
+					"positionId": { "type": "integer", "format": "int32" },
+					"accessLevel": { "type": "integer", "format": "int32" },
+					"grantedDate": { "type": "string", "format": "date-time" },
+					"grantedBy": { "type": "integer", "format": "int32" }
+				}
+			},
+			"CreatePublicationRequest": {
+				"type": "object",
+				"properties": {
+					"title": { "type": "string", "minLength": 1 },
+					"description": { "type": "string" },
+					"documentTypeId": { "type": "integer", "format": "int32" },
+					"publish": { "type": "boolean" }
+				},
+				"required": ["documentTypeId", "title"]
+			},
+			"MailCreateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": { "type": "string", "minLength": 1 },
+					"content": { "type": "string" },
+					"note": { "type": "string" },
+					"mailTypeId": { "type": "integer", "format": "int32" },
+					"mailCategoryId": { "type": "integer", "format": "int32" },
+					"mailDate": { "type": "string", "format": "date" },
+					"maxResponseDate": { "type": "string", "format": "date" },
+					"rootMailId": { "type": "integer", "format": "int32" },
+					"parentMailId": { "type": "integer", "format": "int32" },
+					"noSuratMasuk": { "type": "string" },
+					"asalSuratMasuk": { "type": "string" },
+					"tglSuratMasuk": { "type": "string" },
+					"tujuanSuratKeluar": { "type": "string" },
+					"penerimaSuratKeluar": { "type": "string" }
+				},
+				"required": ["subject"]
+			},
+			"RecipientRequest": {
+				"type": "object",
+				"properties": {
+					"empId": { "type": "integer", "format": "int32" },
+					"circulation": { "type": "integer", "format": "int32" }
+				},
+				"required": ["circulation", "empId"]
+			},
+			"RecipientResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int64" },
+					"userId": { "type": "integer", "format": "int32" },
+					"empId": { "type": "integer", "format": "int32" },
+					"empName": { "type": "string" },
+					"posName": { "type": "string" },
+					"circulation": { "type": "integer", "format": "int32" },
+					"circulationName": { "type": "string" },
+					"emailNotif": { "type": "integer", "format": "int32" },
+					"smsNotif": { "type": "integer", "format": "int32" },
+					"notified": { "type": "boolean" },
+					"read": { "type": "boolean" },
+					"folderPosition": { "type": "integer", "format": "int32" }
+				}
+			},
+			"RecipientBatchRequest": {
+				"type": "object",
+				"properties": {
+					"empIds": {
+						"type": "array",
+						"items": { "type": "integer", "format": "int32" },
+						"minItems": 1
+					},
+					"circulation": { "type": "integer", "format": "int32" }
+				},
+				"required": ["circulation", "empIds"]
+			},
+			"BatchRecipientResponse": {
+				"type": "object",
+				"properties": {
+					"succeeded": {
+						"type": "array",
+						"items": { "$ref": "#/components/schemas/RecipientResponse" }
+					},
+					"failed": {
+						"type": "array",
+						"items": { "$ref": "#/components/schemas/FailedRecipient" }
+					},
+					"totalRequested": { "type": "integer", "format": "int32" },
+					"totalSucceeded": { "type": "integer", "format": "int32" },
+					"totalFailed": { "type": "integer", "format": "int32" }
+				}
+			},
+			"FailedRecipient": {
+				"type": "object",
+				"properties": {
+					"empId": { "type": "integer", "format": "int32" },
+					"reason": { "type": "string" }
+				}
+			},
+			"MailSendRequest": {
+				"type": "object",
+				"properties": {
+					"subject": { "type": "string", "minLength": 1 },
+					"content": { "type": "string" },
+					"note": { "type": "string" },
+					"mailTypeId": { "type": "integer", "format": "int32" },
+					"mailCategoryId": { "type": "integer", "format": "int32" },
+					"mailDate": { "type": "string", "format": "date" },
+					"maxResponseDate": { "type": "string", "format": "date" },
+					"rootMailId": { "type": "integer", "format": "int32" },
+					"parentMailId": { "type": "integer", "format": "int32" },
+					"noSuratMasuk": { "type": "string" },
+					"asalSuratMasuk": { "type": "string" },
+					"tglSuratMasuk": { "type": "string" },
+					"tujuanSuratKeluar": { "type": "string" },
+					"penerimaSuratKeluar": { "type": "string" },
+					"recipients": {
+						"type": "array",
+						"items": { "$ref": "#/components/schemas/RecipientBatchRequest" },
+						"minItems": 1
+					}
+				},
+				"required": ["recipients", "subject"]
+			},
+			"AttachmentResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int32" },
+					"refType": { "type": "integer", "format": "int32" },
+					"refId": { "type": "integer", "format": "int64" },
+					"originalFilename": { "type": "string" },
+					"fileExt": { "type": "string" },
+					"fileSize": { "type": "integer", "format": "int32" },
+					"docNotes": { "type": "string" },
+					"uploadDate": { "type": "string", "format": "date-time" },
+					"uploadByName": { "type": "string" }
+				}
+			},
+			"ArchiveCreateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": { "type": "string", "minLength": 1 },
+					"content": { "type": "string" },
+					"categoryId": { "type": "integer", "format": "int32" },
+					"mailId": { "type": "integer", "format": "int64" },
+					"archiveDate": { "type": "string", "format": "date" },
+					"year": { "type": "integer", "format": "int32" },
+					"rack": { "type": "string" },
+					"shelf": { "type": "string" },
+					"box": { "type": "string" },
+					"folderPosition": { "type": "string" },
+					"keywordFlag": { "type": "string" }
+				},
+				"required": ["subject"]
+			},
+			"RecipientNotifPatchRequest": {
+				"type": "object",
+				"properties": {
+					"emailNotif": { "type": "integer", "format": "int32" },
+					"smsNotif": { "type": "integer", "format": "int32" }
+				}
+			},
+			"PublicationFilter": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string",
+						"enum": ["DRAFT", "PUBLISHED", "DELETED"]
+					},
+					"keyword": { "type": "string" },
+					"typeId": { "type": "integer", "format": "int32" }
+				}
+			},
+			"MailSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int32" },
+					"mailNumber": { "type": "string" },
+					"mailDate": { "type": "string", "format": "date" },
+					"subject": { "type": "string" },
+					"createdByName": { "type": "string" },
+					"toStr": { "type": "string" },
+					"readStatus": { "type": "integer", "format": "int32" },
+					"folderId": { "type": "integer", "format": "int32" },
+					"attachmentQty": { "type": "integer", "format": "int32" },
+					"createdDate": { "type": "string", "format": "date-time" },
+					"mailTypeName": { "type": "string" },
+					"mailCategoryName": { "type": "string" },
+					"circulationName": { "type": "string" },
+					"restoreFolderId": { "type": "integer", "format": "int32" },
+					"restoreFolderName": { "type": "string" },
+					"rootMailId": { "type": "integer", "format": "int32" },
+					"parentMailId": { "type": "integer", "format": "int32" }
+				}
+			},
+			"MailSearchRequest": {
+				"type": "object",
+				"properties": {
+					"keyword": { "type": "string" },
+					"mailTypeId": { "type": "integer", "format": "int32" },
+					"mailCategoryId": { "type": "integer", "format": "int32" },
+					"startDate": { "type": "string", "format": "date" },
+					"endDate": { "type": "string", "format": "date" },
+					"page": { "type": "integer", "format": "int32" },
+					"size": { "type": "integer", "format": "int32" }
+				}
+			},
+			"MailReportRequest": {
+				"type": "object",
+				"properties": {
+					"mailTypeId": { "type": "integer", "format": "int32" },
+					"mailCategoryId": { "type": "integer", "format": "int32" },
+					"startDate": { "type": "string", "format": "date" },
+					"endDate": { "type": "string", "format": "date" }
+				}
+			},
+			"MailReportResponse": {
+				"type": "object",
+				"properties": {
+					"mailTypeName": { "type": "string" },
+					"mailCategoryName": { "type": "string" },
+					"totalMails": { "type": "integer", "format": "int64" },
+					"totalRead": { "type": "integer", "format": "int64" },
+					"totalUnread": { "type": "integer", "format": "int64" }
+				}
+			},
+			"FolderCounterResponse": {
+				"type": "object",
+				"properties": {
+					"folderId": { "type": "integer", "format": "int32" },
+					"folderName": { "type": "string" },
+					"unread": { "type": "integer", "format": "int64" },
+					"total": { "type": "integer", "format": "int64" }
+				}
+			},
+			"ArchiveSearchRequest": {
+				"type": "object",
+				"properties": {
+					"keyword": { "type": "string" },
+					"categoryId": { "type": "integer", "format": "int32" },
+					"year": { "type": "integer", "format": "int32" },
+					"startDate": { "type": "string", "format": "date" },
+					"endDate": { "type": "string", "format": "date" },
+					"page": { "type": "integer", "format": "int32" },
+					"size": { "type": "integer", "format": "int32" }
+				}
+			},
+			"ArchiveSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "format": "int64" },
+					"archiveNumber": { "type": "string" },
+					"archiveDate": { "type": "string", "format": "date" },
+					"subject": { "type": "string" },
+					"categoryName": { "type": "string" },
+					"status": { "type": "integer", "format": "int32" },
+					"year": { "type": "integer", "format": "int32" },
+					"officeCode": { "type": "string" },
+					"attachmentQty": { "type": "integer", "format": "int32" },
+					"createdDate": { "type": "string", "format": "date-time" },
+					"createdByName": { "type": "string" }
+				}
+			},
+			"ArchiveReportRequest": {
+				"type": "object",
+				"properties": {
+					"categoryId": { "type": "integer", "format": "int32" },
+					"year": { "type": "integer", "format": "int32" },
+					"startDate": { "type": "string", "format": "date" },
+					"endDate": { "type": "string", "format": "date" }
+				}
+			},
+			"ArchiveReportResponse": {
+				"type": "object",
+				"properties": {
+					"categoryName": { "type": "string" },
+					"year": { "type": "integer", "format": "int32" },
+					"totalArchives": { "type": "integer", "format": "int64" },
+					"totalDraft": { "type": "integer", "format": "int64" },
+					"totalArchived": { "type": "integer", "format": "int64" }
+				}
+			},
+			"RecipientDeleteBatchRequest": {
+				"type": "object",
+				"properties": {
+					"ids": {
+						"type": "array",
+						"items": { "type": "integer", "format": "int64" },
+						"minItems": 1
+					}
+				},
+				"required": ["ids"]
+			}
+		},
+		"securitySchemes": {
+			"Bearer Token": {
+				"type": "http",
+				"name": "Bearer Token",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

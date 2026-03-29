@@ -73,7 +73,7 @@ export const QuickMessageContent = memo(() => {
 						isLoading={isLoading}
 						emptyMessage={
 							<div className="flex flex-col items-center justify-center py-16 text-center">
-								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-muted/60 to-muted text-muted-foreground ring-1 ring-muted-foreground/10">
+								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br from-muted/60 to-muted text-muted-foreground ring-1 ring-muted-foreground/10">
 									<IconMessage className="h-10 w-10 opacity-60" />
 								</div>
 								<h3 className="text-base font-semibold text-foreground">

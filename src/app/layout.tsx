@@ -18,7 +18,7 @@ const merriweatherHeading = Merriweather({
 	variable: "--font-heading",
 });
 
-const publicSans = Public_Sans({subsets:['latin'],variable:'--font-sans'});
+const sourceSans3 = Source_Sans_3({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -37,7 +37,7 @@ export default function RootLayout({
 				"h-full",
 				"antialiased",
 				"font-sans",
-				publicSans.variable,
+				sourceSans3.variable,
 				merriweatherHeading.variable,
 			)}
 		>

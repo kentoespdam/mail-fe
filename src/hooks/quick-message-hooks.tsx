@@ -111,7 +111,7 @@ export function useQuickMessageContent() {
 						message.length > 60 ? `${message.slice(0, 60)}…` : message;
 
 					return (
-						<p className="line-clamp-2 text-sm font-medium text-foreground">
+						<p className="line-clamp-2 text-sm text-foreground">
 							{preview}
 						</p>
 					);

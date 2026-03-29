@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/mail/folders/{id}": {
 			"put": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "renameFolder",
 				"parameters": [
 					{
@@ -62,9 +60,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "deleteFolder",
 				"parameters": [
 					{
@@ -86,9 +82,7 @@
 		},
 		"/api/v1/mail/folders/move": {
 			"put": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "moveMails",
 				"requestBody": {
 					"content": {
@@ -109,9 +103,7 @@
 		},
 		"/api/v1/mail/mails/{id}/restore": {
 			"post": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "restoreMail_1",
 				"parameters": [
 					{
@@ -133,9 +125,7 @@
 		},
 		"/api/v1/mail/mails/{id}/delete": {
 			"post": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "deleteMail_1",
 				"parameters": [
 					{
@@ -157,9 +147,7 @@
 		},
 		"/api/v1/mail/folders": {
 			"get": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "getFolderTree",
 				"responses": {
 					"200": {
@@ -178,9 +166,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "createFolder",
 				"requestBody": {
 					"content": {
@@ -208,9 +194,7 @@
 		},
 		"/api/v1/mail/folders/{id}/mails": {
 			"get": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "getMailsInFolder",
 				"parameters": [
 					{
@@ -262,9 +246,7 @@
 		},
 		"/api/v1/mail/folders/counters": {
 			"get": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "getCounters",
 				"responses": {
 					"200": {
@@ -285,9 +267,7 @@
 		},
 		"/api/v1/mail/trash": {
 			"delete": {
-				"tags": [
-					"mail-folder-controller"
-				],
+				"tags": ["mail-folder-controller"],
 				"operationId": "emptyTrash",
 				"responses": {
 					"204": {
@@ -312,10 +292,7 @@
 						"format": "int32"
 					}
 				},
-				"required": [
-					"name",
-					"parentFolderId"
-				]
+				"required": ["name", "parentFolderId"]
 			},
 			"MailFolderResponse": {
 				"type": "object",
@@ -370,11 +347,7 @@
 						"format": "int32"
 					}
 				},
-				"required": [
-					"fromFolderId",
-					"mailIds",
-					"toFolderId"
-				]
+				"required": ["fromFolderId", "mailIds", "toFolderId"]
 			},
 			"MailSummaryResponse": {
 				"type": "object",

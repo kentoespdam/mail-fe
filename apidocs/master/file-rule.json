@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/file-rules/{id}": {
 			"put": {
-				"tags": [
-					"allowed-file-type-controller"
-				],
+				"tags": ["allowed-file-type-controller"],
 				"operationId": "update_3",
 				"parameters": [
 					{
@@ -62,9 +60,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"allowed-file-type-controller"
-				],
+				"tags": ["allowed-file-type-controller"],
 				"operationId": "delete_3",
 				"parameters": [
 					{
@@ -86,9 +82,7 @@
 		},
 		"/api/v1/file-rules": {
 			"get": {
-				"tags": [
-					"allowed-file-type-controller"
-				],
+				"tags": ["allowed-file-type-controller"],
 				"operationId": "listByContext",
 				"parameters": [
 					{
@@ -117,9 +111,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"allowed-file-type-controller"
-				],
+				"tags": ["allowed-file-type-controller"],
 				"operationId": "create_3",
 				"requestBody": {
 					"content": {
@@ -147,9 +139,7 @@
 		},
 		"/api/v1/file-rules/all": {
 			"get": {
-				"tags": [
-					"allowed-file-type-controller"
-				],
+				"tags": ["allowed-file-type-controller"],
 				"operationId": "listAll",
 				"responses": {
 					"200": {
@@ -190,11 +180,7 @@
 						"type": "boolean"
 					}
 				},
-				"required": [
-					"context",
-					"extension",
-					"maxSizeMb"
-				]
+				"required": ["context", "extension", "maxSizeMb"]
 			},
 			"AllowedFileTypeDto": {
 				"type": "object",

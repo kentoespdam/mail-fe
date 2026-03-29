@@ -70,11 +70,7 @@ export function EditPublicationDialog({ pub, onClose }: EditDialogProps) {
 					<DialogDescription>Perbarui informasi publikasi</DialogDescription>
 				</DialogHeader>
 				{pub && (
-					<EditPublicationForm
-						formId={formId}
-						pub={pub}
-						onSuccess={onClose}
-					/>
+					<EditPublicationForm formId={formId} pub={pub} onSuccess={onClose} />
 				)}
 				<DialogFooter>
 					<Button type="button" variant="outline" onClick={onClose}>

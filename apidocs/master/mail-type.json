@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/mail-types/{id}": {
 			"get": {
-				"tags": [
-					"mail-type-controller"
-				],
+				"tags": ["mail-type-controller"],
 				"operationId": "findById_1",
 				"parameters": [
 					{
@@ -52,9 +50,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"mail-type-controller"
-				],
+				"tags": ["mail-type-controller"],
 				"operationId": "update_1",
 				"parameters": [
 					{
@@ -91,9 +87,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"mail-type-controller"
-				],
+				"tags": ["mail-type-controller"],
 				"operationId": "delete_1",
 				"parameters": [
 					{
@@ -115,9 +109,7 @@
 		},
 		"/api/v1/mail-types": {
 			"get": {
-				"tags": [
-					"mail-type-controller"
-				],
+				"tags": ["mail-type-controller"],
 				"operationId": "findAll_1",
 				"parameters": [
 					{
@@ -151,9 +143,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"mail-type-controller"
-				],
+				"tags": ["mail-type-controller"],
 				"operationId": "create_1",
 				"requestBody": {
 					"content": {
@@ -181,9 +171,7 @@
 		},
 		"/api/v1/mail-types/lookup": {
 			"get": {
-				"tags": [
-					"mail-type-controller"
-				],
+				"tags": ["mail-type-controller"],
 				"operationId": "lookup_1",
 				"responses": {
 					"200": {
@@ -217,11 +205,7 @@
 					},
 					"status": {
 						"type": "string",
-						"enum": [
-							"ACTIVE",
-							"INACTIVE",
-							"DELETED"
-						]
+						"enum": ["ACTIVE", "INACTIVE", "DELETED"]
 					},
 					"categoryCount": {
 						"type": "integer",
@@ -238,9 +222,7 @@
 						"minLength": 0
 					}
 				},
-				"required": [
-					"name"
-				]
+				"required": ["name"]
 			},
 			"Pageable": {
 				"type": "object",

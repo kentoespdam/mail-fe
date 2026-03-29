@@ -1,17 +1,17 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Read the original OpenAPI spec
-const masterJsonPath = path.join(__dirname, 'master.json');
-const masterData = JSON.parse(fs.readFileSync(masterJsonPath, 'utf-8'));
+const masterJsonPath = path.join(__dirname, "master.json");
+const masterData = JSON.parse(fs.readFileSync(masterJsonPath, "utf-8"));
 
 // Map controller names to clean names
 const controllerNameMap = {
-	'quick-message-controller': 'quick-message',
-	'mail-type-controller': 'mail-type',
-	'mail-category-controller': 'mail-category',
-	'allowed-file-type-controller': 'file-rule',
-	'document-type-controller': 'document-type',
+	"quick-message-controller": "quick-message",
+	"mail-type-controller": "mail-type",
+	"mail-category-controller": "mail-category",
+	"allowed-file-type-controller": "file-rule",
+	"document-type-controller": "document-type",
 };
 
 // Group paths by controller
@@ -43,15 +43,15 @@ function collectSchemaRefs(operation, schemas, controller) {
 	}
 
 	const collectFromObj = (obj) => {
-		if (!obj || typeof obj !== 'object') return;
+		if (!obj || typeof obj !== "object") return;
 
 		if (Array.isArray(obj)) {
 			obj.forEach(collectFromObj);
 			return;
 		}
 
-		if (obj.$ref && obj.$ref.startsWith('#/components/schemas/')) {
-			const schemaName = obj.$ref.replace('#/components/schemas/', '');
+		if (obj.$ref && obj.$ref.startsWith("#/components/schemas/")) {
+			const schemaName = obj.$ref.replace("#/components/schemas/", "");
 			schemas[controller].add(schemaName);
 		}
 
@@ -74,13 +74,13 @@ function getDependentSchemas(initialSchemas, allSchemas) {
 		if (!schema) continue;
 
 		const collectRefs = (obj) => {
-			if (!obj || typeof obj !== 'object') return;
+			if (!obj || typeof obj !== "object") return;
 			if (Array.isArray(obj)) {
 				obj.forEach(collectRefs);
 				return;
 			}
-			if (obj.$ref && obj.$ref.startsWith('#/components/schemas/')) {
-				const refName = obj.$ref.replace('#/components/schemas/', '');
+			if (obj.$ref && obj.$ref.startsWith("#/components/schemas/")) {
+				const refName = obj.$ref.replace("#/components/schemas/", "");
 				if (!result.has(refName)) {
 					result.add(refName);
 					queue.push(refName);
@@ -98,7 +98,7 @@ function getDependentSchemas(initialSchemas, allSchemas) {
 }
 
 // Create output directory
-const outputDir = path.join(__dirname, 'master');
+const outputDir = path.join(__dirname, "master");
 if (!fs.existsSync(outputDir)) {
 	fs.mkdirSync(outputDir, { recursive: true });
 }
@@ -108,7 +108,9 @@ const allSchemas = masterData.components?.schemas || {};
 
 // Generate separate files for each controller
 for (const [controllerTag, paths] of Object.entries(controllerPaths)) {
-	const controllerName = controllerNameMap[controllerTag] || controllerTag.replace('-controller', '');
+	const controllerName =
+		controllerNameMap[controllerTag] ||
+		controllerTag.replace("-controller", "");
 
 	// Get initial schemas for this controller
 	const initialSchemas = controllerSchemas[controllerTag] || new Set();
@@ -139,11 +141,15 @@ for (const [controllerTag, paths] of Object.entries(controllerPaths)) {
 
 	// Write the file
 	const outputPath = path.join(outputDir, `${controllerName}.json`);
-	fs.writeFileSync(outputPath, JSON.stringify(controllerSpec, null, '\t'), 'utf-8');
+	fs.writeFileSync(
+		outputPath,
+		JSON.stringify(controllerSpec, null, "\t"),
+		"utf-8",
+	);
 
 	console.log(`Created: ${outputPath}`);
 	console.log(`  - Paths: ${Object.keys(paths).length}`);
 	console.log(`  - Schemas: ${Object.keys(filteredSchemas).length}`);
 }
 
-console.log('\nExtraction complete!');
+console.log("\nExtraction complete!");

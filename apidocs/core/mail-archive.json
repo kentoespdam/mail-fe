@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/archives/{id}": {
 			"put": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "updateDraft_1",
 				"parameters": [
 					{
@@ -62,9 +60,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "deleteArchive",
 				"parameters": [
 					{
@@ -86,9 +82,7 @@
 		},
 		"/api/v1/archives/{id}/access": {
 			"get": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "getAccess",
 				"parameters": [
 					{
@@ -118,9 +112,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "setAccess",
 				"parameters": [
 					{
@@ -162,9 +154,7 @@
 		},
 		"/api/v1/archives": {
 			"get": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "searchWithAcl",
 				"parameters": [
 					{
@@ -205,9 +195,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "createDraft_1",
 				"requestBody": {
 					"content": {
@@ -235,9 +223,7 @@
 		},
 		"/api/v1/archives/{id}/publish": {
 			"post": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "publish",
 				"parameters": [
 					{
@@ -266,9 +252,7 @@
 		},
 		"/api/v1/archives/search": {
 			"get": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "findForAdmin",
 				"parameters": [
 					{
@@ -299,9 +283,7 @@
 		},
 		"/api/v1/archives/report": {
 			"get": {
-				"tags": [
-					"mail-archive-controller"
-				],
+				"tags": ["mail-archive-controller"],
 				"operationId": "report_1",
 				"parameters": [
 					{
@@ -497,9 +479,7 @@
 						"minItems": 1
 					}
 				},
-				"required": [
-					"entries"
-				]
+				"required": ["entries"]
 			},
 			"ArchiveSearchRequest": {
 				"type": "object",
@@ -619,9 +599,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"subject"
-				]
+				"required": ["subject"]
 			},
 			"ArchiveReportRequest": {
 				"type": "object",

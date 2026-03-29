@@ -1,7 +1,10 @@
 import { z } from "zod/v4";
 
 export const QuickMessageSchema = z.object({
-	message: z.string().min(1, "Pesan wajib diisi").max(128, "Maksimal 128 karakter"),
+	message: z
+		.string()
+		.min(1, "Pesan wajib diisi")
+		.max(128, "Maksimal 128 karakter"),
 });
 
 export type QuickMessagePayload = z.infer<typeof QuickMessageSchema>;

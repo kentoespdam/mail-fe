@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/document-types": {
 			"get": {
-				"tags": [
-					"document-type-controller"
-				],
+				"tags": ["document-type-controller"],
 				"operationId": "list",
 				"responses": {
 					"200": {

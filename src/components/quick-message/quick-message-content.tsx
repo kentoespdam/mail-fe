@@ -1,6 +1,7 @@
 "use client";
 
 import { IconMessage, IconPlus, IconTemplate } from "@tabler/icons-react";
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -12,14 +13,13 @@ import {
 } from "@/components/ui/card";
 import { DataTable, DataTablePagination } from "@/components/ui/data-table";
 import { useQuickMessageContent } from "@/hooks/quick-message-hooks";
-import { Badge } from "../ui/badge";
 import { DeleteQuickMessageDialog } from "./quick-message-delete-dialog";
 import {
 	CreateQuickMessageDialog,
 	EditQuickMessageDialog,
 } from "./quick-message-form-dialog";
 
-export function QuickMessageContent() {
+export const QuickMessageContent = memo(() => {
 	const {
 		page,
 		setPage,
@@ -36,8 +36,6 @@ export function QuickMessageContent() {
 		deleteQm,
 		setDeleteQm,
 	} = useQuickMessageContent();
-
-	const totalMessages = data?.totalElements ?? 0;
 
 	return (
 		<>
@@ -68,7 +66,7 @@ export function QuickMessageContent() {
 					</div>
 				</CardHeader>
 
-				<CardContent className="space-y-4 p-6">
+				<CardContent className="space-y-4 p-2">
 					<DataTable
 						columns={columns}
 						data={messages}
@@ -121,4 +119,6 @@ export function QuickMessageContent() {
 			/>
 		</>
 	);
-}
+});
+
+QuickMessageContent.displayName = "QuickMessageContent";

@@ -12,6 +12,7 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Select,
@@ -38,7 +39,7 @@ interface DataTableProps<TData, TValue> {
 	emptyMessage?: React.ReactNode;
 }
 
-export function DataTable<TData, TValue>({
+function DataTableComponent<TData, TValue>({
 	columns,
 	data,
 	isLoading,
@@ -60,9 +61,9 @@ export function DataTable<TData, TValue>({
 								{header.isPlaceholder
 									? null
 									: flexRender(
-										header.column.columnDef.header,
-										header.getContext(),
-									)}
+											header.column.columnDef.header,
+											header.getContext(),
+										)}
 							</TableHead>
 						))}
 					</TableRow>
@@ -106,6 +107,10 @@ export function DataTable<TData, TValue>({
 	);
 }
 
+DataTableComponent.displayName = "DataTable";
+
+export const DataTable = memo(DataTableComponent) as typeof DataTableComponent;
+
 // ─── Server-side Pagination ─────────────────────────────────────
 
 interface DataTablePaginationProps {
@@ -118,7 +123,7 @@ interface DataTablePaginationProps {
 	pageSizeOptions?: number[];
 }
 
-export function DataTablePagination({
+function DataTablePaginationComponent({
 	page,
 	pageCount,
 	totalElements,
@@ -131,7 +136,7 @@ export function DataTablePagination({
 	const canNext = page < pageCount - 1;
 
 	return (
-		<div className="flex items-center justify-between gap-4 pt-3">
+		<div className="flex items-center justify-between gap-4 pt-1">
 			<p className="text-xs text-muted-foreground shrink-0">
 				{totalElements > 0
 					? `${page * pageSize + 1}–${Math.min((page + 1) * pageSize, totalElements)} dari ${totalElements}`
@@ -212,3 +217,7 @@ export function DataTablePagination({
 		</div>
 	);
 }
+
+export const DataTablePagination = memo(DataTablePaginationComponent);
+
+DataTablePaginationComponent.displayName = "DataTablePagination";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import InputTextControll from "@/components/builder/input-text-controll";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,9 +28,8 @@ export function CreateQuickMessageDialog({
 	open,
 	onOpenChange,
 }: CreateDialogProps) {
-	const { form, mutation, onSubmit } = useCreateQuickMessage(() =>
-		onOpenChange(false),
-	);
+	const handleClose = useCallback(() => onOpenChange(false), [onOpenChange]);
+	const { form, mutation, onSubmit } = useCreateQuickMessage(handleClose);
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
@@ -51,11 +50,7 @@ export function CreateQuickMessageDialog({
 					</FieldGroup>
 				</form>
 				<DialogFooter>
-					<Button
-						type="button"
-						variant="outline"
-						onClick={() => onOpenChange(false)}
-					>
+					<Button type="button" variant="outline" onClick={handleClose}>
 						Batal
 					</Button>
 					<Button
@@ -82,23 +77,32 @@ export function EditQuickMessageDialog({ qm, onClose }: EditDialogProps) {
 
 	useEffect(() => {
 		if (qm) populate(qm);
-	}, [qm]);
+	}, [qm, populate]);
+
+	const handleOpenChange = useCallback(
+		(v: boolean) => {
+			if (!v) onClose();
+		},
+		[onClose],
+	);
+
+	const handleSubmit = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
+			if (qm) onSubmit(qm.id);
+		},
+		[qm, onSubmit],
+	);
 
 	return (
-		<Dialog open={!!qm} onOpenChange={(v) => !v && onClose()}>
+		<Dialog open={!!qm} onOpenChange={handleOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
 					<DialogTitle>Edit Pesan Singkat</DialogTitle>
 					<DialogDescription>Perbarui pesan singkat</DialogDescription>
 				</DialogHeader>
 				{qm && (
-					<form
-						id="edit-qm-form"
-						onSubmit={(e) => {
-							e.preventDefault();
-							onSubmit(qm.id);
-						}}
-					>
+					<form id="edit-qm-form" onSubmit={handleSubmit}>
 						<FieldGroup>
 							<InputTextControll
 								form={form}

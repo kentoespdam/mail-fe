@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { memo } from "react";
 import { Providers } from "@/app/providers";
 import TopBarMenu from "./top-menu";
 
-const TopBar = () => {
+const TopBar = memo(() => {
 	return (
 		<header className="sticky top-0 flex justify-between shrink-0 gap-2 border-b bg-background px-4 pt-1">
 			<div>
@@ -25,6 +26,8 @@ const TopBar = () => {
 			</div>
 		</header>
 	);
-};
+});
+
+TopBar.displayName = "TopBar";
 
 export default TopBar;

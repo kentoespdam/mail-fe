@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 // Read the original OpenAPI spec
 const coreJsonPath = path.join(__dirname, "core.json");
@@ -51,7 +51,7 @@ function collectSchemaRefs(operation, schemas, controller) {
 			return;
 		}
 
-		if (obj.$ref && obj.$ref.startsWith("#/components/schemas/")) {
+		if (obj.$ref?.startsWith("#/components/schemas/")) {
 			const schemaName = obj.$ref.replace("#/components/schemas/", "");
 			schemas[controller].add(schemaName);
 		}
@@ -80,7 +80,7 @@ function getDependentSchemas(initialSchemas, allSchemas) {
 				obj.forEach(collectRefs);
 				return;
 			}
-			if (obj.$ref && obj.$ref.startsWith("#/components/schemas/")) {
+			if (obj.$ref?.startsWith("#/components/schemas/")) {
 				const refName = obj.$ref.replace("#/components/schemas/", "");
 				if (!result.has(refName)) {
 					result.add(refName);

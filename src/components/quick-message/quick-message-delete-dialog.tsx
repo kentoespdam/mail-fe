@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -17,35 +18,36 @@ interface DeleteQuickMessageDialogProps {
 	onClose: () => void;
 }
 
-export function DeleteQuickMessageDialog({
-	qm,
-	onClose,
-}: DeleteQuickMessageDialogProps) {
-	const mutation = useDeleteQuickMessage(onClose);
+export const DeleteQuickMessageDialog = memo(
+	({ qm, onClose }: DeleteQuickMessageDialogProps) => {
+		const mutation = useDeleteQuickMessage(onClose);
 
-	return (
-		<Dialog open={!!qm} onOpenChange={(v) => !v && onClose()}>
-			<DialogContent className="max-w-sm">
-				<DialogHeader>
-					<DialogTitle>Hapus Pesan Singkat</DialogTitle>
-					<DialogDescription>
-						Yakin ingin menghapus &ldquo;{qm?.message}&rdquo;? Tindakan ini
-						tidak dapat dibatalkan.
-					</DialogDescription>
-				</DialogHeader>
-				<DialogFooter>
-					<Button type="button" variant="outline" onClick={onClose}>
-						Batal
-					</Button>
-					<Button
-						variant="destructive"
-						disabled={mutation.isPending}
-						onClick={() => qm && mutation.mutate(qm.id)}
-					>
-						{mutation.isPending ? "Menghapus…" : "Hapus"}
-					</Button>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
-	);
-}
+		return (
+			<Dialog open={!!qm} onOpenChange={(v) => !v && onClose()}>
+				<DialogContent className="max-w-sm">
+					<DialogHeader>
+						<DialogTitle>Hapus Pesan Singkat</DialogTitle>
+						<DialogDescription>
+							Yakin ingin menghapus &ldquo;{qm?.message}&rdquo;? Tindakan ini
+							tidak dapat dibatalkan.
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<Button type="button" variant="outline" onClick={onClose}>
+							Batal
+						</Button>
+						<Button
+							variant="destructive"
+							disabled={mutation.isPending}
+							onClick={() => qm && mutation.mutate(qm.id)}
+						>
+							{mutation.isPending ? "Menghapus…" : "Hapus"}
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+		);
+	},
+);
+
+DeleteQuickMessageDialog.displayName = "DeleteQuickMessageDialog";

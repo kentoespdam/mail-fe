@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
+import { memo } from "react";
 import TopBar from "@/components/dashboard/topbar";
 
 interface TemplateProps {
 	children: ReactNode;
 }
 
-const Template = ({ children }: TemplateProps) => {
+const Template = memo(({ children }: TemplateProps) => {
 	return (
 		<div className="min-h-screen bg-linear-to-br from-background via-background to-muted/30">
 			<TopBar />
@@ -14,6 +15,8 @@ const Template = ({ children }: TemplateProps) => {
 			</main>
 		</div>
 	);
-};
+});
+
+Template.displayName = "Template";
 
 export default Template;

@@ -1,7 +1,7 @@
 "use client";
 
 import { IconPlus, IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -26,7 +26,7 @@ import { PublicationTable } from "./publication-table";
 
 const LIMIT = 20;
 
-export function PublicationContent() {
+export const PublicationContent = memo(() => {
 	const [filter, setFilter] = useState<PublicationFilter>({});
 	const [keyword, setKeyword] = useState("");
 	const [offset, setOffset] = useState(0);
@@ -41,15 +41,15 @@ export function PublicationContent() {
 	const [editPub, setEditPub] = useState<PublicationDto | null>(null);
 	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
 
-	const handleSearch = () => {
+	const handleSearch = useCallback(() => {
 		setOffset(0);
 		setFilter((f) => ({ ...f, keyword: keyword || undefined }));
-	};
+	}, [keyword]);
 
-	const handleStatusFilter = (status?: PublicationStatus) => {
+	const handleStatusFilter = useCallback((status?: PublicationStatus) => {
 		setOffset(0);
 		setFilter((f) => ({ ...f, status }));
-	};
+	}, []);
 
 	const totalCount = publications?.[0]?.totalCount ?? 0;
 	const hasNext = publications?.length === LIMIT;
@@ -152,4 +152,6 @@ export function PublicationContent() {
 			/>
 		</>
 	);
-}
+});
+
+PublicationContent.displayName = "PublicationContent";

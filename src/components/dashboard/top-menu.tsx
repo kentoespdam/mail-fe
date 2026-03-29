@@ -19,6 +19,7 @@ import {
 	IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { memo, useCallback } from "react";
 import {
 	Menubar,
 	MenubarContent,
@@ -33,7 +34,7 @@ import {
 } from "@/components/ui/menubar";
 import { useLogout } from "@/hooks/auth-hooks";
 
-const MenuAplikasi = () => (
+const MenuAplikasi = memo(() => (
 	<MenubarMenu>
 		<MenubarTrigger className="flex gap-1">
 			<IconLayoutDashboard className="h-4 w-4" />
@@ -105,9 +106,11 @@ const MenuAplikasi = () => (
 			</MenubarGroup>
 		</MenubarContent>
 	</MenubarMenu>
-);
+));
 
-const MenuSettings = () => (
+MenuAplikasi.displayName = "MenuAplikasi";
+
+const MenuSettings = memo(() => (
 	<MenubarMenu>
 		<MenubarTrigger className="flex gap-1">
 			<IconSettings className="h-4 w-4" />
@@ -124,16 +127,22 @@ const MenuSettings = () => (
 			</MenubarItem>
 		</MenubarContent>
 	</MenubarMenu>
-);
+));
 
-const MenuKeluar = () => {
+MenuSettings.displayName = "MenuSettings";
+
+const MenuKeluar = memo(() => {
 	const { logout, isPending } = useLogout();
+
+	const handleClick = useCallback(() => {
+		logout();
+	}, [logout]);
 
 	return (
 		<MenubarMenu>
 			<MenubarTrigger
 				className="flex gap-1 text-destructive hover:bg-destructive/10"
-				onClick={() => logout()}
+				onClick={handleClick}
 				disabled={isPending}
 			>
 				<IconLogout className="h-4 w-4" />
@@ -141,9 +150,11 @@ const MenuKeluar = () => {
 			</MenubarTrigger>
 		</MenubarMenu>
 	);
-};
+});
 
-const TopBarMenu = () => {
+MenuKeluar.displayName = "MenuKeluar";
+
+const TopBarMenu = memo(() => {
 	return (
 		<Menubar>
 			<MenuAplikasi />
@@ -151,6 +162,8 @@ const TopBarMenu = () => {
 			<MenuKeluar />
 		</Menubar>
 	);
-};
+});
+
+TopBarMenu.displayName = "TopBarMenu";
 
 export default TopBarMenu;

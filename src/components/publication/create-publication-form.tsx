@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { memo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useCreatePublication } from "@/hooks/publication-hooks";
 import { PublicationFormFields } from "./publication-form-fields";
@@ -10,33 +10,37 @@ interface CreatePublicationFormProps {
 	onSuccess: () => void;
 }
 
-export function CreatePublicationForm({
-	formId,
-	onSuccess,
-}: CreatePublicationFormProps) {
-	const fileRef = useRef<HTMLInputElement>(null);
-	const { form, onSubmit } = useCreatePublication(onSuccess);
+export const CreatePublicationForm = memo(
+	({ formId, onSuccess }: CreatePublicationFormProps) => {
+		const fileRef = useRef<HTMLInputElement>(null);
+		const { form, onSubmit } = useCreatePublication(onSuccess);
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		onSubmit(fileRef.current?.files?.[0]);
-	};
+		const handleSubmit = useCallback(
+			(e: React.FormEvent) => {
+				e.preventDefault();
+				onSubmit(fileRef.current?.files?.[0]);
+			},
+			[onSubmit],
+		);
 
-	return (
-		<form id={formId} onSubmit={handleSubmit}>
-			<PublicationFormFields form={form} />
-			<div className="px-4 pb-4">
-				<label
-					htmlFor="pub-file"
-					className="text-xs/relaxed font-medium mb-2 block"
-				>
-					File Lampiran
-				</label>
-				<input id="pub-file" type="file" ref={fileRef} />
-			</div>
-		</form>
-	);
-}
+		return (
+			<form id={formId} onSubmit={handleSubmit}>
+				<PublicationFormFields form={form} />
+				<div className="px-4 pb-4">
+					<label
+						htmlFor="pub-file"
+						className="text-xs/relaxed font-medium mb-2 block"
+					>
+						File Lampiran
+					</label>
+					<input id="pub-file" type="file" ref={fileRef} />
+				</div>
+			</form>
+		);
+	},
+);
+
+CreatePublicationForm.displayName = "CreatePublicationForm";
 
 export function CreatePublicationFooter({
 	formId,

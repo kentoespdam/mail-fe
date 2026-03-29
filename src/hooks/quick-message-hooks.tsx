@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,10 @@ export function useCreateQuickMessage(onSuccess?: () => void) {
 		onError: (err) => toast.error(err.message),
 	});
 
-	const onSubmit = form.handleSubmit((data) => mutation.mutate(data));
+	const onSubmit = useCallback(
+		() => form.handleSubmit((data) => mutation.mutate(data))(),
+		[form, mutation],
+	);
 
 	return { form, mutation, onSubmit };
 }
@@ -68,12 +71,18 @@ export function useUpdateQuickMessage(onSuccess?: () => void) {
 		onError: (err) => toast.error(err.message),
 	});
 
-	const populate = (qm: QuickMessageDto) => {
-		form.reset({ message: qm.message });
-	};
+	const populate = useCallback(
+		(qm: QuickMessageDto) => {
+			form.reset({ message: qm.message });
+		},
+		[form],
+	);
 
-	const onSubmit = (id: number) =>
-		form.handleSubmit((data) => mutation.mutate({ id, data }))();
+	const onSubmit = useCallback(
+		(id: number) =>
+			form.handleSubmit((data) => mutation.mutate({ id, data }))(),
+		[form, mutation],
+	);
 
 	return { form, mutation, populate, onSubmit };
 }
@@ -111,9 +120,7 @@ export function useQuickMessageContent() {
 						message.length > 60 ? `${message.slice(0, 60)}…` : message;
 
 					return (
-						<p className="line-clamp-2 text-sm text-foreground">
-							{preview}
-						</p>
+						<p className="line-clamp-2 text-sm text-foreground">{preview}</p>
 					);
 				},
 				minSize: 300,
@@ -130,7 +137,7 @@ export function useQuickMessageContent() {
 								size="icon-sm"
 								onClick={() => setEditQm(qm)}
 								title="Edit pesan"
-								className="h-8 w-8 hover:bg-primary/10 hover:text-primary"
+								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
 							>
 								<IconPencil className="size-4" />
 							</Button>
@@ -139,7 +146,7 @@ export function useQuickMessageContent() {
 								size="icon-sm"
 								onClick={() => setDeleteQm(qm)}
 								title="Hapus pesan"
-								className="h-8 w-8 bg-destructive text-destructive hover:bg-destructive/10 hover:text-destructive"
+								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
 							>
 								<IconTrash className="size-4" />
 							</Button>
@@ -153,7 +160,7 @@ export function useQuickMessageContent() {
 		[page, pageSize],
 	);
 
-	const messages = data?.content ?? [];
+	const messages = useMemo(() => data?.content ?? [], [data?.content]);
 
 	return {
 		page,

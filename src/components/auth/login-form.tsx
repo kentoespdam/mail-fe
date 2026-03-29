@@ -1,4 +1,5 @@
 "use client";
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
@@ -7,7 +8,7 @@ import { useLogin } from "@/hooks/auth-hooks";
 import InputPasswordControll from "../builder/input-password-controll";
 import InputTextControll from "../builder/input-text-controll";
 
-export function LoginForm() {
+export const LoginForm = memo(() => {
 	const { form, onSubmit, isPending } = useLogin();
 
 	return (
@@ -153,4 +154,6 @@ export function LoginForm() {
 			</CardContent>
 		</Card>
 	);
-}
+});
+
+LoginForm.displayName = "LoginForm";

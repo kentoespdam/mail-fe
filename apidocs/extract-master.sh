@@ -1,2 +1,2 @@
 #!/bin/bash
-node apidocs/extract-master-controllers.js && node apidocs/extract-core-controllers.js
+node extract-master-controllers.js && node extract-core-controllers.js

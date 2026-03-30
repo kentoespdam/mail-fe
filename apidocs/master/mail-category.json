@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/mail-categories/{id}": {
 			"get": {
-				"tags": ["mail-category-controller"],
+				"tags": [
+					"mail-category-controller"
+				],
 				"operationId": "findById_2",
 				"parameters": [
 					{
@@ -50,7 +52,9 @@
 				}
 			},
 			"put": {
-				"tags": ["mail-category-controller"],
+				"tags": [
+					"mail-category-controller"
+				],
 				"operationId": "update_2",
 				"parameters": [
 					{
@@ -87,7 +91,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["mail-category-controller"],
+				"tags": [
+					"mail-category-controller"
+				],
 				"operationId": "delete_2",
 				"parameters": [
 					{
@@ -109,7 +115,9 @@
 		},
 		"/api/v1/mail-categories": {
 			"get": {
-				"tags": ["mail-category-controller"],
+				"tags": [
+					"mail-category-controller"
+				],
 				"operationId": "findAll_2",
 				"parameters": [
 					{
@@ -119,6 +127,14 @@
 						"schema": {
 							"type": "integer",
 							"format": "int32"
+						}
+					},
+					{
+						"name": "search",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
 						}
 					}
 				],
@@ -139,7 +155,9 @@
 				}
 			},
 			"post": {
-				"tags": ["mail-category-controller"],
+				"tags": [
+					"mail-category-controller"
+				],
 				"operationId": "create_2",
 				"requestBody": {
 					"content": {
@@ -222,7 +240,11 @@
 						"format": "int32"
 					}
 				},
-				"required": ["code", "mailTypeId", "name"]
+				"required": [
+					"code",
+					"mailTypeId",
+					"name"
+				]
 			}
 		},
 		"securitySchemes": {

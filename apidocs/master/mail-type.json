@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/mail-types/{id}": {
 			"get": {
-				"tags": ["mail-type-controller"],
+				"tags": [
+					"mail-type-controller"
+				],
 				"operationId": "findById_1",
 				"parameters": [
 					{
@@ -50,7 +52,9 @@
 				}
 			},
 			"put": {
-				"tags": ["mail-type-controller"],
+				"tags": [
+					"mail-type-controller"
+				],
 				"operationId": "update_1",
 				"parameters": [
 					{
@@ -87,7 +91,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["mail-type-controller"],
+				"tags": [
+					"mail-type-controller"
+				],
 				"operationId": "delete_1",
 				"parameters": [
 					{
@@ -109,7 +115,9 @@
 		},
 		"/api/v1/mail-types": {
 			"get": {
-				"tags": ["mail-type-controller"],
+				"tags": [
+					"mail-type-controller"
+				],
 				"operationId": "findAll_1",
 				"parameters": [
 					{
@@ -121,11 +129,39 @@
 						}
 					},
 					{
-						"name": "pageable",
+						"name": "sortBy",
 						"in": "query",
-						"required": true,
+						"required": false,
 						"schema": {
-							"$ref": "#/components/schemas/Pageable"
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number (0-indexed)",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"description": "Page size",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
 						}
 					}
 				],
@@ -143,7 +179,9 @@
 				}
 			},
 			"post": {
-				"tags": ["mail-type-controller"],
+				"tags": [
+					"mail-type-controller"
+				],
 				"operationId": "create_1",
 				"requestBody": {
 					"content": {
@@ -171,7 +209,9 @@
 		},
 		"/api/v1/mail-types/lookup": {
 			"get": {
-				"tags": ["mail-type-controller"],
+				"tags": [
+					"mail-type-controller"
+				],
 				"operationId": "lookup_1",
 				"responses": {
 					"200": {
@@ -205,7 +245,11 @@
 					},
 					"status": {
 						"type": "string",
-						"enum": ["ACTIVE", "INACTIVE", "DELETED"]
+						"enum": [
+							"ACTIVE",
+							"INACTIVE",
+							"DELETED"
+						]
 					},
 					"categoryCount": {
 						"type": "integer",
@@ -222,39 +266,20 @@
 						"minLength": 0
 					}
 				},
-				"required": ["name"]
-			},
-			"Pageable": {
-				"type": "object",
-				"properties": {
-					"page": {
-						"type": "integer",
-						"format": "int32",
-						"minimum": 0
-					},
-					"size": {
-						"type": "integer",
-						"format": "int32",
-						"minimum": 1
-					},
-					"sort": {
-						"type": "array",
-						"items": {
-							"type": "string"
-						}
-					}
-				}
+				"required": [
+					"name"
+				]
 			},
 			"PageMailTypeResponse": {
 				"type": "object",
 				"properties": {
-					"totalPages": {
-						"type": "integer",
-						"format": "int32"
-					},
 					"totalElements": {
 						"type": "integer",
 						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
 					},
 					"size": {
 						"type": "integer",
@@ -310,9 +335,6 @@
 						"type": "integer",
 						"format": "int64"
 					},
-					"unpaged": {
-						"type": "boolean"
-					},
 					"paged": {
 						"type": "boolean"
 					},
@@ -326,6 +348,9 @@
 					},
 					"sort": {
 						"$ref": "#/components/schemas/SortObject"
+					},
+					"unpaged": {
+						"type": "boolean"
 					}
 				}
 			},
@@ -335,10 +360,10 @@
 					"empty": {
 						"type": "boolean"
 					},
-					"unsorted": {
+					"sorted": {
 						"type": "boolean"
 					},
-					"sorted": {
+					"unsorted": {
 						"type": "boolean"
 					}
 				}

@@ -8,18 +8,14 @@ import {
 	IconFileDescription,
 	IconFileSearch,
 	IconFileSettings,
-	IconKey,
 	IconLayoutDashboard,
 	IconListLetters,
-	IconLogout,
 	IconMail,
 	IconMailFast,
-	IconSettings,
 	IconSettings2,
-	IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import {
 	Menubar,
 	MenubarContent,
@@ -32,7 +28,6 @@ import {
 	MenubarSubTrigger,
 	MenubarTrigger,
 } from "@/components/ui/menubar";
-import { useLogout } from "@/hooks/auth-hooks";
 
 const MenuAplikasi = memo(() => (
 	<MenubarMenu>
@@ -110,56 +105,10 @@ const MenuAplikasi = memo(() => (
 
 MenuAplikasi.displayName = "MenuAplikasi";
 
-const MenuSettings = memo(() => (
-	<MenubarMenu>
-		<MenubarTrigger className="flex gap-1">
-			<IconSettings className="h-4 w-4" />
-			<span>Pengaturan</span>
-		</MenubarTrigger>
-		<MenubarContent className="w-fit">
-			<MenubarItem render={<Link href="#" />}>
-				<IconKey />
-				Ubah Password
-			</MenubarItem>
-			<MenubarItem render={<Link href="#" />}>
-				<IconUser />
-				Upload Foto Profil
-			</MenubarItem>
-		</MenubarContent>
-	</MenubarMenu>
-));
-
-MenuSettings.displayName = "MenuSettings";
-
-const MenuKeluar = memo(() => {
-	const { logout, isPending } = useLogout();
-
-	const handleClick = useCallback(() => {
-		logout();
-	}, [logout]);
-
-	return (
-		<MenubarMenu>
-			<MenubarTrigger
-				className="flex gap-1 text-destructive hover:bg-destructive/10"
-				onClick={handleClick}
-				disabled={isPending}
-			>
-				<IconLogout className="h-4 w-4" />
-				<span>{isPending ? "Keluar..." : "Keluar"}</span>
-			</MenubarTrigger>
-		</MenubarMenu>
-	);
-});
-
-MenuKeluar.displayName = "MenuKeluar";
-
 const TopBarMenu = memo(() => {
 	return (
 		<Menubar>
 			<MenuAplikasi />
-			<MenuSettings />
-			<MenuKeluar />
 		</Menubar>
 	);
 });

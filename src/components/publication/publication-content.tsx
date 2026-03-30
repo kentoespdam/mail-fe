@@ -7,6 +7,7 @@ import {
 	Card,
 	CardAction,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -57,15 +58,31 @@ export const PublicationContent = memo(() => {
 
 	return (
 		<>
-			<Card>
-				<CardHeader className="border-b">
-					<CardTitle>Publikasi Dokumen</CardTitle>
-					<CardAction>
-						<Button onClick={() => setCreateOpen(true)}>
-							<IconPlus data-icon="inline-start" />
-							Tambah
-						</Button>
-					</CardAction>
+			<Card className="shadow-sm">
+				<CardHeader className="border-b border-border/50 bg-muted/30 pb-4">
+					<div className="relative flex items-start justify-between gap-4">
+						<div className="flex items-center gap-4">
+							<div className="space-y-1">
+								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
+									<IconSearch className="text-muted-foreground" />
+									<span>Publikasi Dokumen</span>
+								</CardTitle>
+								<CardDescription className="leading-relaxed">
+									Kelola dokumen publikasi dan dokumentasi resmi
+								</CardDescription>
+							</div>
+						</div>
+						<CardAction className="flex items-center gap-2">
+							<Button
+								onClick={() => setCreateOpen(true)}
+								className="gap-2 shadow-sm transition-all hover:shadow-md"
+								size="sm"
+							>
+								<IconPlus className="h-4 w-4" />
+								Tambah Dokumen
+							</Button>
+						</CardAction>
+					</div>
 				</CardHeader>
 				<CardContent className="space-y-3">
 					{/* Filters */}

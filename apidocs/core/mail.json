@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/mails/{id}": {
 			"put": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "updateDraft",
 				"parameters": [
 					{
@@ -60,7 +62,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "deleteMail",
 				"parameters": [
 					{
@@ -82,7 +86,9 @@
 		},
 		"/api/v1/mails": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "createDraft",
 				"requestBody": {
 					"content": {
@@ -110,7 +116,9 @@
 		},
 		"/api/v1/mails/{id}/send": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "send",
 				"parameters": [
 					{
@@ -139,7 +147,9 @@
 		},
 		"/api/v1/mails/{id}/restore": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "restoreMail",
 				"parameters": [
 					{
@@ -161,7 +171,9 @@
 		},
 		"/api/v1/mails/{id}/read": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "markRead",
 				"parameters": [
 					{
@@ -183,7 +195,9 @@
 		},
 		"/api/v1/mails/send": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "sendMail",
 				"requestBody": {
 					"content": {
@@ -211,7 +225,9 @@
 		},
 		"/api/v1/mails/{id}/thread": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "getThread",
 				"parameters": [
 					{
@@ -243,7 +259,9 @@
 		},
 		"/api/v1/mails/search": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "search",
 				"parameters": [
 					{
@@ -274,7 +292,9 @@
 		},
 		"/api/v1/mails/report": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "report",
 				"parameters": [
 					{
@@ -496,7 +516,9 @@
 						"type": "string"
 					}
 				},
-				"required": ["subject"]
+				"required": [
+					"subject"
+				]
 			},
 			"MailSendRequest": {
 				"type": "object",
@@ -558,7 +580,10 @@
 						"minItems": 1
 					}
 				},
-				"required": ["recipients", "subject"]
+				"required": [
+					"recipients",
+					"subject"
+				]
 			},
 			"MailSummaryResponse": {
 				"type": "object",
@@ -717,7 +742,10 @@
 						"format": "int32"
 					}
 				},
-				"required": ["circulation", "empIds"]
+				"required": [
+					"circulation",
+					"empIds"
+				]
 			}
 		},
 		"securitySchemes": {

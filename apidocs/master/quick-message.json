@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/quick-messages/{id}": {
 			"get": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "findById",
 				"parameters": [
 					{
@@ -50,7 +52,9 @@
 				}
 			},
 			"put": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "update",
 				"parameters": [
 					{
@@ -87,7 +91,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "delete",
 				"parameters": [
 					{
@@ -109,27 +115,53 @@
 		},
 		"/api/v1/quick-messages": {
 			"get": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "findAll",
 				"parameters": [
 					{
-						"name": "page",
+						"name": "search",
 						"in": "query",
 						"required": false,
 						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number (0-indexed)",
+						"required": false,
+						"schema": {
 							"type": "integer",
-							"format": "int32",
-							"default": 0
+							"format": "int32"
 						}
 					},
 					{
 						"name": "size",
 						"in": "query",
+						"description": "Page size",
 						"required": false,
 						"schema": {
 							"type": "integer",
-							"format": "int32",
-							"default": 20
+							"format": "int32"
 						}
 					}
 				],
@@ -147,7 +179,9 @@
 				}
 			},
 			"post": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "create",
 				"requestBody": {
 					"content": {
@@ -175,7 +209,9 @@
 		},
 		"/api/v1/quick-messages/lookup": {
 			"get": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "lookup",
 				"responses": {
 					"200": {
@@ -218,18 +254,20 @@
 						"minLength": 0
 					}
 				},
-				"required": ["message"]
+				"required": [
+					"message"
+				]
 			},
 			"PageQuickMessageResponse": {
 				"type": "object",
 				"properties": {
-					"totalPages": {
-						"type": "integer",
-						"format": "int32"
-					},
 					"totalElements": {
 						"type": "integer",
 						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
 					},
 					"size": {
 						"type": "integer",
@@ -273,9 +311,6 @@
 						"type": "integer",
 						"format": "int64"
 					},
-					"unpaged": {
-						"type": "boolean"
-					},
 					"paged": {
 						"type": "boolean"
 					},
@@ -289,6 +324,9 @@
 					},
 					"sort": {
 						"$ref": "#/components/schemas/SortObject"
+					},
+					"unpaged": {
+						"type": "boolean"
 					}
 				}
 			},
@@ -298,10 +336,10 @@
 					"empty": {
 						"type": "boolean"
 					},
-					"unsorted": {
+					"sorted": {
 						"type": "boolean"
 					},
-					"sorted": {
+					"unsorted": {
 						"type": "boolean"
 					}
 				}

@@ -1,4 +1,5 @@
 import { z } from "zod/v4";
+import type { PagedResponse } from "./commons";
 
 export const QuickMessageSchema = z.object({
 	message: z
@@ -10,18 +11,8 @@ export const QuickMessageSchema = z.object({
 export type QuickMessagePayload = z.infer<typeof QuickMessageSchema>;
 
 export interface QuickMessageDto {
-	id: number;
+	id: string;
 	message: string;
 }
 
-export interface PageQuickMessage {
-	totalPages: number;
-	totalElements: number;
-	size: number;
-	content: QuickMessageDto[];
-	number: number;
-	numberOfElements: number;
-	first: boolean;
-	last: boolean;
-	empty: boolean;
-}
+export interface PageQuickMessage extends PagedResponse<QuickMessageDto> {}

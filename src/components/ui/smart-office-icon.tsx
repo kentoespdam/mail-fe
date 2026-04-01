@@ -20,6 +20,7 @@ export function SmartOfficeIcon({
 		<div className={cn("relative inline-flex items-center gap-3", className)}>
 			<Image
 				src="/new-smartoffice-icon-only.svg"
+				loading="eager"
 				alt="Smart Office Icon"
 				width={iconSize}
 				height={iconSize}

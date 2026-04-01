@@ -1,6 +1,6 @@
 "use client";
 
-import { IconMessage, IconPlus, IconTemplate } from "@tabler/icons-react";
+import { IconMail, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,14 +12,14 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { DataTable, DataTablePagination } from "@/components/ui/data-table";
-import { useQuickMessageContent } from "@/hooks/quick-message-hooks";
-import { DeleteQuickMessageDialog } from "./quick-message-delete-dialog";
+import { useMailTypeContent } from "@/hooks/mail-type-hooks";
+import { DeleteMailTypeDialog } from "./mail-type-delete-dialog";
 import {
-	CreateQuickMessageDialog,
-	EditQuickMessageDialog,
-} from "./quick-message-form-dialog";
+	CreateMailTypeDialog,
+	EditMailTypeDialog,
+} from "./mail-type-form-dialog";
 
-export const QuickMessageContent = memo(() => {
+export const MailTypeContent = memo(() => {
 	const {
 		page,
 		setPage,
@@ -28,14 +28,14 @@ export const QuickMessageContent = memo(() => {
 		data,
 		isLoading,
 		columns,
-		messages,
+		mailTypes,
 		createOpen,
 		setCreateOpen,
-		editQm,
-		setEditQm,
-		deleteQm,
-		setDeleteQm,
-	} = useQuickMessageContent();
+		editMt,
+		setEditMt,
+		deleteMt,
+		setDeleteMt,
+	} = useMailTypeContent();
 
 	return (
 		<>
@@ -45,11 +45,11 @@ export const QuickMessageContent = memo(() => {
 						<div className="flex items-center gap-4">
 							<div className="space-y-1">
 								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
-									<IconTemplate className="text-muted-foreground" />
-									<span>Pesan Singkat</span>
+									<IconMail className="text-muted-foreground" />
+									<span>Jenis Surat</span>
 								</CardTitle>
 								<CardDescription className="leading-relaxed">
-									Kelola template pesan untuk respons lebih cepat dan efisien
+									Kelola jenis surat untuk klasifikasi persuratan
 								</CardDescription>
 							</div>
 						</div>
@@ -60,7 +60,7 @@ export const QuickMessageContent = memo(() => {
 								size="sm"
 							>
 								<IconPlus className="h-4 w-4" />
-								Tambah Pesan
+								Tambah Jenis Surat
 							</Button>
 						</CardAction>
 					</div>
@@ -69,19 +69,19 @@ export const QuickMessageContent = memo(() => {
 				<CardContent className="space-y-4 p-2">
 					<DataTable
 						columns={columns}
-						data={messages}
+						data={mailTypes}
 						isLoading={isLoading}
 						emptyMessage={
 							<div className="flex flex-col items-center justify-center py-16 text-center">
 								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground ring-1 ring-border">
-									<IconMessage className="h-10 w-10 opacity-60" />
+									<IconMail className="h-10 w-10 opacity-60" />
 								</div>
 								<h3 className="text-base font-semibold text-foreground">
-									Belum ada pesan singkat
+									Belum ada jenis surat
 								</h3>
 								<p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">
-									Mulai dengan menambahkan template pesan yang sering Anda
-									gunakan untuk mempercepat respons
+									Mulai dengan menambahkan jenis surat untuk mengklasifikasikan
+									persuratan Anda
 								</p>
 								<Button
 									className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
@@ -89,7 +89,7 @@ export const QuickMessageContent = memo(() => {
 									onClick={() => setCreateOpen(true)}
 								>
 									<IconPlus className="h-4 w-4" />
-									Tambah Pesan Pertama
+									Tambah Jenis Surat Pertama
 								</Button>
 							</div>
 						}
@@ -108,17 +108,17 @@ export const QuickMessageContent = memo(() => {
 				</CardContent>
 			</Card>
 
-			<CreateQuickMessageDialog
+			<CreateMailTypeDialog
 				open={createOpen}
 				onOpenChange={setCreateOpen}
 			/>
-			<EditQuickMessageDialog qm={editQm} onClose={() => setEditQm(null)} />
-			<DeleteQuickMessageDialog
-				qm={deleteQm}
-				onClose={() => setDeleteQm(null)}
+			<EditMailTypeDialog mt={editMt} onClose={() => setEditMt(null)} />
+			<DeleteMailTypeDialog
+				mt={deleteMt}
+				onClose={() => setDeleteMt(null)}
 			/>
 		</>
 	);
 });
 
-QuickMessageContent.displayName = "QuickMessageContent";
+MailTypeContent.displayName = "MailTypeContent";

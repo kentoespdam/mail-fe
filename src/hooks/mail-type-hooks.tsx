@@ -7,37 +7,37 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
-	createQuickMessage,
-	deleteQuickMessage,
-	fetchQuickMessages,
-	updateQuickMessage,
-} from "@/lib/quick-message-api";
+	createMailType,
+	deleteMailType,
+	fetchMailTypes,
+	updateMailType,
+} from "@/lib/mail-type-api";
 import {
-	type QuickMessageDto,
-	type QuickMessagePayload,
-	QuickMessageSchema,
-} from "@/types/quick-message";
+	type MailTypeDto,
+	type MailTypePayload,
+	MailTypeSchema,
+} from "@/types/mail-type";
 
-const QUERY_KEY = "quick-messages";
+const QUERY_KEY = "mail-types";
 
-export function useQuickMessages(page = 0, size = 20) {
+export function useMailTypes(page = 0, size = 20) {
 	return useQuery({
 		queryKey: [QUERY_KEY, page, size],
-		queryFn: () => fetchQuickMessages(page, size),
+		queryFn: () => fetchMailTypes(page, size),
 	});
 }
 
-export function useCreateQuickMessage(onSuccess?: () => void) {
+export function useCreateMailType(onSuccess?: () => void) {
 	const qc = useQueryClient();
-	const form = useForm<QuickMessagePayload>({
-		resolver: zodResolver(QuickMessageSchema),
-		defaultValues: { message: "" },
+	const form = useForm<MailTypePayload>({
+		resolver: zodResolver(MailTypeSchema),
+		defaultValues: { name: "" },
 	});
 
 	const mutation = useMutation({
-		mutationFn: (data: QuickMessagePayload) => createQuickMessage(data),
+		mutationFn: (data: MailTypePayload) => createMailType(data),
 		onSuccess: () => {
-			toast.success("Pesan singkat berhasil dibuat");
+			toast.success("Jenis surat berhasil dibuat");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			form.reset();
 			onSuccess?.();
@@ -53,18 +53,18 @@ export function useCreateQuickMessage(onSuccess?: () => void) {
 	return { form, mutation, onSubmit };
 }
 
-export function useUpdateQuickMessage(onSuccess?: () => void) {
+export function useUpdateMailType(onSuccess?: () => void) {
 	const qc = useQueryClient();
-	const form = useForm<QuickMessagePayload>({
-		resolver: zodResolver(QuickMessageSchema),
-		defaultValues: { message: "" },
+	const form = useForm<MailTypePayload>({
+		resolver: zodResolver(MailTypeSchema),
+		defaultValues: { name: "" },
 	});
 
 	const mutation = useMutation({
-		mutationFn: ({ id, data }: { id: string; data: QuickMessagePayload }) =>
-			updateQuickMessage(id, data),
+		mutationFn: ({ id, data }: { id: string; data: MailTypePayload }) =>
+			updateMailType(id, data),
 		onSuccess: () => {
-			toast.success("Pesan singkat berhasil diperbarui");
+			toast.success("Jenis surat berhasil diperbarui");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},
@@ -72,8 +72,8 @@ export function useUpdateQuickMessage(onSuccess?: () => void) {
 	});
 
 	const populate = useCallback(
-		(qm: QuickMessageDto) => {
-			form.reset({ message: qm.message });
+		(mt: MailTypeDto) => {
+			form.reset({ name: mt.name });
 		},
 		[form],
 	);
@@ -89,16 +89,16 @@ export function useUpdateQuickMessage(onSuccess?: () => void) {
 
 const DEFAULT_SIZE = 20;
 
-export function useQuickMessageContent() {
+export function useMailTypeContent() {
 	const [page, setPage] = useState(0);
 	const [pageSize, setPageSize] = useState(DEFAULT_SIZE);
-	const { data, isLoading } = useQuickMessages(page, pageSize);
+	const { data, isLoading } = useMailTypes(page, pageSize);
 
 	const [createOpen, setCreateOpen] = useState(false);
-	const [editQm, setEditQm] = useState<QuickMessageDto | null>(null);
-	const [deleteQm, setDeleteQm] = useState<QuickMessageDto | null>(null);
+	const [editMt, setEditMt] = useState<MailTypeDto | null>(null);
+	const [deleteMt, setDeleteMt] = useState<MailTypeDto | null>(null);
 
-	const columns = useMemo<ColumnDef<QuickMessageDto, unknown>[]>(
+	const columns = useMemo<ColumnDef<MailTypeDto, unknown>[]>(
 		() => [
 			{
 				id: "index",
@@ -112,31 +112,35 @@ export function useQuickMessageContent() {
 				enableHiding: false,
 			},
 			{
-				accessorKey: "message",
-				header: "Pesan",
-				cell: ({ row }) => {
-					const message = row.original.message;
-					const preview =
-						message.length > 60 ? `${message.slice(0, 60)}…` : message;
-
-					return (
-						<p className="line-clamp-2 text-sm text-foreground">{preview}</p>
-					);
-				},
-				minSize: 300,
+				accessorKey: "name",
+				header: "Nama",
+				cell: ({ row }) => (
+					<p className="text-sm text-foreground">{row.original.name}</p>
+				),
+				minSize: 200,
+			},
+			{
+				accessorKey: "categoryCount",
+				header: "Jumlah Kategori",
+				cell: ({ row }) => (
+					<span className="text-sm text-muted-foreground">
+						{row.original.categoryCount}
+					</span>
+				),
+				size: 140,
 			},
 			{
 				id: "actions",
 				header: () => <span className="sr-only">Aksi</span>,
 				cell: ({ row }) => {
-					const qm = row.original;
+					const mt = row.original;
 					return (
 						<div className="flex justify-end gap-1">
 							<Button
 								variant="ghost"
 								size="icon-sm"
-								onClick={() => setEditQm(qm)}
-								title="Edit pesan"
+								onClick={() => setEditMt(mt)}
+								title="Edit jenis surat"
 								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
 							>
 								<IconPencil className="size-4" />
@@ -144,8 +148,8 @@ export function useQuickMessageContent() {
 							<Button
 								variant="ghost"
 								size="icon-sm"
-								onClick={() => setDeleteQm(qm)}
-								title="Hapus pesan"
+								onClick={() => setDeleteMt(mt)}
+								title="Hapus jenis surat"
 								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
 							>
 								<IconTrash className="size-4" />
@@ -160,7 +164,7 @@ export function useQuickMessageContent() {
 		[page, pageSize],
 	);
 
-	const messages = useMemo(() => data?.content ?? [], [data?.content]);
+	const mailTypes = useMemo(() => data?.content ?? [], [data?.content]);
 
 	return {
 		page,
@@ -170,23 +174,23 @@ export function useQuickMessageContent() {
 		data,
 		isLoading,
 		columns,
-		messages,
+		mailTypes,
 		createOpen,
 		setCreateOpen,
-		editQm,
-		setEditQm,
-		deleteQm,
-		setDeleteQm,
+		editMt,
+		setEditMt,
+		deleteMt,
+		setDeleteMt,
 	};
 }
 
-export function useDeleteQuickMessage(onSuccess?: () => void) {
+export function useDeleteMailType(onSuccess?: () => void) {
 	const qc = useQueryClient();
 
 	return useMutation({
-		mutationFn: (id: string) => deleteQuickMessage(id),
+		mutationFn: (id: string) => deleteMailType(id),
 		onSuccess: () => {
-			toast.success("Pesan singkat berhasil dihapus");
+			toast.success("Jenis surat berhasil dihapus");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},

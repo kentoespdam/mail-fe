@@ -194,10 +194,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/ArchiveSummaryResponse"
-									}
+									"$ref": "#/components/schemas/PagedResponseArchiveSummaryResponse"
 								}
 							}
 						}
@@ -286,10 +283,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/ArchiveSummaryResponse"
-									}
+									"$ref": "#/components/schemas/PagedResponseArchiveSummaryResponse"
 								}
 							}
 						}
@@ -319,10 +313,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/ArchiveReportResponse"
-									}
+									"$ref": "#/components/schemas/PagedResponseArchiveReportResponse"
 								}
 							}
 						}
@@ -504,6 +495,20 @@
 			"ArchiveSearchRequest": {
 				"type": "object",
 				"properties": {
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sortBy": {
+						"type": "string"
+					},
+					"sortDir": {
+						"type": "string"
+					},
 					"keyword": {
 						"type": "string"
 					},
@@ -523,6 +528,21 @@
 						"type": "string",
 						"format": "date"
 					},
+					"status": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"PagedResponseArchiveSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/ArchiveSummaryResponse"
+						}
+					},
 					"page": {
 						"type": "integer",
 						"format": "int32"
@@ -530,50 +550,20 @@
 					"size": {
 						"type": "integer",
 						"format": "int32"
-					}
-				}
-			},
-			"ArchiveSummaryResponse": {
-				"type": "object",
-				"properties": {
-					"id": {
+					},
+					"totalElements": {
 						"type": "integer",
 						"format": "int64"
 					},
-					"archiveNumber": {
-						"type": "string"
-					},
-					"archiveDate": {
-						"type": "string",
-						"format": "date"
-					},
-					"subject": {
-						"type": "string"
-					},
-					"categoryName": {
-						"type": "string"
-					},
-					"status": {
+					"totalPages": {
 						"type": "integer",
 						"format": "int32"
 					},
-					"year": {
-						"type": "integer",
-						"format": "int32"
+					"first": {
+						"type": "boolean"
 					},
-					"officeCode": {
-						"type": "string"
-					},
-					"attachmentQty": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"createdDate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"createdByName": {
-						"type": "string"
+					"last": {
+						"type": "boolean"
 					}
 				}
 			},
@@ -626,6 +616,20 @@
 			"ArchiveReportRequest": {
 				"type": "object",
 				"properties": {
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sortBy": {
+						"type": "string"
+					},
+					"sortDir": {
+						"type": "string"
+					},
 					"categoryId": {
 						"type": "integer",
 						"format": "int32"
@@ -641,6 +645,100 @@
 					"endDate": {
 						"type": "string",
 						"format": "date"
+					}
+				}
+			},
+			"PagedResponseArchiveReportResponse": {
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/ArchiveReportResponse"
+						}
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"first": {
+						"type": "boolean"
+					},
+					"last": {
+						"type": "boolean"
+					}
+				}
+			},
+			"AccessEntry": {
+				"type": "object",
+				"properties": {
+					"positionId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"accessLevel": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ArchiveSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"archiveNumber": {
+						"type": "string"
+					},
+					"archiveDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"categoryName": {
+						"type": "string"
+					},
+					"status": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"year": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"officeCode": {
+						"type": "string"
+					},
+					"attachmentQty": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"createdDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdByName": {
+						"type": "string"
+					},
+					"totalCount": {
+						"type": "integer",
+						"format": "int64"
 					}
 				}
 			},
@@ -665,19 +763,10 @@
 					"totalArchived": {
 						"type": "integer",
 						"format": "int64"
-					}
-				}
-			},
-			"AccessEntry": {
-				"type": "object",
-				"properties": {
-					"positionId": {
-						"type": "integer",
-						"format": "int32"
 					},
-					"accessLevel": {
+					"totalCount": {
 						"type": "integer",
-						"format": "int32"
+						"format": "int64"
 					}
 				}
 			}

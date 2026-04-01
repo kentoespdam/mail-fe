@@ -6,7 +6,7 @@ import { memo, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export const ThemeToggle = memo(() => {
-	const { theme, setTheme, resolvedTheme } = useTheme();
+	const { setTheme, resolvedTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
 	// Avoid hydration mismatch

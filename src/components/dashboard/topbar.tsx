@@ -51,8 +51,12 @@ const TopBar = memo(() => {
 				</Button>
 
 				<div className="flex flex-col space-y-1">
-					<p className="text-sm font-medium text-right">Bagus Sudrajat, S.Kom.</p>
-					<p className="text-xs text-muted-foreground text-right">Administrator</p>
+					<p className="text-sm font-medium text-right">
+						Bagus Sudrajat, S.Kom.
+					</p>
+					<p className="text-xs text-muted-foreground text-right">
+						Administrator
+					</p>
 				</div>
 
 				{/* Divider */}

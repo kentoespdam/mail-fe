@@ -279,10 +279,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/MailSummaryResponse"
-									}
+									"$ref": "#/components/schemas/PagedResponseMailSummaryResponse"
 								}
 							}
 						}
@@ -312,10 +309,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/MailReportResponse"
-									}
+									"$ref": "#/components/schemas/PagedResponseMailReportResponse"
 								}
 							}
 						}
@@ -647,12 +641,30 @@
 					"parentMailId": {
 						"type": "integer",
 						"format": "int32"
+					},
+					"totalCount": {
+						"type": "integer",
+						"format": "int64"
 					}
 				}
 			},
 			"MailSearchRequest": {
 				"type": "object",
 				"properties": {
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sortBy": {
+						"type": "string"
+					},
+					"sortDir": {
+						"type": "string"
+					},
 					"keyword": {
 						"type": "string"
 					},
@@ -672,6 +684,24 @@
 						"type": "string",
 						"format": "date"
 					},
+					"hasAttachment": {
+						"type": "boolean"
+					},
+					"senderId": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"PagedResponseMailSummaryResponse": {
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/MailSummaryResponse"
+						}
+					},
 					"page": {
 						"type": "integer",
 						"format": "int32"
@@ -679,12 +709,40 @@
 					"size": {
 						"type": "integer",
 						"format": "int32"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"first": {
+						"type": "boolean"
+					},
+					"last": {
+						"type": "boolean"
 					}
 				}
 			},
 			"MailReportRequest": {
 				"type": "object",
 				"properties": {
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"sortBy": {
+						"type": "string"
+					},
+					"sortDir": {
+						"type": "string"
+					},
 					"mailTypeId": {
 						"type": "integer",
 						"format": "int32"
@@ -703,26 +761,36 @@
 					}
 				}
 			},
-			"MailReportResponse": {
+			"PagedResponseMailReportResponse": {
 				"type": "object",
 				"properties": {
-					"mailTypeName": {
-						"type": "string"
+					"content": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/MailReportResponse"
+						}
 					},
-					"mailCategoryName": {
-						"type": "string"
+					"page": {
+						"type": "integer",
+						"format": "int32"
 					},
-					"totalMails": {
+					"size": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalElements": {
 						"type": "integer",
 						"format": "int64"
 					},
-					"totalRead": {
+					"totalPages": {
 						"type": "integer",
-						"format": "int64"
+						"format": "int32"
 					},
-					"totalUnread": {
-						"type": "integer",
-						"format": "int64"
+					"first": {
+						"type": "boolean"
+					},
+					"last": {
+						"type": "boolean"
 					}
 				}
 			},
@@ -746,6 +814,33 @@
 					"circulation",
 					"empIds"
 				]
+			},
+			"MailReportResponse": {
+				"type": "object",
+				"properties": {
+					"mailTypeName": {
+						"type": "string"
+					},
+					"mailCategoryName": {
+						"type": "string"
+					},
+					"totalMails": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalRead": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalUnread": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalCount": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
 			}
 		},
 		"securitySchemes": {

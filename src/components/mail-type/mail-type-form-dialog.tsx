@@ -35,8 +35,8 @@ export function CreateMailTypeDialog({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
-					<DialogTitle>Buat Jenis Surat</DialogTitle>
-					<DialogDescription>Tambah jenis surat baru</DialogDescription>
+					<DialogTitle>Buat Tipe Surat</DialogTitle>
+					<DialogDescription>Tambah tipe surat baru</DialogDescription>
 				</DialogHeader>
 				<form id="create-mt-form" onSubmit={onSubmit}>
 					<FieldGroup>
@@ -44,7 +44,7 @@ export function CreateMailTypeDialog({
 							form={form}
 							id="name"
 							label="Nama"
-							placeholder="Masukkan nama jenis surat"
+							placeholder="Masukkan nama tipe surat"
 							required
 						/>
 					</FieldGroup>
@@ -98,8 +98,8 @@ export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
 		<Dialog open={!!mt} onOpenChange={handleOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
-					<DialogTitle>Edit Jenis Surat</DialogTitle>
-					<DialogDescription>Perbarui jenis surat</DialogDescription>
+					<DialogTitle>Edit Tipe Surat</DialogTitle>
+					<DialogDescription>Perbarui tipe surat</DialogDescription>
 				</DialogHeader>
 				{mt && (
 					<form id="edit-mt-form" onSubmit={handleSubmit}>
@@ -108,7 +108,7 @@ export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
 								form={form}
 								id="name"
 								label="Nama"
-								placeholder="Masukkan nama jenis surat"
+								placeholder="Masukkan nama tipe surat"
 								required
 							/>
 						</FieldGroup>

@@ -17,13 +17,13 @@ export async function fetchMailTypes(
 	if (search) params.set("search", search);
 
 	const res = await fetch(`${BASE}?${params}`);
-	if (!res.ok) throw new Error("Gagal memuat data jenis surat");
+	if (!res.ok) throw new Error("Gagal memuat data tipe surat");
 	return res.json();
 }
 
 export async function fetchMailType(id: string): Promise<MailTypeDto> {
 	const res = await fetch(`${BASE}/${id}`);
-	if (!res.ok) throw new Error("Gagal memuat detail jenis surat");
+	if (!res.ok) throw new Error("Gagal memuat detail tipe surat");
 	return res.json();
 }
 
@@ -37,7 +37,7 @@ export async function createMailType(
 	});
 	if (!res.ok) {
 		const err = await res.json().catch(() => null);
-		throw new Error(err?.detail ?? "Gagal membuat jenis surat");
+		throw new Error(err?.detail ?? "Gagal membuat tipe surat");
 	}
 	return res.json();
 }
@@ -53,12 +53,12 @@ export async function updateMailType(
 	});
 	if (!res.ok) {
 		const err = await res.json().catch(() => null);
-		throw new Error(err?.detail ?? "Gagal memperbarui jenis surat");
+		throw new Error(err?.detail ?? "Gagal memperbarui tipe surat");
 	}
 	return res.json();
 }
 
 export async function deleteMailType(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
-	if (!res.ok) throw new Error("Gagal menghapus jenis surat");
+	if (!res.ok) throw new Error("Gagal menghapus tipe surat");
 }

@@ -46,10 +46,10 @@ export const MailTypeContent = memo(() => {
 							<div className="space-y-1">
 								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
 									<IconMail className="text-muted-foreground" />
-									<span>Jenis Surat</span>
+									<span>Tipe Surat</span>
 								</CardTitle>
 								<CardDescription className="leading-relaxed">
-									Kelola jenis surat untuk klasifikasi persuratan
+									Kelola tipe surat untuk klasifikasi persuratan
 								</CardDescription>
 							</div>
 						</div>
@@ -60,7 +60,7 @@ export const MailTypeContent = memo(() => {
 								size="sm"
 							>
 								<IconPlus className="h-4 w-4" />
-								Tambah Jenis Surat
+								Tambah Tipe Surat
 							</Button>
 						</CardAction>
 					</div>
@@ -77,10 +77,10 @@ export const MailTypeContent = memo(() => {
 									<IconMail className="h-10 w-10 opacity-60" />
 								</div>
 								<h3 className="text-base font-semibold text-foreground">
-									Belum ada jenis surat
+									Belum ada tipe surat
 								</h3>
 								<p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">
-									Mulai dengan menambahkan jenis surat untuk mengklasifikasikan
+									Mulai dengan menambahkan tipe surat untuk mengklasifikasikan
 									persuratan Anda
 								</p>
 								<Button
@@ -89,7 +89,7 @@ export const MailTypeContent = memo(() => {
 									onClick={() => setCreateOpen(true)}
 								>
 									<IconPlus className="h-4 w-4" />
-									Tambah Jenis Surat Pertama
+									Tambah Tipe Surat Pertama
 								</Button>
 							</div>
 						}

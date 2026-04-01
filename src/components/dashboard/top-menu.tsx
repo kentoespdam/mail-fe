@@ -88,7 +88,7 @@ const MenuAplikasi = memo(() => (
 							<IconMailFast />
 							Pesan Singkat
 						</MenubarItem>
-						<MenubarItem render={<Link href="/master/jenis-surat" />}>
+						<MenubarItem render={<Link href="/master/tipe-surat" />}>
 							<IconListLetters />
 							Tipe Surat
 						</MenubarItem>

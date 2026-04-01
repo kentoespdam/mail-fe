@@ -37,7 +37,7 @@ export function useCreateMailType(onSuccess?: () => void) {
 	const mutation = useMutation({
 		mutationFn: (data: MailTypePayload) => createMailType(data),
 		onSuccess: () => {
-			toast.success("Jenis surat berhasil dibuat");
+			toast.success("Tipe surat berhasil dibuat");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			form.reset();
 			onSuccess?.();
@@ -64,7 +64,7 @@ export function useUpdateMailType(onSuccess?: () => void) {
 		mutationFn: ({ id, data }: { id: string; data: MailTypePayload }) =>
 			updateMailType(id, data),
 		onSuccess: () => {
-			toast.success("Jenis surat berhasil diperbarui");
+			toast.success("Tipe surat berhasil diperbarui");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},
@@ -140,7 +140,7 @@ export function useMailTypeContent() {
 								variant="ghost"
 								size="icon-sm"
 								onClick={() => setEditMt(mt)}
-								title="Edit jenis surat"
+								title="Edit tipe surat"
 								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
 							>
 								<IconPencil className="size-4" />
@@ -149,7 +149,7 @@ export function useMailTypeContent() {
 								variant="ghost"
 								size="icon-sm"
 								onClick={() => setDeleteMt(mt)}
-								title="Hapus jenis surat"
+								title="Hapus tipe surat"
 								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
 							>
 								<IconTrash className="size-4" />
@@ -190,7 +190,7 @@ export function useDeleteMailType(onSuccess?: () => void) {
 	return useMutation({
 		mutationFn: (id: string) => deleteMailType(id),
 		onSuccess: () => {
-			toast.success("Jenis surat berhasil dihapus");
+			toast.success("Tipe surat berhasil dihapus");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},

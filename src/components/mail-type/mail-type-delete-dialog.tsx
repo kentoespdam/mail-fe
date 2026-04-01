@@ -18,7 +18,7 @@ export const DeleteMailTypeDialog = memo(
 			<DeleteConfirmDialog
 				open={!!mt}
 				onClose={onClose}
-				title="Hapus Jenis Surat"
+				title="Hapus Tipe Surat"
 				isPending={mutation.isPending}
 				onConfirm={() => mt && mutation.mutate(mt.id)}
 			/>

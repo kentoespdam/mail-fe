@@ -22,3 +22,9 @@ Next.js 16.2.1 (App Router, React 19), Bun, TypeScript 5, Biome (tabs), Tailwind
 
 ## Env Vars
 `API_BASE_URL`, `APPWRITE_HOSTNAME`, `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, `APPWRITE_API_KEY`, `DEFAULT_MAIL_DOMAIN`, `SESSION_SECRET`
+
+## Memory
+Setelah menyelesaikan tugas (implement fitur, fix bug, refactor, dll), **selalu update memory** di `/home/dev/.claude/projects/-mnt-DATA-html-mail-fe/memory/`:
+- Update `MEMORY.md` index jika ada route/feature baru
+- Buat/update feature file jika ada fitur baru atau perubahan signifikan
+- Update layer files jika ada perubahan arsitektur/pattern

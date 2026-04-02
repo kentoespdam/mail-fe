@@ -61,8 +61,11 @@ const SelectControll = <TData extends FieldValues>({
 							aria-invalid={fieldState.invalid}
 						>
 							<SelectValue placeholder={placeholder}>
-								{options.find((opt) => String(opt.value) === String(field.value))
-									?.label}
+								{
+									options.find(
+										(opt) => String(opt.value) === String(field.value),
+									)?.label
+								}
 							</SelectValue>
 						</SelectTrigger>
 						<SelectContent>

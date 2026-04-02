@@ -10,6 +10,7 @@ import {
 	createMailCategory,
 	deleteMailCategory,
 	fetchMailCategories,
+	fetchMailCategory,
 	updateMailCategory,
 } from "@/lib/mail-category-api";
 import { fetchMailTypesLookup } from "@/lib/mail-type-api";
@@ -21,6 +22,14 @@ import {
 } from "@/types/mail-category";
 
 const QUERY_KEY = "mail-categories";
+
+export function useMailCategory(id: string | null) {
+	return useQuery({
+		queryKey: ["mail-category", id],
+		queryFn: () => fetchMailCategory(id as string),
+		enabled: !!id,
+	});
+}
 
 export function useMailCategories(
 	page = 0,
@@ -54,10 +63,10 @@ export function useCreateMailCategory(onSuccess?: () => void) {
 	const form = useForm<MailCategoryPayload>({
 		resolver: zodResolver(MailCategorySchema),
 		defaultValues: {
-			mailTypeId: undefined,
+			mailTypeId: 1,
 			code: "",
 			name: "",
-			sort: undefined,
+			sort: 0,
 		},
 	});
 
@@ -163,7 +172,7 @@ export function useMailCategoryContent() {
 		useMailTypeOptions();
 
 	const [createOpen, setCreateOpen] = useState(false);
-	const [editMc, setEditMc] = useState<MailCategoryDto | null>(null);
+	const [editMc, setEditMc] = useState<string | null>(null);
 	const [deleteMc, setDeleteMc] = useState<MailCategoryDto | null>(null);
 
 	const onMailTypeIdChange = useCallback((id: number | undefined) => {
@@ -227,7 +236,7 @@ export function useMailCategoryContent() {
 							<Button
 								variant="ghost"
 								size="icon-sm"
-								onClick={() => setEditMc(mc)}
+								onClick={() => setEditMc(mc.id)}
 								title="Edit kategori surat"
 								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
 							>

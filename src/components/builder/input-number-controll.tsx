@@ -34,7 +34,11 @@ const InputNumberControll = <TData extends FieldValues>({
 					<div className="relative">
 						<Input
 							{...field}
-							onChange={(e) => field.onChange(e.target.valueAsNumber)}
+							value={field.value ?? ""}
+							onChange={(e) => {
+								const val = e.target.valueAsNumber;
+								field.onChange(Number.isNaN(val) ? undefined : val);
+							}}
 							id={field.name}
 							type="number"
 							placeholder={placeholder}

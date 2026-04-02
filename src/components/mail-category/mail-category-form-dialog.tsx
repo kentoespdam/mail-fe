@@ -16,6 +16,7 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import {
 	useCreateMailCategory,
+	useMailCategory,
 	useMailTypeOptions,
 	useUpdateMailCategory,
 } from "@/hooks/mail-category-hooks";
@@ -34,7 +35,6 @@ export function CreateMailCategoryDialog({
 	const handleClose = useCallback(() => onOpenChange(false), [onOpenChange]);
 	const { form, mutation, onSubmit } = useCreateMailCategory(handleClose);
 	const { data: mailTypeOptions = [] } = useMailTypeOptions();
-	console.log(mailTypeOptions);
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
@@ -94,17 +94,18 @@ export function CreateMailCategoryDialog({
 
 // ─── Edit ───────────────────────────────────────────────────────
 interface EditDialogProps {
-	mc: MailCategoryDto | null;
+	mcId: string | null;
 	onClose: () => void;
 }
 
-export function EditMailCategoryDialog({ mc, onClose }: EditDialogProps) {
+export function EditMailCategoryDialog({ mcId, onClose }: EditDialogProps) {
 	const { form, mutation, populate, onSubmit } = useUpdateMailCategory(onClose);
+	const { data: mailCategory, isLoading } = useMailCategory(mcId);
 	const { data: mailTypeOptions = [] } = useMailTypeOptions();
 
 	useEffect(() => {
-		if (mc) populate(mc);
-	}, [mc, populate]);
+		if (mailCategory) populate(mailCategory);
+	}, [mailCategory, populate]);
 
 	const handleOpenChange = useCallback(
 		(v: boolean) => {
@@ -116,19 +117,23 @@ export function EditMailCategoryDialog({ mc, onClose }: EditDialogProps) {
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
 			e.preventDefault();
-			if (mc) onSubmit(mc.id);
+			if (mcId) onSubmit(mcId);
 		},
-		[mc, onSubmit],
+		[mcId, onSubmit],
 	);
 
 	return (
-		<Dialog open={!!mc} onOpenChange={handleOpenChange}>
+		<Dialog open={!!mcId} onOpenChange={handleOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
 					<DialogTitle>Edit Kategori Surat</DialogTitle>
 					<DialogDescription>Perbarui kategori surat</DialogDescription>
 				</DialogHeader>
-				{mc && (
+				{isLoading ? (
+					<div className="flex items-center justify-center py-10 text-muted-foreground">
+						<span className="text-sm">Memuat data...</span>
+					</div>
+				) : mailCategory ? (
 					<form id="edit-mc-form" onSubmit={handleSubmit}>
 						<FieldGroup>
 							<SelectControll
@@ -161,7 +166,7 @@ export function EditMailCategoryDialog({ mc, onClose }: EditDialogProps) {
 							/>
 						</FieldGroup>
 					</form>
-				)}
+				) : null}
 				<DialogFooter>
 					<Button type="button" variant="outline" onClick={onClose}>
 						Batal

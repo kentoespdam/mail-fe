@@ -43,20 +43,32 @@ const SelectControll = <TData extends FieldValues>({
 				<Field data-invalid={fieldState.invalid}>
 					{label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
 					<Select
-						value={field.value ?? null}
-						onValueChange={(val) => field.onChange(val)}
+						value={
+							field.value !== undefined && field.value !== null
+								? String(field.value)
+								: ""
+						}
+						onValueChange={(val) => {
+							const originalOption = options.find(
+								(opt) => String(opt.value) === val,
+							);
+							field.onChange(originalOption ? originalOption.value : val);
+						}}
 						required={required}
 					>
 						<SelectTrigger
 							className="w-full h-9 text-sm"
 							aria-invalid={fieldState.invalid}
 						>
-							<SelectValue placeholder={placeholder} />
+							<SelectValue placeholder={placeholder}>
+								{options.find((opt) => String(opt.value) === String(field.value))
+									?.label}
+							</SelectValue>
 						</SelectTrigger>
 						<SelectContent>
 							{options.map((opt) => (
-								<SelectItem key={opt.value} value={opt.value}>
-									{opt.value} - {opt.label}
+								<SelectItem key={opt.value} value={String(opt.value)}>
+									{opt.label}
 								</SelectItem>
 							))}
 						</SelectContent>

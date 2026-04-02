@@ -1,30 +1,5 @@
 "use client";
 
-import {
-	IconChevronLeft,
-	IconChevronRight,
-	IconChevronsLeft,
-	IconChevronsRight,
-	IconSearch,
-	IconSelector,
-	IconSortAscending,
-	IconSortDescending,
-	IconX,
-} from "@tabler/icons-react";
-import {
-	type ColumnDef,
-	type ColumnFiltersState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	type OnChangeFn,
-	type RowSelectionState,
-	type SortingState,
-	useReactTable,
-} from "@tanstack/react-table";
-import { memo, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -42,6 +17,29 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import {
+	IconChevronLeft,
+	IconChevronRight,
+	IconChevronsLeft,
+	IconChevronsRight,
+	IconSearch,
+	IconSelector,
+	IconSortAscending,
+	IconSortDescending,
+	IconX,
+} from "@tabler/icons-react";
+import {
+	type ColumnDef,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getSortedRowModel,
+	type OnChangeFn,
+	type RowSelectionState,
+	type SortingState,
+	useReactTable
+} from "@tanstack/react-table";
+import { memo } from "react";
 
 // ─── Generic DataTable ──────────────────────────────────────────
 
@@ -106,7 +104,7 @@ function DataTableComponent<TData, TValue>({
 				<div className="flex flex-1 flex-wrap items-center gap-2">
 					{onSearchChange && (
 						<div className="relative w-full max-w-sm">
-							<IconSearch className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+							<IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
 							<Input
 								placeholder={searchPlaceholder}
 								value={searchValue ?? ""}
@@ -117,7 +115,7 @@ function DataTableComponent<TData, TValue>({
 								<Button
 									variant="ghost"
 									size="icon"
-									className="absolute right-1 top-1 h-7 w-7"
+									className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground hover:text-foreground"
 									onClick={() => onSearchChange("")}
 								>
 									<IconX className="h-4 w-4" />

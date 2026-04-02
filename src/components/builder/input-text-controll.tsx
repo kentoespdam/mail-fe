@@ -34,6 +34,7 @@ const InputTextControll = <TData extends FieldValues>({
 					<div className="relative">
 						<Input
 							{...field}
+							value={field.value ?? ""}
 							id={field.name}
 							placeholder={placeholder}
 							required={required}

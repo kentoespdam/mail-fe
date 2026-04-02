@@ -158,7 +158,7 @@ export const MailCategoryContent = memo(() => {
 				open={createOpen}
 				onOpenChange={setCreateOpen}
 			/>
-			<EditMailCategoryDialog mc={editMc} onClose={() => setEditMc(null)} />
+			<EditMailCategoryDialog mcId={editMc} onClose={() => setEditMc(null)} />
 			<DeleteMailCategoryDialog
 				mc={deleteMc}
 				onClose={() => setDeleteMc(null)}

@@ -2,10 +2,7 @@ import { z } from "zod/v4";
 import type { PagedResponse } from "./commons";
 
 export const MailCategorySchema = z.object({
-	mailTypeId: z
-		.number({ error: "Tipe surat wajib dipilih" })
-		.int()
-		.positive("Tipe surat wajib dipilih"),
+	mailTypeId: z.string().min(1, "Tipe surat wajib dipilih"),
 	code: z.string().min(1, "Kode wajib diisi").max(32, "Maksimal 32 karakter"),
 	name: z.string().min(1, "Nama wajib diisi").max(64, "Maksimal 64 karakter"),
 	sort: z.number().int().optional(),

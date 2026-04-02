@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/quick-messages/{id}": {
 			"get": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "findById",
 				"parameters": [
 					{
@@ -49,7 +51,9 @@
 				}
 			},
 			"put": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "update",
 				"parameters": [
 					{
@@ -85,7 +89,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "delete",
 				"parameters": [
 					{
@@ -106,7 +112,9 @@
 		},
 		"/api/v1/quick-messages": {
 			"get": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "findAll",
 				"parameters": [
 					{
@@ -166,7 +174,9 @@
 				}
 			},
 			"post": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "create",
 				"requestBody": {
 					"content": {
@@ -194,7 +204,9 @@
 		},
 		"/api/v1/quick-messages/lookup": {
 			"get": {
-				"tags": ["quick-message-controller"],
+				"tags": [
+					"quick-message-controller"
+				],
 				"operationId": "lookup",
 				"responses": {
 					"200": {
@@ -236,7 +248,9 @@
 						"minLength": 0
 					}
 				},
-				"required": ["message"]
+				"required": [
+					"message"
+				]
 			},
 			"PagedModelQuickMessageResponse": {
 				"type": "object",

@@ -10,7 +10,7 @@ export async function fetchMailCategories(
 	page = 0,
 	size = 20,
 	search?: string,
-	mailTypeId?: number,
+	mailTypeId?: string,
 	sortBy?: string,
 	sortDir?: string,
 ): Promise<PageMailCategory> {
@@ -18,7 +18,9 @@ export async function fetchMailCategories(
 	params.set("page", String(page));
 	params.set("size", String(size));
 	if (search) params.set("search", search);
-	if (mailTypeId) params.set("mailTypeId", String(mailTypeId));
+	if (mailTypeId && mailTypeId !== "all") {
+		params.set("mailTypeId", String(mailTypeId));
+	}
 	if (sortBy) params.set("sortBy", sortBy);
 	if (sortDir) params.set("sortDir", sortDir);
 

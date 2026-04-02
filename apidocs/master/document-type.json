@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/document-types/{id}": {
 			"get": {
-				"tags": ["document-type-controller"],
+				"tags": [
+					"document-type-controller"
+				],
 				"operationId": "findById_3",
 				"parameters": [
 					{
@@ -49,7 +51,9 @@
 				}
 			},
 			"put": {
-				"tags": ["document-type-controller"],
+				"tags": [
+					"document-type-controller"
+				],
 				"operationId": "update_4",
 				"parameters": [
 					{
@@ -85,7 +89,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["document-type-controller"],
+				"tags": [
+					"document-type-controller"
+				],
 				"operationId": "delete_4",
 				"parameters": [
 					{
@@ -106,7 +112,9 @@
 		},
 		"/api/v1/document-types": {
 			"get": {
-				"tags": ["document-type-controller"],
+				"tags": [
+					"document-type-controller"
+				],
 				"operationId": "findAll_4",
 				"parameters": [
 					{
@@ -166,7 +174,9 @@
 				}
 			},
 			"post": {
-				"tags": ["document-type-controller"],
+				"tags": [
+					"document-type-controller"
+				],
 				"operationId": "create_4",
 				"requestBody": {
 					"content": {
@@ -194,7 +204,9 @@
 		},
 		"/api/v1/document-types/lookup": {
 			"get": {
-				"tags": ["document-type-controller"],
+				"tags": [
+					"document-type-controller"
+				],
 				"operationId": "lookup_2",
 				"responses": {
 					"200": {
@@ -227,7 +239,11 @@
 					},
 					"status": {
 						"type": "string",
-						"enum": ["ACTIVE", "INACTIVE", "DELETED"]
+						"enum": [
+							"ACTIVE",
+							"INACTIVE",
+							"DELETED"
+						]
 					},
 					"publicationCount": {
 						"type": "integer",
@@ -244,7 +260,9 @@
 						"minLength": 0
 					}
 				},
-				"required": ["name"]
+				"required": [
+					"name"
+				]
 			},
 			"PagedModelDocumentTypeResponse": {
 				"type": "object",

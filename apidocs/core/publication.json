@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/publications/{id}": {
 			"get": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "findById",
 				"parameters": [
 					{
@@ -49,7 +51,9 @@
 				}
 			},
 			"put": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "update",
 				"parameters": [
 					{
@@ -75,7 +79,9 @@
 										"format": "binary"
 									}
 								},
-								"required": ["data"]
+								"required": [
+									"data"
+								]
 							}
 						}
 					}
@@ -94,7 +100,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "delete",
 				"parameters": [
 					{
@@ -115,7 +123,9 @@
 		},
 		"/api/v1/publications": {
 			"get": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "list",
 				"parameters": [
 					{
@@ -124,7 +134,11 @@
 						"required": false,
 						"schema": {
 							"type": "string",
-							"enum": ["DRAFT", "PUBLISHED", "DELETED"]
+							"enum": [
+								"DRAFT",
+								"PUBLISHED",
+								"DELETED"
+							]
 						}
 					},
 					{
@@ -211,7 +225,9 @@
 				}
 			},
 			"post": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "create",
 				"requestBody": {
 					"content": {
@@ -227,7 +243,9 @@
 										"format": "binary"
 									}
 								},
-								"required": ["data"]
+								"required": [
+									"data"
+								]
 							}
 						}
 					}
@@ -323,7 +341,10 @@
 						"type": "boolean"
 					}
 				},
-				"required": ["documentTypeId", "title"]
+				"required": [
+					"documentTypeId",
+					"title"
+				]
 			},
 			"PagedResponsePublicationDto": {
 				"type": "object",
@@ -376,7 +397,10 @@
 						"type": "boolean"
 					}
 				},
-				"required": ["documentTypeId", "title"]
+				"required": [
+					"documentTypeId",
+					"title"
+				]
 			},
 			"DocumentTypeDto": {
 				"type": "object",

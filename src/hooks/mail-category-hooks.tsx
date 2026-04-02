@@ -35,7 +35,7 @@ export function useMailCategories(
 	page = 0,
 	size = 20,
 	search?: string,
-	mailTypeId?: number,
+	mailTypeId?: string,
 	sortBy?: string,
 	sortDir?: string,
 ) {
@@ -52,7 +52,7 @@ export function useMailTypeOptions() {
 		queryFn: () => fetchMailTypesLookup(),
 		select: (data) =>
 			data.map((mt: MailTypeMini) => ({
-				value: mt.id,
+				value: String(mt.id),
 				label: mt.name,
 			})),
 	});
@@ -63,7 +63,7 @@ export function useCreateMailCategory(onSuccess?: () => void) {
 	const form = useForm<MailCategoryPayload>({
 		resolver: zodResolver(MailCategorySchema),
 		defaultValues: {
-			mailTypeId: 1,
+			mailTypeId: "",
 			code: "",
 			name: "",
 			sort: 0,
@@ -94,7 +94,7 @@ export function useUpdateMailCategory(onSuccess?: () => void) {
 	const form = useForm<MailCategoryPayload>({
 		resolver: zodResolver(MailCategorySchema),
 		defaultValues: {
-			mailTypeId: undefined,
+			mailTypeId: "",
 			code: "",
 			name: "",
 			sort: undefined,
@@ -115,7 +115,7 @@ export function useUpdateMailCategory(onSuccess?: () => void) {
 	const populate = useCallback(
 		(mc: MailCategoryDto) => {
 			form.reset({
-				mailTypeId: Number(mc.mailType.id),
+				mailTypeId: String(mc.mailType?.id ?? ""),
 				code: mc.code,
 				name: mc.name,
 				sort: mc.sort,
@@ -154,7 +154,7 @@ export function useMailCategoryContent() {
 	const [pageSize, setPageSize] = useState(DEFAULT_SIZE);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [searchValue, setSearchValue] = useState("");
-	const [mailTypeId, setMailTypeId] = useState<number | undefined>();
+	const [mailTypeId, setMailTypeId] = useState<string | undefined>();
 
 	const sortBy = (sorting as any)?.[0]?.id;
 	const sortDir = (sorting as any)?.[0]?.desc ? "desc" : "asc";
@@ -175,8 +175,9 @@ export function useMailCategoryContent() {
 	const [editMc, setEditMc] = useState<string | null>(null);
 	const [deleteMc, setDeleteMc] = useState<MailCategoryDto | null>(null);
 
-	const onMailTypeIdChange = useCallback((id: number | undefined) => {
-		setMailTypeId(id);
+	const onMailTypeIdChange = useCallback((id: string | null | undefined) => {
+		const value = id === "all" || id === null ? undefined : id;
+		setMailTypeId(value);
 		setPage(0);
 	}, []);
 

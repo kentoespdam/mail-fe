@@ -93,15 +93,13 @@ export const MailCategoryContent = memo(() => {
 						filterChildren={
 							<Select
 								value={mailTypeId ? String(mailTypeId) : "all"}
-								onValueChange={(v) =>
-									setMailTypeId(v === "all" ? undefined : Number(v))
-								}
+								onValueChange={setMailTypeId}
 							>
 								<SelectTrigger className="w-[200px]">
 									<SelectValue placeholder="Semua Tipe Surat">
 										{mailTypeId
 											? mailTypeOptions.find(
-													(opt: { value: number; label: string }) =>
+													(opt: { value: string; label: string }) =>
 														opt.value === mailTypeId,
 											  )?.label
 											: "Semua Tipe Surat"}
@@ -109,8 +107,8 @@ export const MailCategoryContent = memo(() => {
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="all">Semua Tipe Surat</SelectItem>
-									{mailTypeOptions.map((opt: { value: number; label: string }) => (
-										<SelectItem key={opt.value} value={String(opt.value)}>
+									{mailTypeOptions.map((opt: { value: string; label: string }) => (
+										<SelectItem key={opt.value} value={opt.value}>
 											{opt.label}
 										</SelectItem>
 									))}
@@ -158,11 +156,15 @@ export const MailCategoryContent = memo(() => {
 				open={createOpen}
 				onOpenChange={setCreateOpen}
 			/>
-			<EditMailCategoryDialog mcId={editMc} onClose={() => setEditMc(null)} />
-			<DeleteMailCategoryDialog
-				mc={deleteMc}
-				onClose={() => setDeleteMc(null)}
-			/>
+			{editMc && (
+				<EditMailCategoryDialog mcId={editMc} onClose={() => setEditMc(null)} />
+			)}
+			{deleteMc && (
+				<DeleteMailCategoryDialog
+					mc={deleteMc}
+					onClose={() => setDeleteMc(null)}
+				/>
+			)}
 		</>
 	);
 });

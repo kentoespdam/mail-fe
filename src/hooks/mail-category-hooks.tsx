@@ -145,6 +145,7 @@ export function useMailCategoryContent() {
 	const [pageSize, setPageSize] = useState(DEFAULT_SIZE);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [searchValue, setSearchValue] = useState("");
+	const [mailTypeId, setMailTypeId] = useState<number | undefined>();
 
 	const sortBy = (sorting as any)?.[0]?.id;
 	const sortDir = (sorting as any)?.[0]?.desc ? "desc" : "asc";
@@ -153,14 +154,27 @@ export function useMailCategoryContent() {
 		page,
 		pageSize,
 		searchValue,
-		undefined,
+		mailTypeId,
 		sortBy,
 		sortDir,
 	);
 
+	const { data: mailTypeOptions = [], isLoading: isLoadingMailTypes } =
+		useMailTypeOptions();
+
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editMc, setEditMc] = useState<MailCategoryDto | null>(null);
 	const [deleteMc, setDeleteMc] = useState<MailCategoryDto | null>(null);
+
+	const onMailTypeIdChange = useCallback((id: number | undefined) => {
+		setMailTypeId(id);
+		setPage(0);
+	}, []);
+
+	const onSearchChange = useCallback((val: string) => {
+		setSearchValue(val);
+		setPage(0);
+	}, []);
 
 	const columns = useMemo<ColumnDef<MailCategoryDto, unknown>[]>(
 		() => [
@@ -248,9 +262,12 @@ export function useMailCategoryContent() {
 		sorting,
 		setSorting,
 		searchValue,
-		setSearchValue,
+		setSearchValue: onSearchChange,
+		mailTypeId,
+		setMailTypeId: onMailTypeIdChange,
+		mailTypeOptions,
 		data,
-		isLoading,
+		isLoading: isLoading || isLoadingMailTypes,
 		columns,
 		mailCategories,
 		createOpen,

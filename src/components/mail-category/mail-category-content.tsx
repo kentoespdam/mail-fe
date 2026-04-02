@@ -12,6 +12,13 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { DataTable, DataTablePagination } from "@/components/ui/data-table";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useMailCategoryContent } from "@/hooks/mail-category-hooks";
 import { DeleteMailCategoryDialog } from "./mail-category-delete-dialog";
 import {
@@ -29,6 +36,9 @@ export const MailCategoryContent = memo(() => {
 		setSorting,
 		searchValue,
 		setSearchValue,
+		mailTypeId,
+		setMailTypeId,
+		mailTypeOptions,
 		data,
 		isLoading,
 		columns,
@@ -80,6 +90,33 @@ export const MailCategoryContent = memo(() => {
 						searchValue={searchValue}
 						onSearchChange={setSearchValue}
 						searchPlaceholder="Cari kategori surat..."
+						filterChildren={
+							<Select
+								value={mailTypeId ? String(mailTypeId) : "all"}
+								onValueChange={(v) =>
+									setMailTypeId(v === "all" ? undefined : Number(v))
+								}
+							>
+								<SelectTrigger className="w-[200px]">
+									<SelectValue placeholder="Semua Tipe Surat">
+										{mailTypeId
+											? mailTypeOptions.find(
+													(opt: { value: number; label: string }) =>
+														opt.value === mailTypeId,
+											  )?.label
+											: "Semua Tipe Surat"}
+									</SelectValue>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="all">Semua Tipe Surat</SelectItem>
+									{mailTypeOptions.map((opt: { value: number; label: string }) => (
+										<SelectItem key={opt.value} value={String(opt.value)}>
+											{opt.label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						}
 						emptyMessage={
 							<div className="flex flex-col items-center justify-center py-16 text-center">
 								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground ring-1 ring-border">

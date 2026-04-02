@@ -101,17 +101,19 @@ export const MailCategoryContent = memo(() => {
 											? mailTypeOptions.find(
 													(opt: { value: string; label: string }) =>
 														opt.value === mailTypeId,
-											  )?.label
+												)?.label
 											: "Semua Tipe Surat"}
 									</SelectValue>
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="all">Semua Tipe Surat</SelectItem>
-									{mailTypeOptions.map((opt: { value: string; label: string }) => (
-										<SelectItem key={opt.value} value={opt.value}>
-											{opt.label}
-										</SelectItem>
-									))}
+									{mailTypeOptions.map(
+										(opt: { value: string; label: string }) => (
+											<SelectItem key={opt.value} value={opt.value}>
+												{opt.label}
+											</SelectItem>
+										),
+									)}
 								</SelectContent>
 							</Select>
 						}

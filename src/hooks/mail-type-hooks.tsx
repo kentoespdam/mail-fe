@@ -17,6 +17,7 @@ import {
 	type MailTypePayload,
 	MailTypeSchema,
 } from "@/types/mail-type";
+import { queryParsers, useQueryStates } from "./use-query-state";
 
 const QUERY_KEY = "mail-types";
 
@@ -96,13 +97,58 @@ export function useUpdateMailType(onSuccess?: () => void) {
 const DEFAULT_SIZE = 20;
 
 export function useMailTypeContent() {
-	const [page, setPage] = useState(0);
-	const [pageSize, setPageSize] = useState(DEFAULT_SIZE);
-	const [sorting, setSorting] = useState<SortingState>([]);
-	const [searchValue, setSearchValue] = useState("");
+	const { searchParams, setStates } = useQueryStates();
 
-	const sortBy = (sorting as any)?.[0]?.id;
-	const sortDir = (sorting as any)?.[0]?.desc ? "desc" : "asc";
+	const page = useMemo(
+		() => queryParsers.number(searchParams.get("page")),
+		[searchParams],
+	);
+	const pageSize = useMemo(
+		() => queryParsers.number(searchParams.get("size")) || DEFAULT_SIZE,
+		[searchParams],
+	);
+	const searchValue = useMemo(
+		() => queryParsers.string(searchParams.get("search")),
+		[searchParams],
+	);
+	const sortBy = useMemo(
+		() => queryParsers.string(searchParams.get("sortBy")),
+		[searchParams],
+	);
+	const sortDir = useMemo(
+		() => queryParsers.string(searchParams.get("sortDir")) || "asc",
+		[searchParams],
+	);
+
+	const sorting = useMemo<SortingState>(
+		() => (sortBy ? [{ id: sortBy, desc: sortDir === "desc" }] : []),
+		[sortBy, sortDir],
+	);
+
+	const setPage = useCallback(
+		(p: number) => setStates({ page: p }),
+		[setStates],
+	);
+	const setPageSize = useCallback(
+		(s: number) => setStates({ size: s, page: 0 }),
+		[setStates],
+	);
+	const setSearchValue = useCallback(
+		(s: string) => setStates({ search: s, page: 0 }),
+		[setStates],
+	);
+	const setSorting = useCallback(
+		(updater: SortingState | ((prev: SortingState) => SortingState)) => {
+			const next = typeof updater === "function" ? updater(sorting) : updater;
+			const item = next[0];
+			setStates({
+				sortBy: item?.id,
+				sortDir: item ? (item.desc ? "desc" : "asc") : undefined,
+				page: 0,
+			});
+		},
+		[setStates, sorting],
+	);
 
 	const { data, isLoading } = useMailTypes(
 		page,

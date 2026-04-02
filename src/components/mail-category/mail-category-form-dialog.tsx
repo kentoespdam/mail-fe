@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
+import InputNumberControll from "@/components/builder/input-number-controll";
 import InputTextControll from "@/components/builder/input-text-controll";
+import SelectControll from "@/components/builder/select-controll";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -12,8 +14,12 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { FieldGroup } from "@/components/ui/field";
-import { useCreateMailType, useUpdateMailType } from "@/hooks/mail-type-hooks";
-import type { MailTypeDto } from "@/types/mail-type";
+import {
+	useCreateMailCategory,
+	useMailTypeOptions,
+	useUpdateMailCategory,
+} from "@/hooks/mail-category-hooks";
+import type { MailCategoryDto } from "@/types/mail-category";
 
 // ─── Create ─────────────────────────────────────────────────────
 interface CreateDialogProps {
@@ -21,28 +27,51 @@ interface CreateDialogProps {
 	onOpenChange: (v: boolean) => void;
 }
 
-export function CreateMailTypeDialog({
+export function CreateMailCategoryDialog({
 	open,
 	onOpenChange,
 }: CreateDialogProps) {
 	const handleClose = useCallback(() => onOpenChange(false), [onOpenChange]);
-	const { form, mutation, onSubmit } = useCreateMailType(handleClose);
+	const { form, mutation, onSubmit } = useCreateMailCategory(handleClose);
+	const { data: mailTypeOptions = [] } = useMailTypeOptions();
+	console.log(mailTypeOptions);
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
-					<DialogTitle>Buat Tipe Surat</DialogTitle>
-					<DialogDescription>Tambah tipe surat baru</DialogDescription>
+					<DialogTitle>Buat Kategori Surat</DialogTitle>
+					<DialogDescription>Tambah kategori surat baru</DialogDescription>
 				</DialogHeader>
-				<form id="create-mt-form" onSubmit={onSubmit}>
+				<form id="create-mc-form" onSubmit={onSubmit}>
 					<FieldGroup>
+						<SelectControll
+							form={form}
+							id="mailTypeId"
+							label="Tipe Surat"
+							placeholder="Pilih tipe surat"
+							options={mailTypeOptions}
+							required
+						/>
+						<InputTextControll
+							form={form}
+							id="code"
+							label="Kode"
+							placeholder="Masukkan kode kategori"
+							required
+						/>
 						<InputTextControll
 							form={form}
 							id="name"
 							label="Nama"
-							placeholder="Masukkan nama tipe surat"
+							placeholder="Masukkan nama kategori"
 							required
+						/>
+						<InputNumberControll
+							form={form}
+							id="sort"
+							label="Urutan"
+							placeholder="Urutan tampil"
 						/>
 					</FieldGroup>
 				</form>
@@ -52,7 +81,7 @@ export function CreateMailTypeDialog({
 					</Button>
 					<Button
 						type="submit"
-						form="create-mt-form"
+						form="create-mc-form"
 						disabled={mutation.isPending}
 					>
 						{mutation.isPending ? "Menyimpan…" : "Simpan"}
@@ -65,16 +94,17 @@ export function CreateMailTypeDialog({
 
 // ─── Edit ───────────────────────────────────────────────────────
 interface EditDialogProps {
-	mt: MailTypeDto | null;
+	mc: MailCategoryDto | null;
 	onClose: () => void;
 }
 
-export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
-	const { form, mutation, populate, onSubmit } = useUpdateMailType(onClose);
+export function EditMailCategoryDialog({ mc, onClose }: EditDialogProps) {
+	const { form, mutation, populate, onSubmit } = useUpdateMailCategory(onClose);
+	const { data: mailTypeOptions = [] } = useMailTypeOptions();
 
 	useEffect(() => {
-		if (mt) populate(mt);
-	}, [mt, populate]);
+		if (mc) populate(mc);
+	}, [mc, populate]);
 
 	const handleOpenChange = useCallback(
 		(v: boolean) => {
@@ -86,27 +116,48 @@ export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
 			e.preventDefault();
-			if (mt) onSubmit(mt.id);
+			if (mc) onSubmit(mc.id);
 		},
-		[mt, onSubmit],
+		[mc, onSubmit],
 	);
 
 	return (
-		<Dialog open={!!mt} onOpenChange={handleOpenChange}>
+		<Dialog open={!!mc} onOpenChange={handleOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
-					<DialogTitle>Edit Tipe Surat</DialogTitle>
-					<DialogDescription>Perbarui tipe surat</DialogDescription>
+					<DialogTitle>Edit Kategori Surat</DialogTitle>
+					<DialogDescription>Perbarui kategori surat</DialogDescription>
 				</DialogHeader>
-				{mt && (
-					<form id="edit-mt-form" onSubmit={handleSubmit}>
+				{mc && (
+					<form id="edit-mc-form" onSubmit={handleSubmit}>
 						<FieldGroup>
+							<SelectControll
+								form={form}
+								id="mailTypeId"
+								label="Tipe Surat"
+								placeholder="Pilih tipe surat"
+								options={mailTypeOptions}
+								required
+							/>
+							<InputTextControll
+								form={form}
+								id="code"
+								label="Kode"
+								placeholder="Masukkan kode kategori"
+								required
+							/>
 							<InputTextControll
 								form={form}
 								id="name"
 								label="Nama"
-								placeholder="Masukkan nama tipe surat"
+								placeholder="Masukkan nama kategori"
 								required
+							/>
+							<InputNumberControll
+								form={form}
+								id="sort"
+								label="Urutan"
+								placeholder="Urutan tampil"
 							/>
 						</FieldGroup>
 					</form>
@@ -117,7 +168,7 @@ export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
 					</Button>
 					<Button
 						type="submit"
-						form="edit-mt-form"
+						form="edit-mc-form"
 						disabled={mutation.isPending}
 					>
 						{mutation.isPending ? "Menyimpan…" : "Simpan"}

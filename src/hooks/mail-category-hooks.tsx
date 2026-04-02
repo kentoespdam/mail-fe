@@ -7,43 +7,64 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
-	createMailType,
-	deleteMailType,
-	fetchMailTypes,
-	updateMailType,
-} from "@/lib/mail-type-api";
+	createMailCategory,
+	deleteMailCategory,
+	fetchMailCategories,
+	updateMailCategory,
+} from "@/lib/mail-category-api";
+import { fetchMailTypesLookup } from "@/lib/mail-type-api";
 import {
-	type MailTypeDto,
-	type MailTypePayload,
-	MailTypeSchema,
-} from "@/types/mail-type";
+	type MailCategoryDto,
+	type MailCategoryPayload,
+	MailCategorySchema,
+	type MailTypeMini,
+} from "@/types/mail-category";
 
-const QUERY_KEY = "mail-types";
+const QUERY_KEY = "mail-categories";
 
-export function useMailTypes(
+export function useMailCategories(
 	page = 0,
 	size = 20,
 	search?: string,
+	mailTypeId?: number,
 	sortBy?: string,
 	sortDir?: string,
 ) {
 	return useQuery({
-		queryKey: [QUERY_KEY, page, size, search, sortBy, sortDir],
-		queryFn: () => fetchMailTypes(page, size, search, sortBy, sortDir),
+		queryKey: [QUERY_KEY, page, size, search, mailTypeId, sortBy, sortDir],
+		queryFn: () =>
+			fetchMailCategories(page, size, search, mailTypeId, sortBy, sortDir),
 	});
 }
 
-export function useCreateMailType(onSuccess?: () => void) {
+export function useMailTypeOptions() {
+	return useQuery({
+		queryKey: ["mail-types-lookup"],
+		queryFn: () => fetchMailTypesLookup(),
+		select: (data) =>
+			data.map((mt: MailTypeMini) => ({
+				value: mt.id,
+				label: mt.name,
+			})),
+	});
+}
+
+export function useCreateMailCategory(onSuccess?: () => void) {
 	const qc = useQueryClient();
-	const form = useForm<MailTypePayload>({
-		resolver: zodResolver(MailTypeSchema),
-		defaultValues: { name: "" },
+	const form = useForm<MailCategoryPayload>({
+		resolver: zodResolver(MailCategorySchema),
+		defaultValues: {
+			mailTypeId: undefined,
+			code: "",
+			name: "",
+			sort: undefined,
+		},
 	});
 
 	const mutation = useMutation({
-		mutationFn: (data: MailTypePayload) => createMailType(data),
+		mutationFn: (data: MailCategoryPayload) => createMailCategory(data),
 		onSuccess: () => {
-			toast.success("Tipe surat berhasil dibuat");
+			toast.success("Kategori surat berhasil dibuat");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			form.reset();
 			onSuccess?.();
@@ -59,18 +80,23 @@ export function useCreateMailType(onSuccess?: () => void) {
 	return { form, mutation, onSubmit };
 }
 
-export function useUpdateMailType(onSuccess?: () => void) {
+export function useUpdateMailCategory(onSuccess?: () => void) {
 	const qc = useQueryClient();
-	const form = useForm<MailTypePayload>({
-		resolver: zodResolver(MailTypeSchema),
-		defaultValues: { name: "" },
+	const form = useForm<MailCategoryPayload>({
+		resolver: zodResolver(MailCategorySchema),
+		defaultValues: {
+			mailTypeId: undefined,
+			code: "",
+			name: "",
+			sort: undefined,
+		},
 	});
 
 	const mutation = useMutation({
-		mutationFn: ({ id, data }: { id: string; data: MailTypePayload }) =>
-			updateMailType(id, data),
+		mutationFn: ({ id, data }: { id: string; data: MailCategoryPayload }) =>
+			updateMailCategory(id, data),
 		onSuccess: () => {
-			toast.success("Tipe surat berhasil diperbarui");
+			toast.success("Kategori surat berhasil diperbarui");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},
@@ -78,8 +104,13 @@ export function useUpdateMailType(onSuccess?: () => void) {
 	});
 
 	const populate = useCallback(
-		(mt: MailTypeDto) => {
-			form.reset({ name: mt.name });
+		(mc: MailCategoryDto) => {
+			form.reset({
+				mailTypeId: Number(mc.mailType.id),
+				code: mc.code,
+				name: mc.name,
+				sort: mc.sort,
+			});
 		},
 		[form],
 	);
@@ -93,9 +124,23 @@ export function useUpdateMailType(onSuccess?: () => void) {
 	return { form, mutation, populate, onSubmit };
 }
 
+export function useDeleteMailCategory(onSuccess?: () => void) {
+	const qc = useQueryClient();
+
+	return useMutation({
+		mutationFn: (id: string) => deleteMailCategory(id),
+		onSuccess: () => {
+			toast.success("Kategori surat berhasil dihapus");
+			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
+			onSuccess?.();
+		},
+		onError: (err) => toast.error(err.message),
+	});
+}
+
 const DEFAULT_SIZE = 20;
 
-export function useMailTypeContent() {
+export function useMailCategoryContent() {
 	const [page, setPage] = useState(0);
 	const [pageSize, setPageSize] = useState(DEFAULT_SIZE);
 	const [sorting, setSorting] = useState<SortingState>([]);
@@ -104,19 +149,20 @@ export function useMailTypeContent() {
 	const sortBy = (sorting as any)?.[0]?.id;
 	const sortDir = (sorting as any)?.[0]?.desc ? "desc" : "asc";
 
-	const { data, isLoading } = useMailTypes(
+	const { data, isLoading } = useMailCategories(
 		page,
 		pageSize,
 		searchValue,
+		undefined,
 		sortBy,
 		sortDir,
 	);
 
 	const [createOpen, setCreateOpen] = useState(false);
-	const [editMt, setEditMt] = useState<MailTypeDto | null>(null);
-	const [deleteMt, setDeleteMt] = useState<MailTypeDto | null>(null);
+	const [editMc, setEditMc] = useState<MailCategoryDto | null>(null);
+	const [deleteMc, setDeleteMc] = useState<MailCategoryDto | null>(null);
 
-	const columns = useMemo<ColumnDef<MailTypeDto, unknown>[]>(
+	const columns = useMemo<ColumnDef<MailCategoryDto, unknown>[]>(
 		() => [
 			{
 				id: "index",
@@ -130,6 +176,16 @@ export function useMailTypeContent() {
 				enableHiding: false,
 			},
 			{
+				accessorKey: "code",
+				header: "Kode",
+				cell: ({ row }) => (
+					<span className="text-sm font-mono text-foreground">
+						{row.original.code}
+					</span>
+				),
+				size: 120,
+			},
+			{
 				accessorKey: "name",
 				header: "Nama",
 				cell: ({ row }) => (
@@ -138,27 +194,27 @@ export function useMailTypeContent() {
 				minSize: 200,
 			},
 			{
-				accessorKey: "categoryCount",
-				header: "Jumlah Kategori",
+				accessorKey: "mailType.name",
+				header: "Tipe Surat",
 				cell: ({ row }) => (
 					<span className="text-sm text-muted-foreground">
-						{row.original.categoryCount}
+						{row.original.mailType?.name ?? "-"}
 					</span>
 				),
-				size: 140,
+				size: 160,
 			},
 			{
 				id: "actions",
 				header: () => <span className="sr-only">Aksi</span>,
 				cell: ({ row }) => {
-					const mt = row.original;
+					const mc = row.original;
 					return (
 						<div className="flex justify-end gap-1">
 							<Button
 								variant="ghost"
 								size="icon-sm"
-								onClick={() => setEditMt(mt)}
-								title="Edit tipe surat"
+								onClick={() => setEditMc(mc)}
+								title="Edit kategori surat"
 								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
 							>
 								<IconPencil className="size-4" />
@@ -166,8 +222,8 @@ export function useMailTypeContent() {
 							<Button
 								variant="ghost"
 								size="icon-sm"
-								onClick={() => setDeleteMt(mt)}
-								title="Hapus tipe surat"
+								onClick={() => setDeleteMc(mc)}
+								title="Hapus kategori surat"
 								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
 							>
 								<IconTrash className="size-4" />
@@ -182,7 +238,7 @@ export function useMailTypeContent() {
 		[page, pageSize],
 	);
 
-	const mailTypes = useMemo(() => data?.content ?? [], [data?.content]);
+	const mailCategories = useMemo(() => data?.content ?? [], [data?.content]);
 
 	return {
 		page,
@@ -196,26 +252,12 @@ export function useMailTypeContent() {
 		data,
 		isLoading,
 		columns,
-		mailTypes,
+		mailCategories,
 		createOpen,
 		setCreateOpen,
-		editMt,
-		setEditMt,
-		deleteMt,
-		setDeleteMt,
+		editMc,
+		setEditMc,
+		deleteMc,
+		setDeleteMc,
 	};
-}
-
-export function useDeleteMailType(onSuccess?: () => void) {
-	const qc = useQueryClient();
-
-	return useMutation({
-		mutationFn: (id: string) => deleteMailType(id),
-		onSuccess: () => {
-			toast.success("Tipe surat berhasil dihapus");
-			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
-			onSuccess?.();
-		},
-		onError: (err) => toast.error(err.message),
-	});
 }

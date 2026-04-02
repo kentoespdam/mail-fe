@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/mail-categories/{id}": {
 			"get": {
-				"tags": [
-					"mail-category-controller"
-				],
+				"tags": ["mail-category-controller"],
 				"operationId": "findById_2",
 				"parameters": [
 					{
@@ -51,9 +49,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"mail-category-controller"
-				],
+				"tags": ["mail-category-controller"],
 				"operationId": "update_2",
 				"parameters": [
 					{
@@ -89,9 +85,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"mail-category-controller"
-				],
+				"tags": ["mail-category-controller"],
 				"operationId": "delete_2",
 				"parameters": [
 					{
@@ -112,9 +106,7 @@
 		},
 		"/api/v1/mail-categories": {
 			"get": {
-				"tags": [
-					"mail-category-controller"
-				],
+				"tags": ["mail-category-controller"],
 				"operationId": "findAll_2",
 				"parameters": [
 					{
@@ -131,7 +123,7 @@
 						"required": false,
 						"schema": {
 							"type": "integer",
-							"format": "int32"
+							"format": "int64"
 						}
 					},
 					{
@@ -183,9 +175,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"mail-category-controller"
-				],
+				"tags": ["mail-category-controller"],
 				"operationId": "create_2",
 				"requestBody": {
 					"content": {
@@ -220,11 +210,8 @@
 					"id": {
 						"type": "string"
 					},
-					"mailTypeSqid": {
-						"type": "string"
-					},
-					"mailTypeName": {
-						"type": "string"
+					"mailType": {
+						"$ref": "#/components/schemas/MailTypeMiniResponse"
 					},
 					"code": {
 						"type": "string"
@@ -266,11 +253,7 @@
 						"format": "int32"
 					}
 				},
-				"required": [
-					"code",
-					"mailTypeId",
-					"name"
-				]
+				"required": ["code", "mailTypeId", "name"]
 			},
 			"PagedModelMailCategoryResponse": {
 				"type": "object",
@@ -283,6 +266,17 @@
 					},
 					"page": {
 						"$ref": "#/components/schemas/PageMetadata"
+					}
+				}
+			},
+			"MailTypeMiniResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
 					}
 				}
 			},

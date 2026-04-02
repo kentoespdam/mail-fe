@@ -25,6 +25,10 @@ export const QuickMessageContent = memo(() => {
 		setPage,
 		pageSize,
 		setPageSize,
+		sorting,
+		setSorting,
+		searchValue,
+		setSearchValue,
 		data,
 		isLoading,
 		columns,
@@ -71,6 +75,11 @@ export const QuickMessageContent = memo(() => {
 						columns={columns}
 						data={messages}
 						isLoading={isLoading}
+						sorting={sorting}
+						onSortingChange={setSorting}
+						searchValue={searchValue}
+						onSearchChange={setSearchValue}
+						searchPlaceholder="Cari pesan singkat..."
 						emptyMessage={
 							<div className="flex flex-col items-center justify-center py-16 text-center">
 								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground ring-1 ring-border">

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -20,10 +20,16 @@ import {
 
 const QUERY_KEY = "quick-messages";
 
-export function useQuickMessages(page = 0, size = 20) {
+export function useQuickMessages(
+	page = 0,
+	size = 20,
+	search?: string,
+	sortBy?: string,
+	sortDir?: string,
+) {
 	return useQuery({
-		queryKey: [QUERY_KEY, page, size],
-		queryFn: () => fetchQuickMessages(page, size),
+		queryKey: [QUERY_KEY, page, size, search, sortBy, sortDir],
+		queryFn: () => fetchQuickMessages(page, size, search, sortBy, sortDir),
 	});
 }
 
@@ -92,7 +98,19 @@ const DEFAULT_SIZE = 20;
 export function useQuickMessageContent() {
 	const [page, setPage] = useState(0);
 	const [pageSize, setPageSize] = useState(DEFAULT_SIZE);
-	const { data, isLoading } = useQuickMessages(page, pageSize);
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [searchValue, setSearchValue] = useState("");
+
+	const sortBy = (sorting as any)?.[0]?.id;
+	const sortDir = (sorting as any)?.[0]?.desc ? "desc" : "asc";
+
+	const { data, isLoading } = useQuickMessages(
+		page,
+		pageSize,
+		searchValue,
+		sortBy,
+		sortDir,
+	);
 
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editQm, setEditQm] = useState<QuickMessageDto | null>(null);
@@ -167,6 +185,10 @@ export function useQuickMessageContent() {
 		setPage,
 		pageSize,
 		setPageSize,
+		sorting,
+		setSorting,
+		searchValue,
+		setSearchValue,
 		data,
 		isLoading,
 		columns,

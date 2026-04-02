@@ -92,7 +92,7 @@ const MenuAplikasi = memo(() => (
 							<IconListLetters />
 							Tipe Surat
 						</MenubarItem>
-						<MenubarItem render={<Link href="#" />}>
+						<MenubarItem render={<Link href="/master/kategori-surat" />}>
 							<IconCategory />
 							Kategori Surat
 						</MenubarItem>

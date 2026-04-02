@@ -44,8 +44,7 @@ export function DeleteConfirmDialog({
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>
-						{description ??
-							"Tindakan ini tidak dapat dibatalkan."}
+						{description ?? "Tindakan ini tidak dapat dibatalkan."}
 					</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-2">

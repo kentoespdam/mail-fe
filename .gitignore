@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+dummy_prompt.md
+issue.md
 
 # next.js
 /.next/

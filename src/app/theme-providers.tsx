@@ -1,5 +1,6 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { useState } from "react";
@@ -27,6 +28,7 @@ const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
 			>
 				{children}
 			</ThemeProvider>
+			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
 };

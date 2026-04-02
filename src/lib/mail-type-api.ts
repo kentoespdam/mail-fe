@@ -10,16 +10,27 @@ export async function fetchMailTypes(
 	page = 0,
 	size = 20,
 	search?: string,
+	sortBy?: string,
+	sortDir?: string,
 ): Promise<PageMailType> {
 	const params = new URLSearchParams();
 	params.set("page", String(page));
 	params.set("size", String(size));
 	if (search) params.set("search", search);
+	if (sortBy) params.set("sortBy", sortBy);
+	if (sortDir) params.set("sortDir", sortDir);
 
 	const res = await fetch(`${BASE}?${params}`);
 	if (!res.ok) throw new Error("Gagal memuat data tipe surat");
 	return res.json();
 }
+
+export const fetchMailTypesLookup = async () => {
+	const res = await fetch(`${BASE}/lookup`);
+	if (!res.ok) throw new Error("Gagal memuat data tipe surat");
+	const result = await res.json();
+	return result;
+};
 
 export async function fetchMailType(id: string): Promise<MailTypeDto> {
 	const res = await fetch(`${BASE}/${id}`);

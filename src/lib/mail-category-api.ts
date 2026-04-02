@@ -1,39 +1,41 @@
 import type {
-	PageQuickMessage,
-	QuickMessageDto,
-	QuickMessagePayload,
-} from "@/types/quick-message";
+	MailCategoryDto,
+	MailCategoryPayload,
+	PageMailCategory,
+} from "@/types/mail-category";
 
-const BASE = "/api/proxy/v1/quick-messages";
+const BASE = "/api/proxy/v1/mail-categories";
 
-export async function fetchQuickMessages(
+export async function fetchMailCategories(
 	page = 0,
 	size = 20,
 	search?: string,
+	mailTypeId?: number,
 	sortBy?: string,
 	sortDir?: string,
-): Promise<PageQuickMessage> {
+): Promise<PageMailCategory> {
 	const params = new URLSearchParams();
 	params.set("page", String(page));
 	params.set("size", String(size));
 	if (search) params.set("search", search);
+	if (mailTypeId) params.set("mailTypeId", String(mailTypeId));
 	if (sortBy) params.set("sortBy", sortBy);
 	if (sortDir) params.set("sortDir", sortDir);
 
 	const res = await fetch(`${BASE}?${params}`);
-	if (!res.ok) throw new Error("Gagal memuat data pesan singkat");
+	if (!res.ok) throw new Error("Gagal memuat data kategori surat");
 	return res.json();
 }
 
-export async function fetchQuickMessage(id: string): Promise<QuickMessageDto> {
+export async function fetchMailCategory(id: string): Promise<MailCategoryDto> {
 	const res = await fetch(`${BASE}/${id}`);
-	if (!res.ok) throw new Error("Gagal memuat detail pesan singkat");
+	if (!res.ok) throw new Error("Gagal memuat detail kategori surat");
 	return res.json();
 }
 
-export async function createQuickMessage(
-	data: QuickMessagePayload,
-): Promise<QuickMessageDto> {
+export async function createMailCategory(
+	data: MailCategoryPayload,
+): Promise<MailCategoryDto> {
 	const res = await fetch(BASE, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -41,15 +43,15 @@ export async function createQuickMessage(
 	});
 	if (!res.ok) {
 		const err = await res.json().catch(() => null);
-		throw new Error(err?.detail ?? "Gagal membuat pesan singkat");
+		throw new Error(err?.detail ?? "Gagal membuat kategori surat");
 	}
 	return res.json();
 }
 
-export async function updateQuickMessage(
+export async function updateMailCategory(
 	id: string,
-	data: QuickMessagePayload,
-): Promise<QuickMessageDto> {
+	data: MailCategoryPayload,
+): Promise<MailCategoryDto> {
 	const res = await fetch(`${BASE}/${id}`, {
 		method: "PUT",
 		headers: { "Content-Type": "application/json" },
@@ -57,12 +59,12 @@ export async function updateQuickMessage(
 	});
 	if (!res.ok) {
 		const err = await res.json().catch(() => null);
-		throw new Error(err?.detail ?? "Gagal memperbarui pesan singkat");
+		throw new Error(err?.detail ?? "Gagal memperbarui kategori surat");
 	}
 	return res.json();
 }
 
-export async function deleteQuickMessage(id: string): Promise<void> {
+export async function deleteMailCategory(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
-	if (!res.ok) throw new Error("Gagal menghapus pesan singkat");
+	if (!res.ok) throw new Error("Gagal menghapus kategori surat");
 }

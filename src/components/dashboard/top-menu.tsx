@@ -25,21 +25,45 @@ import {
 	MenubarSubTrigger,
 	MenubarTrigger,
 } from "@/components/ui/menubar";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const MenuAplikasi = memo(() => (
 	<MenubarMenu>
-		<MenubarTrigger className="flex gap-1">
-			<IconLayoutDashboard className="h-4 w-4" />
-			<span>Menu Aplikasi</span>
-		</MenubarTrigger>
+		<Tooltip>
+			<TooltipTrigger
+				render={
+					<MenubarTrigger
+						className="flex items-center gap-2 px-2 py-1.5 transition-colors hover:bg-accent/50 data-active:bg-accent cursor-pointer"
+						aria-label="Menu Aplikasi"
+					>
+						<IconLayoutDashboard
+							className="size-5 lg:size-4 text-muted-foreground"
+							aria-hidden="true"
+						/>
+						<span className="hidden lg:inline">Menu Aplikasi</span>
+					</MenubarTrigger>
+				}
+			/>
+			<TooltipContent side="bottom">Menu Aplikasi</TooltipContent>
+		</Tooltip>
 		<MenubarContent className="w-fit">
 			<MenubarGroup>
 				<MenubarItem render={<Link href="/dashboard" />}>
-					<IconChartHistogram />
+					<IconChartHistogram
+						className="size-4 text-muted-foreground"
+						aria-hidden="true"
+					/>
 					Dashboard
 				</MenubarItem>
 				<MenubarItem render={<Link href="/persuratan" />}>
-					<IconMail />
+					<IconMail
+						className="size-4 text-muted-foreground"
+						aria-hidden="true"
+					/>
 					Persuratan
 				</MenubarItem>
 			</MenubarGroup>
@@ -47,20 +71,32 @@ const MenuAplikasi = memo(() => (
 			<MenubarGroup>
 				<MenubarSub>
 					<MenubarSubTrigger>
-						<IconArchive />
+						<IconArchive
+							className="size-4 text-muted-foreground"
+							aria-hidden="true"
+						/>
 						Arsip Surat
 					</MenubarSubTrigger>
 					<MenubarSubContent>
 						<MenubarItem render={<Link href="#" />}>
-							<IconFileSettings />
+							<IconFileSettings
+								className="size-4 text-muted-foreground"
+								aria-hidden="true"
+							/>
 							Administrasi Persuratan
 						</MenubarItem>
 						<MenubarItem render={<Link href="#" />}>
-							<IconFileSearch />
+							<IconFileSearch
+								className="size-4 text-muted-foreground"
+								aria-hidden="true"
+							/>
 							Pencarian Surat
 						</MenubarItem>
 						<MenubarItem render={<Link href="#" />}>
-							<IconFileDescription />
+							<IconFileDescription
+								className="size-4 text-muted-foreground"
+								aria-hidden="true"
+							/>
 							Laporan Administrasi Surat
 						</MenubarItem>
 					</MenubarSubContent>
@@ -69,14 +105,20 @@ const MenuAplikasi = memo(() => (
 			<MenubarSeparator />
 			<MenubarGroup>
 				<MenubarItem render={<Link href="/publikasi" />}>
-					<IconBroadcast />
+					<IconBroadcast
+						className="size-4 text-muted-foreground"
+						aria-hidden="true"
+					/>
 					Publikasi Dokumen
 				</MenubarItem>
 			</MenubarGroup>
 			<MenubarSeparator />
 			<MenubarGroup>
 				<MenubarItem render={<Link href="/master/tipe-surat" />}>
-					<IconSettings2 />
+					<IconSettings2
+						className="size-4 text-muted-foreground"
+						aria-hidden="true"
+					/>
 					Master Mail
 				</MenubarItem>
 			</MenubarGroup>

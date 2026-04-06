@@ -16,8 +16,13 @@ export const ThemeToggle = memo(() => {
 
 	if (!mounted) {
 		return (
-			<Button variant="ghost" size="icon" className="h-8 w-8">
-				<IconSun className="h-4 w-4" />
+			<Button
+				variant="ghost"
+				size="icon"
+				className="h-8 w-8"
+				aria-label="Ganti Tema"
+			>
+				<IconSun className="size-4" aria-hidden="true" />
 			</Button>
 		);
 	}
@@ -34,11 +39,12 @@ export const ThemeToggle = memo(() => {
 			className="h-8 w-8"
 			onClick={toggleTheme}
 			title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+			aria-label="Ganti Tema"
 		>
 			{resolvedTheme === "dark" ? (
-				<IconSun className="h-4 w-4 transition-transform" />
+				<IconSun className="size-4 transition-transform" aria-hidden="true" />
 			) : (
-				<IconMoon className="h-4 w-4 transition-transform" />
+				<IconMoon className="size-4 transition-transform" aria-hidden="true" />
 			)}
 		</Button>
 	);

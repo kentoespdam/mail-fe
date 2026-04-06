@@ -131,7 +131,10 @@ function DataTableComponent<TData, TValue>({
 				<div className="flex flex-1 flex-wrap items-center gap-2">
 					{onSearchChange && (
 						<div className="relative w-full max-w-sm">
-							<IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+							<IconSearch
+								className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none"
+								aria-hidden="true"
+							/>
 							<Input
 								placeholder={searchPlaceholder}
 								value={localSearch}
@@ -145,7 +148,7 @@ function DataTableComponent<TData, TValue>({
 									className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground hover:text-foreground"
 									onClick={handleClearSearch}
 								>
-									<IconX className="h-4 w-4" />
+									<IconX className="size-4" aria-hidden="true" />
 								</Button>
 							)}
 						</div>
@@ -172,13 +175,28 @@ function DataTableComponent<TData, TValue>({
 									return (
 										<TableHead key={header.id} className="whitespace-nowrap">
 											{header.isPlaceholder ? null : (
+												// biome-ignore lint/a11y/useKeyWithClickEvents: handled conditionally
+												// biome-ignore lint/a11y/noStaticElementInteractions: handled conditionally
 												<div
 													className={
 														isSortable
 															? "flex cursor-pointer select-none items-center gap-2 hover:text-foreground transition-colors group"
 															: ""
 													}
+													role={isSortable ? "button" : undefined}
+													tabIndex={isSortable ? 0 : undefined}
 													onClick={header.column.getToggleSortingHandler()}
+													onKeyDown={(e) => {
+														if (
+															isSortable &&
+															(e.key === "Enter" || e.key === " ")
+														) {
+															// biome-ignore lint/suspicious/noExplicitAny: event type flexibility
+															header.column.getToggleSortingHandler()?.(
+																e as any,
+															);
+														}
+													}}
 												>
 													{flexRender(
 														header.column.columnDef.header,
@@ -186,11 +204,20 @@ function DataTableComponent<TData, TValue>({
 													)}
 													{isSortable &&
 														(header.column.getIsSorted() === "asc" ? (
-															<IconSortAscending className="h-4 w-4 text-primary" />
+															<IconSortAscending
+																className="size-4 text-primary"
+																aria-hidden="true"
+															/>
 														) : header.column.getIsSorted() === "desc" ? (
-															<IconSortDescending className="h-4 w-4 text-primary" />
+															<IconSortDescending
+																className="size-4 text-primary"
+																aria-hidden="true"
+															/>
 														) : (
-															<IconSelector className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+															<IconSelector
+																className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+																aria-hidden="true"
+															/>
 														))}
 												</div>
 											)}
@@ -202,10 +229,11 @@ function DataTableComponent<TData, TValue>({
 					</TableHeader>
 					<TableBody>
 						{isLoading ? (
-							// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton rows are static placeholders
 							Array.from({ length: 5 }).map((_, rowIndex) => (
+								// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton rows are static placeholders
 								<TableRow key={`skeleton-row-${rowIndex}`}>
-									{columns.map((col, colIndex) => (
+									{columns.map((_col, colIndex) => (
+										// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton columns are static placeholders
 										<TableCell key={`skeleton-${colIndex}`}>
 											<Skeleton
 												className={`h-4 ${colIndex === 0 ? "w-8" : "w-32"}`}
@@ -330,7 +358,7 @@ function DataTablePaginationComponent(props: DataTablePaginationProps) {
 							onClick={() => onPageChange(0)}
 							title="Halaman pertama"
 						>
-							<IconChevronsLeft />
+							<IconChevronsLeft className="size-4" aria-hidden="true" />
 						</Button>
 						<Button
 							variant="outline"
@@ -339,7 +367,7 @@ function DataTablePaginationComponent(props: DataTablePaginationProps) {
 							onClick={() => onPageChange(page - 1)}
 							title="Sebelumnya"
 						>
-							<IconChevronLeft />
+							<IconChevronLeft className="size-4" aria-hidden="true" />
 						</Button>
 						<Button
 							variant="outline"
@@ -348,7 +376,7 @@ function DataTablePaginationComponent(props: DataTablePaginationProps) {
 							onClick={() => onPageChange(page + 1)}
 							title="Berikutnya"
 						>
-							<IconChevronRight />
+							<IconChevronRight className="size-4" aria-hidden="true" />
 						</Button>
 						<Button
 							variant="outline"
@@ -357,7 +385,7 @@ function DataTablePaginationComponent(props: DataTablePaginationProps) {
 							onClick={() => onPageChange(pageCount - 1)}
 							title="Halaman terakhir"
 						>
-							<IconChevronsRight />
+							<IconChevronsRight className="size-4" aria-hidden="true" />
 						</Button>
 					</div>
 				</div>

@@ -64,7 +64,10 @@ export const PublicationContent = memo(() => {
 						<div className="flex items-center gap-4">
 							<div className="space-y-1">
 								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
-									<IconSearch className="text-muted-foreground" />
+									<IconSearch
+										className="size-4 text-muted-foreground"
+										aria-hidden="true"
+									/>
 									<span>Publikasi Dokumen</span>
 								</CardTitle>
 								<CardDescription className="leading-relaxed">
@@ -78,7 +81,7 @@ export const PublicationContent = memo(() => {
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
-								<IconPlus className="h-4 w-4" />
+								<IconPlus className="size-4" aria-hidden="true" />
 								Tambah Dokumen
 							</Button>
 						</CardAction>
@@ -96,7 +99,7 @@ export const PublicationContent = memo(() => {
 								className="w-56"
 							/>
 							<Button variant="outline" size="icon" onClick={handleSearch}>
-								<IconSearch />
+								<IconSearch className="size-4" aria-hidden="true" />
 							</Button>
 						</div>
 						<div className="flex gap-1">

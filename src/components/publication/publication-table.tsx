@@ -104,7 +104,7 @@ export const PublicationTable = memo(
 							<TableCell>
 								{pub.fileName ? (
 									<span className="flex items-center gap-1">
-										<IconFile className="size-3.5" />
+										<IconFile className="size-3.5" aria-hidden="true" />
 										<span className="max-w-24 truncate">{pub.fileName}</span>
 										<span className="text-muted-foreground">
 											({formatFileSize(pub.fileSize)})
@@ -122,16 +122,18 @@ export const PublicationTable = memo(
 										size="icon-xs"
 										onClick={() => onEdit(pub)}
 										title="Edit"
+										className="text-primary hover:bg-primary/10 hover:text-primary"
 									>
-										<IconPencil />
+										<IconPencil className="size-4" aria-hidden="true" />
 									</Button>
 									<Button
 										variant="ghost"
 										size="icon-xs"
 										onClick={() => onDelete(pub)}
 										title="Hapus"
+										className="text-destructive hover:bg-destructive/10 hover:text-destructive"
 									>
-										<IconTrash className="text-destructive" />
+										<IconTrash className="size-4" aria-hidden="true" />
 									</Button>
 								</div>
 							</TableCell>

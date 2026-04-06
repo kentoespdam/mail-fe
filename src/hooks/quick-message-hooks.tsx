@@ -5,7 +5,6 @@ import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
@@ -210,16 +209,16 @@ export function useQuickMessageContent() {
 									tooltip="Duplikat pesan"
 									className="h-8 w-8 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
 								>
-									<IconCopy className="size-4" />
+									<IconCopy className="size-4" aria-hidden="true" />
 								</TooltipButton>
 								<TooltipButton
 									variant="ghost"
 									size="icon-sm"
 									onClick={() => setEditQm(qm)}
 									tooltip="Edit pesan"
-									className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
+									className="h-8 w-8 text-primary hover:bg-primary/10 hover:text-primary"
 								>
-									<IconPencil className="size-4" />
+									<IconPencil className="size-4" aria-hidden="true" />
 								</TooltipButton>
 								<TooltipButton
 									variant="ghost"
@@ -228,7 +227,7 @@ export function useQuickMessageContent() {
 									tooltip="Hapus pesan"
 									className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
 								>
-									<IconTrash className="size-4" />
+									<IconTrash className="size-4" aria-hidden="true" />
 								</TooltipButton>
 							</div>
 						</TooltipProvider>

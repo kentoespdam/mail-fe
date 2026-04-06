@@ -2,7 +2,6 @@
 
 import { IconMessage, IconPlus, IconTemplate } from "@tabler/icons-react";
 import { memo } from "react";
-import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	Card,
 	CardAction,
@@ -12,6 +11,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { DataTable, DataTablePagination } from "@/components/ui/data-table";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import { useQuickMessageContent } from "@/hooks/quick-message-hooks";
 import { DeleteQuickMessageDialog } from "./quick-message-delete-dialog";
 import {
@@ -51,7 +51,10 @@ export const QuickMessageContent = memo(() => {
 						<div className="flex items-center gap-4">
 							<div className="space-y-1">
 								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
-									<IconTemplate className="text-muted-foreground" />
+									<IconTemplate
+										className="size-4 text-muted-foreground"
+										aria-hidden="true"
+									/>
 									<span>Pesan Singkat</span>
 								</CardTitle>
 								<CardDescription className="leading-relaxed">
@@ -69,7 +72,7 @@ export const QuickMessageContent = memo(() => {
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
-								<IconPlus className="h-4 w-4" />
+								<IconPlus className="size-4" aria-hidden="true" />
 								Tambah Pesan
 							</TooltipButton>
 						</CardAction>
@@ -89,7 +92,10 @@ export const QuickMessageContent = memo(() => {
 						emptyMessage={
 							<div className="flex flex-col items-center justify-center py-16 text-center">
 								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground ring-1 ring-border">
-									<IconMessage className="h-10 w-10 opacity-60" />
+									<IconMessage
+										className="size-10 text-muted-foreground/40"
+										aria-hidden="true"
+									/>
 								</div>
 								<h3 className="text-base font-semibold text-foreground">
 									Belum ada pesan singkat
@@ -107,7 +113,7 @@ export const QuickMessageContent = memo(() => {
 										setCreateOpen(true);
 									}}
 								>
-									<IconPlus className="h-4 w-4" />
+									<IconPlus className="size-4" aria-hidden="true" />
 									Tambah Pesan Pertama
 								</TooltipButton>
 							</div>

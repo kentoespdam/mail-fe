@@ -26,7 +26,10 @@ export function AuditTrailInfo({ updatedAt, updatedBy }: AuditTrailInfoProps) {
 
 	return (
 		<div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2 text-xs text-muted-foreground">
-			<IconClock className="h-3.5 w-3.5 shrink-0" />
+			<IconClock
+				className="size-3.5 shrink-0 text-muted-foreground"
+				aria-hidden="true"
+			/>
 			<span>
 				Terakhir diubah: {updatedAt ? formatDate(updatedAt) : "Tidak diketahui"}
 				{updatedBy ? ` oleh ${updatedBy}` : ""}

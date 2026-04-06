@@ -19,19 +19,21 @@ import UserProfileButton from "./user-profile-button";
  */
 const TopBar = memo(() => {
 	return (
-		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-background px-4 shadow-sm">
-			{/* Left Section: Logo + Navigation */}
+		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-secondary px-4 shadow-sm">
+			{/* Left Section: Logo */}
 			<div className="flex min-w-0 items-center gap-6">
 				<SmartOfficeIcon className="shrink-0" />
-				<nav className="hidden lg:block">
-					<Providers>
-						<TopBarMenu />
-					</Providers>
-				</nav>
 			</div>
 
 			{/* Right Section: Actions + User Profile */}
 			<div className="flex items-center gap-2">
+				{/* App Menu */}
+				<nav>
+					<Providers>
+						<TopBarMenu />
+					</Providers>
+				</nav>
+
 				{/* Theme Toggle */}
 				<ThemeToggle />
 
@@ -43,18 +45,18 @@ const TopBar = memo(() => {
 					title="Notifikasi"
 					aria-label="Notifikasi"
 				>
-					<IconBell className="h-5 w-5" />
+					<IconBell className="size-5 text-secondary-foreground" />
 					<span className="absolute right-2 top-2 flex h-2 w-2">
 						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
 						<span className="inline-flex h-2 w-2 rounded-full bg-primary" />
 					</span>
 				</Button>
 
-				<div className="flex flex-col space-y-1">
-					<p className="text-sm font-medium text-right">
+				<div className="flex flex-col space-y-0.5">
+					<p className="text-sm font-semibold text-right text-secondary-foreground">
 						Bagus Sudrajat, S.Kom.
 					</p>
-					<p className="text-xs text-muted-foreground text-right">
+					<p className="text-[10px] uppercase tracking-wider font-bold text-secondary-foreground/60 text-right">
 						Administrator
 					</p>
 				</div>

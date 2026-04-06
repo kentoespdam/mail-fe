@@ -40,15 +40,24 @@ const UserProfileButton = () => {
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
 					<DropdownMenuItem render={<Link href="#" />}>
-						<IconUser className="mr-2 h-4 w-4" />
+						<IconUser
+							className="mr-2 size-4 text-muted-foreground"
+							aria-hidden="true"
+						/>
 						<span>Profil</span>
 					</DropdownMenuItem>
 					<DropdownMenuItem render={<Link href="#" />}>
-						<IconKey className="mr-2 h-4 w-4" />
+						<IconKey
+							className="mr-2 size-4 text-muted-foreground"
+							aria-hidden="true"
+						/>
 						<span>Ubah Password</span>
 					</DropdownMenuItem>
 					<DropdownMenuItem render={<Link href="#" />}>
-						<IconSettings className="mr-2 h-4 w-4" />
+						<IconSettings
+							className="mr-2 size-4 text-muted-foreground"
+							aria-hidden="true"
+						/>
 						<span>Pengaturan</span>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
@@ -58,7 +67,7 @@ const UserProfileButton = () => {
 					disabled={isPending}
 					className="text-destructive focus:text-destructive cursor-pointer"
 				>
-					<IconLogout className="mr-2 h-4 w-4" />
+					<IconLogout className="mr-2 size-4" aria-hidden="true" />
 					<span>{isPending ? "Keluar..." : "Keluar"}</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>

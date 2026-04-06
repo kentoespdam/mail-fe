@@ -2,7 +2,6 @@
 
 import { IconCategory, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
-import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	Card,
 	CardAction,
@@ -19,6 +18,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import { useMailCategoryContent } from "@/hooks/mail-category-hooks";
 import { DeleteMailCategoryDialog } from "./mail-category-delete-dialog";
 import {
@@ -61,7 +61,10 @@ export const MailCategoryContent = memo(() => {
 						<div className="flex items-center gap-4">
 							<div className="space-y-1">
 								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
-									<IconCategory className="text-muted-foreground" />
+									<IconCategory
+										className="size-4 text-muted-foreground"
+										aria-hidden="true"
+									/>
 									<span>Kategori Surat</span>
 								</CardTitle>
 								<CardDescription className="leading-relaxed">
@@ -79,7 +82,7 @@ export const MailCategoryContent = memo(() => {
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
-								<IconPlus className="h-4 w-4" />
+								<IconPlus className="size-4" aria-hidden="true" />
 								Tambah Kategori Surat
 							</TooltipButton>
 						</CardAction>
@@ -126,7 +129,10 @@ export const MailCategoryContent = memo(() => {
 						emptyMessage={
 							<div className="flex flex-col items-center justify-center py-16 text-center">
 								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground ring-1 ring-border">
-									<IconCategory className="h-10 w-10 opacity-60" />
+									<IconCategory
+										className="size-10 text-muted-foreground/40"
+										aria-hidden="true"
+									/>
 								</div>
 								<h3 className="text-base font-semibold text-foreground">
 									Belum ada kategori surat
@@ -144,7 +150,7 @@ export const MailCategoryContent = memo(() => {
 										setCreateOpen(true);
 									}}
 								>
-									<IconPlus className="h-4 w-4" />
+									<IconPlus className="size-4" aria-hidden="true" />
 									Tambah Kategori Surat Pertama
 								</TooltipButton>
 							</div>

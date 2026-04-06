@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: allow index array */
 import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Table,
@@ -13,7 +14,6 @@ interface TableSkeletonProps {
 	rows?: number;
 }
 
-// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton rows are static placeholders and never reordered
 export function TableSkeleton({ columns = 5, rows = 5 }: TableSkeletonProps) {
 	return (
 		<div className="rounded-md border">

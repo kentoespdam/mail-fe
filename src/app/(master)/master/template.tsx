@@ -49,31 +49,40 @@ export default function MasterLayout({
 	};
 
 	return (
-		<div className="space-y-6">
-			<div className="flex items-center gap-4">
-				<h1 className="text-2xl font-bold tracking-tight">Master Data</h1>
-			</div>
+		<div className="flex flex-col gap-8">
+			{/* Header Section (30% zone) — Re-styled to Card-based for better elevation */}
+			<header className="space-y-6 rounded-xl border border-border/50 bg-card p-6 shadow-sm">
+				<div className="flex items-center gap-4">
+					<h1 className="text-2xl font-bold tracking-tight text-foreground">
+						Master Data
+					</h1>
+				</div>
 
-			<Tabs
-				value={activeTab}
-				onValueChange={handleTabChange}
-				className="w-full"
-			>
-				<TabsList className="w-full grid-cols-3 lg:w-auto lg:grid-cols-none">
-					{MASTER_TABS.map((tab) => (
-						<TabsTrigger
-							key={tab.value}
-							value={tab.value}
-							className="flex items-center gap-2 cursor-pointer"
-						>
-							<tab.icon className="h-4 w-4" />
-							{tab.label}
-						</TabsTrigger>
-					))}
-				</TabsList>
-			</Tabs>
+				<Tabs
+					value={activeTab}
+					onValueChange={handleTabChange}
+					className="w-full"
+				>
+					<TabsList
+						variant="line"
+						className="w-full justify-start border-none bg-transparent p-0 lg:w-auto"
+					>
+						{MASTER_TABS.map((tab) => (
+							<TabsTrigger
+								key={tab.value}
+								value={tab.value}
+								className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all text-muted-foreground hover:text-foreground data-active:text-primary cursor-pointer"
+							>
+								<tab.icon className="size-4" aria-hidden="true" />
+								{tab.label}
+							</TabsTrigger>
+						))}
+					</TabsList>
+				</Tabs>
+			</header>
 
-			{children}
+			{/* Content Area (60% zone) */}
+			<main className="px-1">{children}</main>
 		</div>
 	);
 }

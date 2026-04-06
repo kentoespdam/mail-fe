@@ -2,7 +2,7 @@
 
 import { IconMail, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
-import { Button } from "@/components/ui/button";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	Card,
 	CardAction,
@@ -39,6 +39,8 @@ export const MailTypeContent = memo(() => {
 		setEditMt,
 		deleteMt,
 		setDeleteMt,
+		duplicateMt,
+		setDuplicateMt,
 	} = useMailTypeContent();
 
 	return (
@@ -58,14 +60,18 @@ export const MailTypeContent = memo(() => {
 							</div>
 						</div>
 						<CardAction className="flex items-center gap-2">
-							<Button
-								onClick={() => setCreateOpen(true)}
+							<TooltipButton
+								onClick={() => {
+									setDuplicateMt(null);
+									setCreateOpen(true);
+								}}
+								tooltip="Tambah Tipe Surat Baru"
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
 								<IconPlus className="h-4 w-4" />
 								Tambah Tipe Surat
-							</Button>
+							</TooltipButton>
 						</CardAction>
 					</div>
 				</CardHeader>
@@ -92,14 +98,18 @@ export const MailTypeContent = memo(() => {
 									Mulai dengan menambahkan tipe surat untuk mengklasifikasikan
 									persuratan Anda
 								</p>
-								<Button
+								<TooltipButton
 									className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
 									size="sm"
-									onClick={() => setCreateOpen(true)}
+									tooltip="Tambah Tipe Surat Baru"
+									onClick={() => {
+										setDuplicateMt(null);
+										setCreateOpen(true);
+									}}
 								>
 									<IconPlus className="h-4 w-4" />
 									Tambah Tipe Surat Pertama
-								</Button>
+								</TooltipButton>
 							</div>
 						}
 					/>
@@ -117,7 +127,14 @@ export const MailTypeContent = memo(() => {
 				</CardContent>
 			</Card>
 
-			<CreateMailTypeDialog open={createOpen} onOpenChange={setCreateOpen} />
+			<CreateMailTypeDialog
+				open={createOpen}
+				onOpenChange={(v) => {
+					setCreateOpen(v);
+					if (!v) setDuplicateMt(null);
+				}}
+				defaultValues={duplicateMt ?? undefined}
+			/>
 			<EditMailTypeDialog mt={editMt} onClose={() => setEditMt(null)} />
 			<DeleteMailTypeDialog mt={deleteMt} onClose={() => setDeleteMt(null)} />
 		</>

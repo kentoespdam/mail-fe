@@ -2,7 +2,7 @@
 
 import { IconCategory, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
-import { Button } from "@/components/ui/button";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	Card,
 	CardAction,
@@ -49,6 +49,8 @@ export const MailCategoryContent = memo(() => {
 		setEditMc,
 		deleteMc,
 		setDeleteMc,
+		duplicateMc,
+		setDuplicateMc,
 	} = useMailCategoryContent();
 
 	return (
@@ -68,14 +70,18 @@ export const MailCategoryContent = memo(() => {
 							</div>
 						</div>
 						<CardAction className="flex items-center gap-2">
-							<Button
-								onClick={() => setCreateOpen(true)}
+							<TooltipButton
+								onClick={() => {
+									setDuplicateMc(null);
+									setCreateOpen(true);
+								}}
+								tooltip="Tambah Kategori Surat Baru"
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
 								<IconPlus className="h-4 w-4" />
 								Tambah Kategori Surat
-							</Button>
+							</TooltipButton>
 						</CardAction>
 					</div>
 				</CardHeader>
@@ -99,9 +105,9 @@ export const MailCategoryContent = memo(() => {
 									<SelectValue placeholder="Semua Tipe Surat">
 										{mailTypeId
 											? mailTypeOptions.find(
-													(opt: { value: string; label: string }) =>
-														opt.value === mailTypeId,
-												)?.label
+												(opt: { value: string; label: string }) =>
+													opt.value === mailTypeId,
+											)?.label
 											: "Semua Tipe Surat"}
 									</SelectValue>
 								</SelectTrigger>
@@ -129,14 +135,18 @@ export const MailCategoryContent = memo(() => {
 									Mulai dengan menambahkan kategori surat untuk
 									mengklasifikasikan persuratan Anda
 								</p>
-								<Button
+								<TooltipButton
 									className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
 									size="sm"
-									onClick={() => setCreateOpen(true)}
+									tooltip="Tambah Kategori Surat Baru"
+									onClick={() => {
+										setDuplicateMc(null);
+										setCreateOpen(true);
+									}}
 								>
 									<IconPlus className="h-4 w-4" />
 									Tambah Kategori Surat Pertama
-								</Button>
+								</TooltipButton>
 							</div>
 						}
 					/>
@@ -156,7 +166,11 @@ export const MailCategoryContent = memo(() => {
 
 			<CreateMailCategoryDialog
 				open={createOpen}
-				onOpenChange={setCreateOpen}
+				onOpenChange={(v) => {
+					setCreateOpen(v);
+					if (!v) setDuplicateMc(null);
+				}}
+				defaultValues={duplicateMc ?? undefined}
 			/>
 			{editMc && (
 				<EditMailCategoryDialog mcId={editMc} onClose={() => setEditMc(null)} />

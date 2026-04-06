@@ -73,3 +73,14 @@ export async function deleteMailType(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
 	if (!res.ok) throw new Error("Gagal menghapus tipe surat");
 }
+
+export async function toggleMailTypeStatus(id: string): Promise<MailTypeDto> {
+	const res = await fetch(`${BASE}/${id}/toggle-status`, {
+		method: "PATCH",
+	});
+	if (!res.ok) {
+		const err = await res.json().catch(() => null);
+		throw new Error(err?.detail ?? "Gagal mengubah status tipe surat");
+	}
+	return res.json();
+}

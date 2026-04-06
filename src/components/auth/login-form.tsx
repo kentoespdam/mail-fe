@@ -14,6 +14,54 @@ export const LoginForm = memo(() => {
 	return (
 		<Card className="overflow-hidden shadow-2xl backdrop-blur-sm bg-white/80 dark:bg-slate-900/80 border-sky-200/50 dark:border-sky-800/50 py-0">
 			<CardContent className="grid p-0 md:grid-cols-5">
+				{/* Branding Section */}
+				<div className="relative flex md:col-span-2 flex-col items-center justify-center bg-linear-to-br from-sky-600 via-blue-700 to-sky-800 p-8 text-white overflow-hidden">
+					{/* Floating bubbles */}
+					{[0, 1, 2, 3].map((i) => (
+						<div
+							key={`bubble-${i}`}
+							className="absolute rounded-full border border-white/20 bg-white/5 animate-float-bubble"
+							style={{
+								width: `${8 + i * 4}px`,
+								height: `${8 + i * 4}px`,
+								left: `${20 + i * 20}%`,
+								bottom: "0%",
+								animationDelay: `${i * 2}s`,
+								willChange: "transform, opacity",
+							}}
+						/>
+					))}
+
+					<div className="relative z-10 flex flex-col items-center text-center space-y-6">
+						{/* Logo with original SVG colors */}
+						<div className="rounded-2xl bg-white/90 dark:bg-white/85 p-5 backdrop-blur-sm border border-white/40 shadow-xl shadow-black/15 animate-logo-bounce">
+							<Logo
+								width={100}
+								height={72}
+								priority
+								className="drop-shadow-md"
+							/>
+						</div>
+
+						{/* Title & tagline */}
+						<div className="space-y-2">
+							<h3 className="text-lg font-bold tracking-wide uppercase">
+								Sistem Persuratan
+							</h3>
+						</div>
+
+						{/* Footer info */}
+						<div className="pt-2 border-t border-white/15 w-full text-center space-y-1">
+							<p className="text-[11px] italic text-sky-100/80">
+								"Melayani dengan SATRIA"
+							</p>
+							<p className="text-[10px] text-sky-200/60">
+								Perumda Air Minum Tirta Satria — Kab. Banyumas
+							</p>
+						</div>
+					</div>
+				</div>
+
 				{/* Login Form Section */}
 				<div className="md:col-span-3 p-6 md:p-8 lg:p-10 animate-fade-in-left">
 					<form
@@ -62,94 +110,6 @@ export const LoginForm = memo(() => {
 							</div>
 						</FieldGroup>
 					</form>
-				</div>
-
-				{/* Branding Section */}
-				<div className="relative flex md:col-span-2 flex-col items-center justify-center bg-linear-to-br from-sky-600 via-blue-700 to-sky-800 p-8 text-white overflow-hidden">
-					{/* Animated radial background */}
-					{/* <div
-						className="absolute inset-0 opacity-10"
-						style={{
-							backgroundImage:
-								"radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 40%)",
-						}}
-					/> */}
-
-					{/* Water flow streams */}
-					{/* {[0, 1, 2, 3, 4].map((i) => (
-						<div
-							key={`stream-${i}`}
-							className="absolute bg-white/5 animate-water-stream"
-							style={{
-								width: `${60 + i * 20}px`,
-								height: `${300 + i * 100}px`,
-								left: `${10 + i * 18}%`,
-								top: "-20%",
-								borderRadius: "50%",
-								filter: "blur(8px)",
-								animationDelay: `${i * 1.5}s`,
-								willChange: "transform, opacity",
-							}}
-						/>
-					))} */}
-
-					{/* Water ripple rings */}
-					{/* {[0, 1, 2].map((i) => (
-						<div
-							key={`ripple-${i}`}
-							className="absolute rounded-full border border-white/10 animate-ripple"
-							style={{
-								width: `${180 + i * 80}px`,
-								height: `${180 + i * 80}px`,
-								animationDelay: `${i * 2}s`,
-							}}
-						/>
-					))} */}
-
-					{/* Floating bubbles */}
-					{[0, 1, 2, 3].map((i) => (
-						<div
-							key={`bubble-${i}`}
-							className="absolute rounded-full border border-white/20 bg-white/5 animate-float-bubble"
-							style={{
-								width: `${8 + i * 4}px`,
-								height: `${8 + i * 4}px`,
-								left: `${20 + i * 20}%`,
-								bottom: "0%",
-								animationDelay: `${i * 2}s`,
-								willChange: "transform, opacity",
-							}}
-						/>
-					))}
-
-					<div className="relative z-10 flex flex-col items-center text-center space-y-6">
-						{/* Logo with original SVG colors */}
-						<div className="rounded-2xl bg-white/90 dark:bg-white/85 p-5 backdrop-blur-sm border border-white/40 shadow-xl shadow-black/15 animate-logo-bounce">
-							<Logo
-								width={100}
-								height={72}
-								priority
-								className="drop-shadow-md"
-							/>
-						</div>
-
-						{/* Title & tagline */}
-						<div className="space-y-2">
-							<h3 className="text-lg font-bold tracking-wide uppercase">
-								Sistem Persuratan
-							</h3>
-						</div>
-
-						{/* Footer info */}
-						<div className="pt-2 border-t border-white/15 w-full text-center space-y-1">
-							<p className="text-[11px] italic text-sky-100/80">
-								"Melayani dengan SATRIA"
-							</p>
-							<p className="text-[10px] text-sky-200/60">
-								Perumda Air Minum Tirta Satria — Kab. Banyumas
-							</p>
-						</div>
-					</div>
 				</div>
 			</CardContent>
 		</Card>

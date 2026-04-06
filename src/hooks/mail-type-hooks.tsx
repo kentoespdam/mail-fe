@@ -1,15 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	createMailType,
 	deleteMailType,
 	fetchMailTypes,
+	toggleMailTypeStatus,
 	updateMailType,
 } from "@/lib/mail-type-api";
 import {
@@ -161,6 +165,9 @@ export function useMailTypeContent() {
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editMt, setEditMt] = useState<MailTypeDto | null>(null);
 	const [deleteMt, setDeleteMt] = useState<MailTypeDto | null>(null);
+	const [duplicateMt, setDuplicateMt] = useState<MailTypeDto | null>(null);
+
+	const toggleStatus = useToggleMailTypeStatus();
 
 	const columns = useMemo<ColumnDef<MailTypeDto, unknown>[]>(
 		() => [
@@ -194,38 +201,75 @@ export function useMailTypeContent() {
 				size: 140,
 			},
 			{
+				accessorKey: "status",
+				header: "Status",
+				cell: ({ row }) => {
+					const mt = row.original;
+					return (
+						<div className="flex items-center gap-2">
+							<Switch
+								checked={mt.status === "ACTIVE"}
+								onCheckedChange={() => toggleStatus.mutate(mt.id)}
+								disabled={toggleStatus.isPending}
+								aria-label="Toggle status"
+							/>
+							<span
+								className={`text-xs font-medium ${mt.status === "ACTIVE" ? "text-success" : "text-muted-foreground"}`}
+							>
+								{mt.status === "ACTIVE" ? "Aktif" : "Nonaktif"}
+							</span>
+						</div>
+					);
+				},
+				size: 120,
+			},
+			{
 				id: "actions",
 				header: () => <span className="sr-only">Aksi</span>,
 				cell: ({ row }) => {
 					const mt = row.original;
 					return (
-						<div className="flex justify-end gap-1">
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setEditMt(mt)}
-								title="Edit tipe surat"
-								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
-							>
-								<IconPencil className="size-4" />
-							</Button>
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setDeleteMt(mt)}
-								title="Hapus tipe surat"
-								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-							>
-								<IconTrash className="size-4" />
-							</Button>
-						</div>
+						<TooltipProvider delay={0}>
+							<div className="flex justify-end gap-1">
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => {
+										setDuplicateMt(mt);
+										setCreateOpen(true);
+									}}
+									tooltip="Duplikat tipe surat"
+									className="h-8 w-8 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+								>
+									<IconCopy className="size-4" />
+								</TooltipButton>
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setEditMt(mt)}
+									tooltip="Edit tipe surat"
+									className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
+								>
+									<IconPencil className="size-4" />
+								</TooltipButton>
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setDeleteMt(mt)}
+									tooltip="Hapus tipe surat"
+									className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+								>
+									<IconTrash className="size-4" />
+								</TooltipButton>
+							</div>
+						</TooltipProvider>
 					);
 				},
-				size: 100,
+				size: 120,
 				enableHiding: false,
 			},
 		],
-		[page, pageSize],
+		[page, pageSize, toggleStatus],
 	);
 
 	const mailTypes = useMemo(() => data?.content ?? [], [data?.content]);
@@ -249,6 +293,9 @@ export function useMailTypeContent() {
 		setEditMt,
 		deleteMt,
 		setDeleteMt,
+		duplicateMt,
+		setDuplicateMt,
+		toggleStatus,
 	};
 }
 
@@ -259,6 +306,20 @@ export function useDeleteMailType(onSuccess?: () => void) {
 		mutationFn: (id: string) => deleteMailType(id),
 		onSuccess: () => {
 			toast.success("Tipe surat berhasil dihapus");
+			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
+			onSuccess?.();
+		},
+		onError: (err) => toast.error(err.message),
+	});
+}
+
+export function useToggleMailTypeStatus(onSuccess?: () => void) {
+	const qc = useQueryClient();
+
+	return useMutation({
+		mutationFn: (id: string) => toggleMailTypeStatus(id),
+		onSuccess: () => {
+			toast.success("Status tipe surat berhasil diubah");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},

@@ -1,11 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	createQuickMessage,
 	deleteQuickMessage,
@@ -161,6 +163,7 @@ export function useQuickMessageContent() {
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editQm, setEditQm] = useState<QuickMessageDto | null>(null);
 	const [deleteQm, setDeleteQm] = useState<QuickMessageDto | null>(null);
+	const [duplicateQm, setDuplicateQm] = useState<QuickMessageDto | null>(null);
 
 	const columns = useMemo<ColumnDef<QuickMessageDto, unknown>[]>(
 		() => [
@@ -195,29 +198,43 @@ export function useQuickMessageContent() {
 				cell: ({ row }) => {
 					const qm = row.original;
 					return (
-						<div className="flex justify-end gap-1">
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setEditQm(qm)}
-								title="Edit pesan"
-								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
-							>
-								<IconPencil className="size-4" />
-							</Button>
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setDeleteQm(qm)}
-								title="Hapus pesan"
-								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-							>
-								<IconTrash className="size-4" />
-							</Button>
-						</div>
+						<TooltipProvider delay={0}>
+							<div className="flex justify-end gap-1">
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => {
+										setDuplicateQm(qm);
+										setCreateOpen(true);
+									}}
+									tooltip="Duplikat pesan"
+									className="h-8 w-8 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+								>
+									<IconCopy className="size-4" />
+								</TooltipButton>
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setEditQm(qm)}
+									tooltip="Edit pesan"
+									className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
+								>
+									<IconPencil className="size-4" />
+								</TooltipButton>
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setDeleteQm(qm)}
+									tooltip="Hapus pesan"
+									className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+								>
+									<IconTrash className="size-4" />
+								</TooltipButton>
+							</div>
+						</TooltipProvider>
 					);
 				},
-				size: 100,
+				size: 120,
 				enableHiding: false,
 			},
 		],
@@ -245,6 +262,8 @@ export function useQuickMessageContent() {
 		setEditQm,
 		deleteQm,
 		setDeleteQm,
+		duplicateQm,
+		setDuplicateQm,
 	};
 }
 

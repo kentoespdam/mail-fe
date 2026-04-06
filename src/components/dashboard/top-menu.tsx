@@ -3,15 +3,12 @@
 import {
 	IconArchive,
 	IconBroadcast,
-	IconCategory,
 	IconChartHistogram,
 	IconFileDescription,
 	IconFileSearch,
 	IconFileSettings,
 	IconLayoutDashboard,
-	IconListLetters,
 	IconMail,
-	IconMailFast,
 	IconSettings2,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -78,26 +75,10 @@ const MenuAplikasi = memo(() => (
 			</MenubarGroup>
 			<MenubarSeparator />
 			<MenubarGroup>
-				<MenubarSub>
-					<MenubarSubTrigger>
-						<IconSettings2 />
-						Master Mail
-					</MenubarSubTrigger>
-					<MenubarSubContent>
-						<MenubarItem render={<Link href="/master/pesan-singkat" />}>
-							<IconMailFast />
-							Pesan Singkat
-						</MenubarItem>
-						<MenubarItem render={<Link href="/master/tipe-surat" />}>
-							<IconListLetters />
-							Tipe Surat
-						</MenubarItem>
-						<MenubarItem render={<Link href="/master/kategori-surat" />}>
-							<IconCategory />
-							Kategori Surat
-						</MenubarItem>
-					</MenubarSubContent>
-				</MenubarSub>
+				<MenubarItem render={<Link href="/master/tipe-surat" />}>
+					<IconSettings2 />
+					Master Mail
+				</MenubarItem>
 			</MenubarGroup>
 		</MenubarContent>
 	</MenubarMenu>

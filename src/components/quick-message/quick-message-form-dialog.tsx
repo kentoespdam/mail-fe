@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect } from "react";
 import InputTextControll from "@/components/builder/input-text-controll";
+import { AuditTrailInfo } from "@/components/ui/audit-trail-info";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -22,21 +23,39 @@ import type { QuickMessageDto } from "@/types/quick-message";
 interface CreateDialogProps {
 	open: boolean;
 	onOpenChange: (v: boolean) => void;
+	defaultValues?: Partial<QuickMessageDto>;
 }
 
 export function CreateQuickMessageDialog({
 	open,
 	onOpenChange,
+	defaultValues,
 }: CreateDialogProps) {
 	const handleClose = useCallback(() => onOpenChange(false), [onOpenChange]);
 	const { form, mutation, onSubmit } = useCreateQuickMessage(handleClose);
+
+	useEffect(() => {
+		if (open && defaultValues) {
+			form.reset({
+				message: defaultValues.message ?? "",
+			});
+		}
+	}, [open, defaultValues, form]);
+
+	const isDuplicate = !!defaultValues;
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
-					<DialogTitle>Buat Pesan Singkat</DialogTitle>
-					<DialogDescription>Tambah pesan singkat baru</DialogDescription>
+					<DialogTitle>
+						{isDuplicate ? "Duplikat Pesan Singkat" : "Buat Pesan Singkat"}
+					</DialogTitle>
+					<DialogDescription>
+						{isDuplicate
+							? "Buat pesan singkat baru berdasarkan data yang ada"
+							: "Tambah pesan singkat baru"}
+					</DialogDescription>
 				</DialogHeader>
 				<form id="create-qm-form" onSubmit={onSubmit}>
 					<FieldGroup>
@@ -102,17 +121,20 @@ export function EditQuickMessageDialog({ qm, onClose }: EditDialogProps) {
 					<DialogDescription>Perbarui pesan singkat</DialogDescription>
 				</DialogHeader>
 				{qm && (
-					<form id="edit-qm-form" onSubmit={handleSubmit}>
-						<FieldGroup>
-							<InputTextControll
-								form={form}
-								id="message"
-								label="Pesan"
-								placeholder="Masukkan pesan singkat"
-								required
-							/>
-						</FieldGroup>
-					</form>
+					<>
+						<form id="edit-qm-form" onSubmit={handleSubmit}>
+							<FieldGroup>
+								<InputTextControll
+									form={form}
+									id="message"
+									label="Pesan"
+									placeholder="Masukkan pesan singkat"
+									required
+								/>
+							</FieldGroup>
+						</form>
+						<AuditTrailInfo updatedAt={qm.updatedAt} updatedBy={qm.updatedBy} />
+					</>
 				)}
 				<DialogFooter>
 					<Button type="button" variant="outline" onClick={onClose}>

@@ -13,6 +13,8 @@ export type QuickMessagePayload = z.infer<typeof QuickMessageSchema>;
 export interface QuickMessageDto {
 	id: string;
 	message: string;
+	updatedAt?: string;
+	updatedBy?: string;
 }
 
 export interface PageQuickMessage extends PagedResponse<QuickMessageDto> {}

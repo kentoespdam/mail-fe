@@ -12,6 +12,8 @@ export interface MailTypeDto {
 	name: string;
 	status: "ACTIVE" | "INACTIVE" | "DELETED";
 	categoryCount: number;
+	updatedAt?: string;
+	updatedBy?: string;
 }
 
 export interface PageMailType extends PagedResponse<MailTypeDto> {}

@@ -22,7 +22,7 @@ import {
 	type SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,6 +32,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -40,6 +41,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { useDebouncedValue } from "@/hooks/use-debounced-value";
 
 // ─── Generic DataTable ──────────────────────────────────────────
 
@@ -57,6 +59,8 @@ interface DataTableProps<TData, TValue> {
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
 	searchPlaceholder?: string;
+	/** Debounce delay in milliseconds for search input. Default: 0 (no debounce). */
+	searchDebounceMs?: number;
 	filterChildren?: React.ReactNode;
 
 	// Row Selection / Bulk Actions
@@ -75,11 +79,34 @@ function DataTableComponent<TData, TValue>({
 	searchValue,
 	onSearchChange,
 	searchPlaceholder = "Cari data...",
+	searchDebounceMs = 300,
 	filterChildren,
 	rowSelection,
 	onRowSelectionChange,
 	bulkActionChildren,
 }: DataTableProps<TData, TValue>) {
+	// Local input state with debounce to parent
+	const [localSearch, setLocalSearch] = useState(searchValue ?? "");
+	// Always call the hook (rules of hooks)
+	const _rawDebounced = useDebouncedValue(localSearch, searchDebounceMs);
+	const debouncedSearch = searchDebounceMs > 0 ? _rawDebounced : localSearch;
+
+	// Commit debounced value to parent only when it actually differs
+	useEffect(() => {
+		if (onSearchChange && debouncedSearch !== searchValue) {
+			onSearchChange(debouncedSearch);
+		}
+	}, [debouncedSearch, onSearchChange, searchValue]);
+
+	const handleSearchInput = (value: string) => {
+		setLocalSearch(value);
+	};
+
+	const handleClearSearch = () => {
+		setLocalSearch("");
+		if (onSearchChange) onSearchChange("");
+	};
+
 	const table = useReactTable({
 		data,
 		columns,
@@ -107,16 +134,16 @@ function DataTableComponent<TData, TValue>({
 							<IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
 							<Input
 								placeholder={searchPlaceholder}
-								value={searchValue ?? ""}
-								onChange={(event) => onSearchChange(event.target.value)}
+								value={localSearch}
+								onChange={(event) => handleSearchInput(event.target.value)}
 								className="pl-9 pr-9"
 							/>
-							{(searchValue ?? "").length > 0 && (
+							{(localSearch ?? "").length > 0 && (
 								<Button
 									variant="ghost"
 									size="icon"
 									className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground hover:text-foreground"
-									onClick={() => onSearchChange("")}
+									onClick={handleClearSearch}
 								>
 									<IconX className="h-4 w-4" />
 								</Button>
@@ -175,14 +202,18 @@ function DataTableComponent<TData, TValue>({
 					</TableHeader>
 					<TableBody>
 						{isLoading ? (
-							<TableRow>
-								<TableCell
-									colSpan={columns.length}
-									className="h-24 text-center text-muted-foreground"
-								>
-									Memuat data…
-								</TableCell>
-							</TableRow>
+							// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton rows are static placeholders
+							Array.from({ length: 5 }).map((_, rowIndex) => (
+								<TableRow key={`skeleton-row-${rowIndex}`}>
+									{columns.map((col, colIndex) => (
+										<TableCell key={`skeleton-${colIndex}`}>
+											<Skeleton
+												className={`h-4 ${colIndex === 0 ? "w-8" : "w-32"}`}
+											/>
+										</TableCell>
+									))}
+								</TableRow>
+							))
 						) : table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow

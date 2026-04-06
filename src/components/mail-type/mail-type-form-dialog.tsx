@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect } from "react";
 import InputTextControll from "@/components/builder/input-text-controll";
+import { AuditTrailInfo } from "@/components/ui/audit-trail-info";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -19,21 +20,39 @@ import type { MailTypeDto } from "@/types/mail-type";
 interface CreateDialogProps {
 	open: boolean;
 	onOpenChange: (v: boolean) => void;
+	defaultValues?: Partial<MailTypeDto>;
 }
 
 export function CreateMailTypeDialog({
 	open,
 	onOpenChange,
+	defaultValues,
 }: CreateDialogProps) {
 	const handleClose = useCallback(() => onOpenChange(false), [onOpenChange]);
 	const { form, mutation, onSubmit } = useCreateMailType(handleClose);
+
+	useEffect(() => {
+		if (open && defaultValues) {
+			form.reset({
+				name: defaultValues.name ?? "",
+			});
+		}
+	}, [open, defaultValues, form]);
+
+	const isDuplicate = !!defaultValues;
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-md">
 				<DialogHeader>
-					<DialogTitle>Buat Tipe Surat</DialogTitle>
-					<DialogDescription>Tambah tipe surat baru</DialogDescription>
+					<DialogTitle>
+						{isDuplicate ? "Duplikat Tipe Surat" : "Buat Tipe Surat"}
+					</DialogTitle>
+					<DialogDescription>
+						{isDuplicate
+							? "Buat tipe surat baru berdasarkan data yang ada"
+							: "Tambah tipe surat baru"}
+					</DialogDescription>
 				</DialogHeader>
 				<form id="create-mt-form" onSubmit={onSubmit}>
 					<FieldGroup>
@@ -99,17 +118,20 @@ export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
 					<DialogDescription>Perbarui tipe surat</DialogDescription>
 				</DialogHeader>
 				{mt && (
-					<form id="edit-mt-form" onSubmit={handleSubmit}>
-						<FieldGroup>
-							<InputTextControll
-								form={form}
-								id="name"
-								label="Nama"
-								placeholder="Masukkan nama tipe surat"
-								required
-							/>
-						</FieldGroup>
-					</form>
+					<>
+						<form id="edit-mt-form" onSubmit={handleSubmit}>
+							<FieldGroup>
+								<InputTextControll
+									form={form}
+									id="name"
+									label="Nama"
+									placeholder="Masukkan nama tipe surat"
+									required
+								/>
+							</FieldGroup>
+						</form>
+						<AuditTrailInfo updatedAt={mt.updatedAt} updatedBy={mt.updatedBy} />
+					</>
 				)}
 				<DialogFooter>
 					<Button type="button" variant="outline" onClick={onClose}>

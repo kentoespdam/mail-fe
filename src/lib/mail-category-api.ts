@@ -70,3 +70,16 @@ export async function deleteMailCategory(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
 	if (!res.ok) throw new Error("Gagal menghapus kategori surat");
 }
+
+export async function toggleMailCategoryStatus(
+	id: string,
+): Promise<MailCategoryDto> {
+	const res = await fetch(`${BASE}/${id}/toggle-status`, {
+		method: "PATCH",
+	});
+	if (!res.ok) {
+		const err = await res.json().catch(() => null);
+		throw new Error(err?.detail ?? "Gagal mengubah status kategori surat");
+	}
+	return res.json();
+}

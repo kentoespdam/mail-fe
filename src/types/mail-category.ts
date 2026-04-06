@@ -23,6 +23,8 @@ export interface MailCategoryDto {
 	codeName: string;
 	status: string;
 	sort: number;
+	updatedAt?: string;
+	updatedBy?: string;
 }
 
 export interface PageMailCategory extends PagedResponse<MailCategoryDto> {}

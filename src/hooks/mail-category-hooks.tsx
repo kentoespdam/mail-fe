@@ -1,16 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	createMailCategory,
 	deleteMailCategory,
 	fetchMailCategories,
 	fetchMailCategory,
+	toggleMailCategoryStatus,
 	updateMailCategory,
 } from "@/lib/mail-category-api";
 import { fetchMailTypesLookup } from "@/lib/mail-type-api";
@@ -230,6 +234,9 @@ export function useMailCategoryContent() {
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editMc, setEditMc] = useState<string | null>(null);
 	const [deleteMc, setDeleteMc] = useState<MailCategoryDto | null>(null);
+	const [duplicateMc, setDuplicateMc] = useState<MailCategoryDto | null>(null);
+
+	const toggleStatus = useToggleMailCategoryStatus();
 
 	const columns = useMemo<ColumnDef<MailCategoryDto, unknown>[]>(
 		() => [
@@ -273,38 +280,75 @@ export function useMailCategoryContent() {
 				size: 160,
 			},
 			{
+				accessorKey: "status",
+				header: "Status",
+				cell: ({ row }) => {
+					const mc = row.original;
+					return (
+						<div className="flex items-center gap-2">
+							<Switch
+								checked={mc.status === "ACTIVE"}
+								onCheckedChange={() => toggleStatus.mutate(mc.id)}
+								disabled={toggleStatus.isPending}
+								aria-label="Toggle status"
+							/>
+							<span
+								className={`text-xs font-medium ${mc.status === "ACTIVE" ? "text-success" : "text-muted-foreground"}`}
+							>
+								{mc.status === "ACTIVE" ? "Aktif" : "Nonaktif"}
+							</span>
+						</div>
+					);
+				},
+				size: 120,
+			},
+			{
 				id: "actions",
 				header: () => <span className="sr-only">Aksi</span>,
 				cell: ({ row }) => {
 					const mc = row.original;
 					return (
-						<div className="flex justify-end gap-1">
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setEditMc(mc.id)}
-								title="Edit kategori surat"
-								className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
-							>
-								<IconPencil className="size-4" />
-							</Button>
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setDeleteMc(mc)}
-								title="Hapus kategori surat"
-								className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-							>
-								<IconTrash className="size-4" />
-							</Button>
-						</div>
+						<TooltipProvider delay={0}>
+							<div className="flex justify-end gap-1">
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => {
+										setDuplicateMc(mc);
+										setCreateOpen(true);
+									}}
+									tooltip="Duplikat kategori surat"
+									className="h-8 w-8 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+								>
+									<IconCopy className="size-4" />
+								</TooltipButton>
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setEditMc(mc.id)}
+									tooltip="Edit kategori surat"
+									className="h-8 w-8 text-info hover:bg-primary/10 hover:text-primary"
+								>
+									<IconPencil className="size-4" />
+								</TooltipButton>
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setDeleteMc(mc)}
+									tooltip="Hapus kategori surat"
+									className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+								>
+									<IconTrash className="size-4" />
+								</TooltipButton>
+							</div>
+						</TooltipProvider>
 					);
 				},
-				size: 100,
+				size: 120,
 				enableHiding: false,
 			},
 		],
-		[page, pageSize],
+		[page, pageSize, toggleStatus],
 	);
 
 	const mailCategories = useMemo(() => data?.content ?? [], [data?.content]);
@@ -331,5 +375,22 @@ export function useMailCategoryContent() {
 		setEditMc,
 		deleteMc,
 		setDeleteMc,
+		duplicateMc,
+		setDuplicateMc,
+		toggleStatus,
 	};
+}
+
+export function useToggleMailCategoryStatus(onSuccess?: () => void) {
+	const qc = useQueryClient();
+
+	return useMutation({
+		mutationFn: (id: string) => toggleMailCategoryStatus(id),
+		onSuccess: () => {
+			toast.success("Status kategori surat berhasil diubah");
+			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
+			onSuccess?.();
+		},
+		onError: (err) => toast.error(err.message),
+	});
 }

@@ -2,7 +2,7 @@
 
 import { IconMessage, IconPlus, IconTemplate } from "@tabler/icons-react";
 import { memo } from "react";
-import { Button } from "@/components/ui/button";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	Card,
 	CardAction,
@@ -39,6 +39,8 @@ export const QuickMessageContent = memo(() => {
 		setEditQm,
 		deleteQm,
 		setDeleteQm,
+		duplicateQm,
+		setDuplicateQm,
 	} = useQuickMessageContent();
 
 	return (
@@ -58,14 +60,18 @@ export const QuickMessageContent = memo(() => {
 							</div>
 						</div>
 						<CardAction className="flex items-center gap-2">
-							<Button
-								onClick={() => setCreateOpen(true)}
+							<TooltipButton
+								onClick={() => {
+									setDuplicateQm(null);
+									setCreateOpen(true);
+								}}
+								tooltip="Tambah Pesan Singkat Baru"
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
 								<IconPlus className="h-4 w-4" />
 								Tambah Pesan
-							</Button>
+							</TooltipButton>
 						</CardAction>
 					</div>
 				</CardHeader>
@@ -92,14 +98,18 @@ export const QuickMessageContent = memo(() => {
 									Mulai dengan menambahkan template pesan yang sering Anda
 									gunakan untuk mempercepat respons
 								</p>
-								<Button
+								<TooltipButton
 									className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
 									size="sm"
-									onClick={() => setCreateOpen(true)}
+									tooltip="Tambah Pesan Singkat Baru"
+									onClick={() => {
+										setDuplicateQm(null);
+										setCreateOpen(true);
+									}}
 								>
 									<IconPlus className="h-4 w-4" />
 									Tambah Pesan Pertama
-								</Button>
+								</TooltipButton>
 							</div>
 						}
 					/>
@@ -119,7 +129,13 @@ export const QuickMessageContent = memo(() => {
 
 			<CreateQuickMessageDialog
 				open={createOpen}
-				onOpenChange={setCreateOpen}
+				onOpenChange={(v) => {
+					setCreateOpen(v);
+					if (!v) setDuplicateQm(null);
+				}}
+				defaultValues={
+					duplicateQm ? { message: duplicateQm.message } : undefined
+				}
 			/>
 			<EditQuickMessageDialog qm={editQm} onClose={() => setEditQm(null)} />
 			<DeleteQuickMessageDialog

@@ -108,9 +108,9 @@ export const MailCategoryContent = memo(() => {
 									<SelectValue placeholder="Semua Tipe Surat">
 										{mailTypeId
 											? mailTypeOptions.find(
-												(opt: { value: string; label: string }) =>
-													opt.value === mailTypeId,
-											)?.label
+													(opt: { value: string; label: string }) =>
+														opt.value === mailTypeId,
+												)?.label
 											: "Semua Tipe Surat"}
 									</SelectValue>
 								</SelectTrigger>

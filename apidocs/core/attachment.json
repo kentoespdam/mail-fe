@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/attachments": {
 			"get": {
-				"tags": ["attachment-controller"],
+				"tags": [
+					"attachment-controller"
+				],
 				"operationId": "findByOwner",
 				"parameters": [
 					{
@@ -33,7 +35,10 @@
 						"schema": {
 							"type": "integer",
 							"format": "int32",
-							"enum": [1, 2]
+							"enum": [
+								1,
+								2
+							]
 						}
 					},
 					{
@@ -63,7 +68,9 @@
 				}
 			},
 			"post": {
-				"tags": ["attachment-controller"],
+				"tags": [
+					"attachment-controller"
+				],
 				"operationId": "upload",
 				"parameters": [
 					{
@@ -73,7 +80,10 @@
 						"schema": {
 							"type": "integer",
 							"format": "int32",
-							"enum": [1, 2]
+							"enum": [
+								1,
+								2
+							]
 						}
 					},
 					{
@@ -105,7 +115,9 @@
 										"format": "binary"
 									}
 								},
-								"required": ["file"]
+								"required": [
+									"file"
+								]
 							}
 						}
 					}
@@ -126,7 +138,9 @@
 		},
 		"/api/v1/attachments/{id}": {
 			"get": {
-				"tags": ["attachment-controller"],
+				"tags": [
+					"attachment-controller"
+				],
 				"operationId": "findById_1",
 				"parameters": [
 					{
@@ -153,7 +167,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["attachment-controller"],
+				"tags": [
+					"attachment-controller"
+				],
 				"operationId": "delete_1",
 				"parameters": [
 					{
@@ -175,8 +191,10 @@
 		},
 		"/api/v1/attachments/{id}/download": {
 			"get": {
-				"tags": ["attachment-controller"],
-				"operationId": "download",
+				"tags": [
+					"attachment-controller"
+				],
+				"operationId": "download_1",
 				"parameters": [
 					{
 						"name": "id",

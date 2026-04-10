@@ -3,17 +3,21 @@
 import { memo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import CheckboxControll from "@/components/builder/checkbox-controll";
-import InputNumberControll from "@/components/builder/input-number-controll";
 import InputTextControll from "@/components/builder/input-text-controll";
+import SelectControll, {
+	type SelectOption,
+} from "@/components/builder/select-controll";
+import TextareaControll from "@/components/builder/textarea-controll";
 import { FieldGroup } from "@/components/ui/field";
 import type { CreatePublicationPayload } from "@/types/publication";
 
 interface PublicationFormFieldsProps {
 	form: UseFormReturn<CreatePublicationPayload>;
+	documentTypeOptions: SelectOption[];
 }
 
 export const PublicationFormFields = memo(
-	({ form }: PublicationFormFieldsProps) => {
+	({ form, documentTypeOptions }: PublicationFormFieldsProps) => {
 		return (
 			<FieldGroup className="px-4 py-4">
 				<InputTextControll
@@ -22,17 +26,20 @@ export const PublicationFormFields = memo(
 					label="Judul *"
 					placeholder="Judul publikasi"
 				/>
-				<InputTextControll
+				<TextareaControll
 					form={form}
 					id="description"
 					label="Deskripsi"
 					placeholder="Deskripsi singkat"
+					rows={3}
 				/>
-				<InputNumberControll
+				<SelectControll
 					form={form}
 					id="documentTypeId"
-					label="ID Tipe Dokumen *"
-					placeholder="Contoh: 1"
+					label="Tipe Dokumen *"
+					placeholder="Pilih tipe dokumen"
+					options={documentTypeOptions}
+					required
 				/>
 				<CheckboxControll form={form} id="publish" label="Langsung terbitkan" />
 			</FieldGroup>

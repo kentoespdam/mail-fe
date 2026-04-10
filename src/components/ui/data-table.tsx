@@ -174,52 +174,38 @@ function DataTableComponent<TData, TValue>({
 
 									return (
 										<TableHead key={header.id} className="whitespace-nowrap">
-											{header.isPlaceholder ? null : (
-												// biome-ignore lint/a11y/useKeyWithClickEvents: handled conditionally
-												// biome-ignore lint/a11y/noStaticElementInteractions: handled conditionally
-												<div
-													className={
-														isSortable
-															? "flex cursor-pointer select-none items-center gap-2 hover:text-foreground transition-colors group"
-															: ""
-													}
-													role={isSortable ? "button" : undefined}
-													tabIndex={isSortable ? 0 : undefined}
+											{header.isPlaceholder ? null : isSortable ? (
+												<button
+													type="button"
+													className="flex cursor-pointer select-none items-center gap-2 hover:text-foreground transition-colors group"
 													onClick={header.column.getToggleSortingHandler()}
-													onKeyDown={(e) => {
-														if (
-															isSortable &&
-															(e.key === "Enter" || e.key === " ")
-														) {
-															// biome-ignore lint/suspicious/noExplicitAny: event type flexibility
-															header.column.getToggleSortingHandler()?.(
-																e as any,
-															);
-														}
-													}}
 												>
 													{flexRender(
 														header.column.columnDef.header,
 														header.getContext(),
 													)}
-													{isSortable &&
-														(header.column.getIsSorted() === "asc" ? (
-															<IconSortAscending
-																className="size-4 text-primary"
-																aria-hidden="true"
-															/>
-														) : header.column.getIsSorted() === "desc" ? (
-															<IconSortDescending
-																className="size-4 text-primary"
-																aria-hidden="true"
-															/>
-														) : (
-															<IconSelector
-																className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-																aria-hidden="true"
-															/>
-														))}
-												</div>
+													{header.column.getIsSorted() === "asc" ? (
+														<IconSortAscending
+															className="size-4 text-primary"
+															aria-hidden="true"
+														/>
+													) : header.column.getIsSorted() === "desc" ? (
+														<IconSortDescending
+															className="size-4 text-primary"
+															aria-hidden="true"
+														/>
+													) : (
+														<IconSelector
+															className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+															aria-hidden="true"
+														/>
+													)}
+												</button>
+											) : (
+												flexRender(
+													header.column.columnDef.header,
+													header.getContext(),
+												)
 											)}
 										</TableHead>
 									);

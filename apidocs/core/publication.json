@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/publications/{id}": {
 			"get": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "findById",
 				"parameters": [
 					{
@@ -41,7 +43,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/PublicationDto"
+									"$ref": "#/components/schemas/PublicationResponse"
 								}
 							}
 						}
@@ -49,7 +51,9 @@
 				}
 			},
 			"put": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "update",
 				"parameters": [
 					{
@@ -65,17 +69,7 @@
 					"content": {
 						"multipart/form-data": {
 							"schema": {
-								"type": "object",
-								"properties": {
-									"data": {
-										"$ref": "#/components/schemas/UpdatePublicationRequest"
-									},
-									"file": {
-										"type": "string",
-										"format": "binary"
-									}
-								},
-								"required": ["data"]
+								"$ref": "#/components/schemas/UpdatePublicationRequest"
 							}
 						}
 					}
@@ -86,7 +80,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/PublicationDto"
+									"$ref": "#/components/schemas/PublicationResponse"
 								}
 							}
 						}
@@ -94,7 +88,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "delete",
 				"parameters": [
 					{
@@ -115,8 +111,10 @@
 		},
 		"/api/v1/publications": {
 			"get": {
-				"tags": ["publication-controller"],
-				"operationId": "list",
+				"tags": [
+					"publication-controller"
+				],
+				"operationId": "findAll",
 				"parameters": [
 					{
 						"name": "status",
@@ -124,7 +122,11 @@
 						"required": false,
 						"schema": {
 							"type": "string",
-							"enum": ["DRAFT", "PUBLISHED", "DELETED"]
+							"enum": [
+								"DRAFT",
+								"PUBLISHED",
+								"DELETED"
+							]
 						}
 					},
 					{
@@ -140,8 +142,7 @@
 						"in": "query",
 						"required": false,
 						"schema": {
-							"type": "integer",
-							"format": "int32"
+							"type": "string"
 						}
 					},
 					{
@@ -203,7 +204,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/PagedResponsePublicationDto"
+									"$ref": "#/components/schemas/PagedModelPublicationResponse"
 								}
 							}
 						}
@@ -211,23 +212,15 @@
 				}
 			},
 			"post": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "create",
 				"requestBody": {
 					"content": {
 						"multipart/form-data": {
 							"schema": {
-								"type": "object",
-								"properties": {
-									"data": {
-										"$ref": "#/components/schemas/CreatePublicationRequest"
-									},
-									"file": {
-										"type": "string",
-										"format": "binary"
-									}
-								},
-								"required": ["data"]
+								"$ref": "#/components/schemas/CreatePublicationRequest"
 							}
 						}
 					}
@@ -238,7 +231,68 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/PublicationDto"
+									"$ref": "#/components/schemas/PublicationResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/publications/{id}/publish": {
+			"patch": {
+				"tags": [
+					"publication-controller"
+				],
+				"operationId": "publish_1",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/PublicationResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/publications/{id}/download": {
+			"get": {
+				"tags": [
+					"publication-controller"
+				],
+				"operationId": "download",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string",
+									"format": "binary"
 								}
 							}
 						}
@@ -249,7 +303,7 @@
 	},
 	"components": {
 		"schemas": {
-			"PublicationDto": {
+			"PublicationResponse": {
 				"type": "object",
 				"properties": {
 					"id": {
@@ -262,7 +316,7 @@
 						"type": "string"
 					},
 					"documentType": {
-						"$ref": "#/components/schemas/DocumentTypeDto"
+						"$ref": "#/components/schemas/DocumentTypeLookup"
 					},
 					"status": {
 						"type": "string"
@@ -272,9 +326,6 @@
 						"format": "date-time"
 					},
 					"fileName": {
-						"type": "string"
-					},
-					"filePath": {
 						"type": "string"
 					},
 					"fileSize": {
@@ -288,8 +339,7 @@
 						"type": "string"
 					},
 					"createdByUserId": {
-						"type": "integer",
-						"format": "int32"
+						"type": "string"
 					},
 					"createdAt": {
 						"type": "string",
@@ -298,10 +348,6 @@
 					"updatedAt": {
 						"type": "string",
 						"format": "date-time"
-					},
-					"totalCount": {
-						"type": "integer",
-						"format": "int32"
 					}
 				}
 			},
@@ -316,45 +362,33 @@
 						"type": "string"
 					},
 					"documentTypeId": {
-						"type": "integer",
-						"format": "int32"
+						"type": "string",
+						"minLength": 1
 					},
 					"publish": {
 						"type": "boolean"
+					},
+					"file": {
+						"type": "string",
+						"format": "binary"
 					}
 				},
-				"required": ["documentTypeId", "title"]
+				"required": [
+					"documentTypeId",
+					"title"
+				]
 			},
-			"PagedResponsePublicationDto": {
+			"PagedModelPublicationResponse": {
 				"type": "object",
 				"properties": {
 					"content": {
 						"type": "array",
 						"items": {
-							"$ref": "#/components/schemas/PublicationDto"
+							"$ref": "#/components/schemas/PublicationResponse"
 						}
 					},
 					"page": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"size": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"totalElements": {
-						"type": "integer",
-						"format": "int64"
-					},
-					"totalPages": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"first": {
-						"type": "boolean"
-					},
-					"last": {
-						"type": "boolean"
+						"$ref": "#/components/schemas/PageMetadata"
 					}
 				}
 			},
@@ -369,24 +403,51 @@
 						"type": "string"
 					},
 					"documentTypeId": {
-						"type": "integer",
-						"format": "int32"
+						"type": "string",
+						"minLength": 1
 					},
 					"publish": {
 						"type": "boolean"
+					},
+					"file": {
+						"type": "string",
+						"format": "binary"
 					}
 				},
-				"required": ["documentTypeId", "title"]
+				"required": [
+					"documentTypeId",
+					"title"
+				]
 			},
-			"DocumentTypeDto": {
+			"DocumentTypeLookup": {
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "integer",
-						"format": "int32"
+						"type": "string"
 					},
 					"name": {
 						"type": "string"
+					}
+				}
+			},
+			"PageMetadata": {
+				"type": "object",
+				"properties": {
+					"size": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"number": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int64"
 					}
 				}
 			}

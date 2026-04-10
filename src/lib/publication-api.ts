@@ -1,32 +1,45 @@
+import type { PagedResponse } from "@/types/commons";
 import type {
 	CreatePublicationPayload,
+	DocumentTypeLookup,
 	PublicationDto,
-	PublicationFilter,
 	UpdatePublicationPayload,
 } from "@/types/publication";
 
-const BASE = "/api/proxy/publications";
+const BASE = "/api/proxy/v1/publications";
 
 export async function fetchPublications(
-	filter: PublicationFilter = {},
-	offset = 0,
-	limit = 20,
-): Promise<PublicationDto[]> {
+	page = 0,
+	size = 20,
+	search?: string,
+	status?: string,
+	sortBy?: string,
+	sortDir?: string,
+): Promise<PagedResponse<PublicationDto>> {
 	const params = new URLSearchParams();
-	if (filter.status) params.set("status", filter.status);
-	if (filter.keyword) params.set("keyword", filter.keyword);
-	if (filter.typeId) params.set("typeId", String(filter.typeId));
-	params.set("offset", String(offset));
-	params.set("limit", String(limit));
+	if (status) params.set("status", status);
+	if (search) params.set("keyword", search);
+	params.set("page", String(page));
+	params.set("size", String(size));
+	if (sortBy) params.set("sortBy", sortBy);
+	if (sortDir) params.set("sortDir", sortDir);
 
 	const res = await fetch(`${BASE}?${params}`);
 	if (!res.ok) throw new Error("Gagal memuat data publikasi");
 	return res.json();
 }
 
-export async function fetchPublication(id: number): Promise<PublicationDto> {
+export async function fetchPublication(id: string): Promise<PublicationDto> {
 	const res = await fetch(`${BASE}/${id}`);
 	if (!res.ok) throw new Error("Gagal memuat detail publikasi");
+	return res.json();
+}
+
+export async function fetchDocumentTypesLookup(): Promise<
+	DocumentTypeLookup[]
+> {
+	const res = await fetch("/api/proxy/v1/document-types/lookup");
+	if (!res.ok) throw new Error("Gagal memuat tipe dokumen");
 	return res.json();
 }
 
@@ -50,7 +63,7 @@ export async function createPublication(
 }
 
 export async function updatePublication(
-	id: number,
+	id: string,
 	data: UpdatePublicationPayload,
 	file?: File,
 ): Promise<PublicationDto> {
@@ -69,7 +82,7 @@ export async function updatePublication(
 	return res.json();
 }
 
-export async function deletePublication(id: number): Promise<void> {
+export async function deletePublication(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
 	if (!res.ok) throw new Error("Gagal menghapus publikasi");
 }

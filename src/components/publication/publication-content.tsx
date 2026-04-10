@@ -1,8 +1,7 @@
 "use client";
 
-import { IconPlus, IconSearch } from "@tabler/icons-react";
-import { memo, useCallback, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { IconFileText, IconPlus } from "@tabler/icons-react";
+import { memo } from "react";
 import {
 	Card,
 	CardAction,
@@ -11,60 +10,57 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { usePublications } from "@/hooks/publication-hooks";
-import type {
-	PublicationDto,
-	PublicationFilter,
-	PublicationStatus,
-} from "@/types/publication";
+import { DataTable, DataTablePagination } from "@/components/ui/data-table";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { TooltipButton } from "@/components/ui/tooltip-button";
+import { usePublicationContent } from "@/hooks/publication-hooks";
 import { DeletePublicationDialog } from "./publication-delete-dialog";
 import {
 	CreatePublicationDialog,
 	EditPublicationDialog,
 } from "./publication-form-dialog";
-import { PublicationTable } from "./publication-table";
-
-const LIMIT = 20;
 
 export const PublicationContent = memo(() => {
-	const [filter, setFilter] = useState<PublicationFilter>({});
-	const [keyword, setKeyword] = useState("");
-	const [offset, setOffset] = useState(0);
-
-	const { data: publications, isLoading } = usePublications(
-		filter,
-		offset,
-		LIMIT,
-	);
-
-	const [createOpen, setCreateOpen] = useState(false);
-	const [editPub, setEditPub] = useState<PublicationDto | null>(null);
-	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
-
-	const handleSearch = useCallback(() => {
-		setOffset(0);
-		setFilter((f) => ({ ...f, keyword: keyword || undefined }));
-	}, [keyword]);
-
-	const handleStatusFilter = useCallback((status?: PublicationStatus) => {
-		setOffset(0);
-		setFilter((f) => ({ ...f, status }));
-	}, []);
-
-	const totalCount = publications?.[0]?.totalCount ?? 0;
-	const hasNext = publications?.length === LIMIT;
-	const hasPrev = offset > 0;
+	const {
+		page,
+		setPage,
+		pageSize,
+		setPageSize,
+		sorting,
+		setSorting,
+		searchValue,
+		setSearchValue,
+		status,
+		setStatus,
+		data,
+		isLoading,
+		columns,
+		publications,
+		createOpen,
+		setCreateOpen,
+		editPubId,
+		setEditPubId,
+		deletePub,
+		setDeletePub,
+		duplicatePub,
+		setDuplicatePub,
+	} = usePublicationContent();
 
 	return (
 		<>
 			<Card className="shadow-sm">
-				<CardHeader className="border-b border-border/50 bg-muted/30 pb-4">
+				<CardHeader className="border-b border-border/50 pb-4">
 					<div className="relative flex items-start justify-between gap-4">
 						<div className="flex items-center gap-4">
 							<div className="space-y-1">
 								<CardTitle className="flex gap-2 items-center text-lg font-semibold tracking-tight text-foreground">
-									<IconSearch
+									<IconFileText
 										className="size-4 text-muted-foreground"
 										aria-hidden="true"
 									/>
@@ -76,100 +72,113 @@ export const PublicationContent = memo(() => {
 							</div>
 						</div>
 						<CardAction className="flex items-center gap-2">
-							<Button
-								onClick={() => setCreateOpen(true)}
+							<TooltipButton
+								onClick={() => {
+									setDuplicatePub(null);
+									setCreateOpen(true);
+								}}
+								tooltip="Tambah Dokumen Publikasi Baru"
 								className="gap-2 shadow-sm transition-all hover:shadow-md"
 								size="sm"
 							>
 								<IconPlus className="size-4" aria-hidden="true" />
 								Tambah Dokumen
-							</Button>
+							</TooltipButton>
 						</CardAction>
 					</div>
 				</CardHeader>
-				<CardContent className="space-y-3">
-					{/* Filters */}
-					<div className="flex flex-wrap items-center gap-2">
-						<div className="flex items-center gap-1">
-							<Input
-								placeholder="Cari judul…"
-								value={keyword}
-								onChange={(e) => setKeyword(e.target.value)}
-								onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-								className="w-56"
-							/>
-							<Button variant="outline" size="icon" onClick={handleSearch}>
-								<IconSearch className="size-4" aria-hidden="true" />
-							</Button>
-						</div>
-						<div className="flex gap-1">
-							<Button
-								variant={!filter.status ? "default" : "outline"}
-								size="sm"
-								onClick={() => handleStatusFilter()}
-							>
-								Semua
-							</Button>
-							<Button
-								variant={filter.status === "PUBLISHED" ? "default" : "outline"}
-								size="sm"
-								onClick={() => handleStatusFilter("PUBLISHED")}
-							>
-								Terbit
-							</Button>
-							<Button
-								variant={filter.status === "DRAFT" ? "default" : "outline"}
-								size="sm"
-								onClick={() => handleStatusFilter("DRAFT")}
-							>
-								Draf
-							</Button>
-						</div>
-					</div>
 
-					<PublicationTable
-						publications={publications}
+				<CardContent className="space-y-4 p-2">
+					<DataTable
+						columns={columns}
+						data={publications}
 						isLoading={isLoading}
-						offset={offset}
-						onEdit={setEditPub}
-						onDelete={setDeletePub}
+						sorting={sorting}
+						onSortingChange={setSorting}
+						searchValue={searchValue}
+						onSearchChange={setSearchValue}
+						searchPlaceholder="Cari judul publikasi..."
+						filterChildren={
+							<Select value={status ?? "all"} onValueChange={setStatus}>
+								<SelectTrigger className="w-[160px]">
+									<SelectValue placeholder="Semua Status">
+										{status === "PUBLISHED"
+											? "Terbit"
+											: status === "DRAFT"
+												? "Draf"
+												: "Semua Status"}
+									</SelectValue>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="all">Semua Status</SelectItem>
+									<SelectItem value="PUBLISHED">Terbit</SelectItem>
+									<SelectItem value="DRAFT">Draf</SelectItem>
+								</SelectContent>
+							</Select>
+						}
+						emptyMessage={
+							<div className="flex flex-col items-center justify-center py-16 text-center">
+								<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-muted/50 text-muted-foreground ring-1 ring-border">
+									<IconFileText
+										className="size-10 text-muted-foreground/40"
+										aria-hidden="true"
+									/>
+								</div>
+								<h3 className="text-base font-semibold text-foreground">
+									Belum ada publikasi
+								</h3>
+								<p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">
+									Mulai dengan menambahkan dokumen publikasi baru
+								</p>
+								<TooltipButton
+									className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
+									size="sm"
+									tooltip="Tambah Dokumen Publikasi Baru"
+									onClick={() => {
+										setDuplicatePub(null);
+										setCreateOpen(true);
+									}}
+								>
+									<IconPlus className="size-4" aria-hidden="true" />
+									Tambah Publikasi Pertama
+								</TooltipButton>
+							</div>
+						}
 					/>
 
-					{/* Pagination */}
-					{(hasPrev || hasNext) && (
-						<div className="flex items-center justify-between">
-							<span className="text-xs text-muted-foreground">
-								{totalCount > 0 && `Total: ${totalCount}`}
-							</span>
-							<div className="flex gap-1">
-								<Button
-									variant="outline"
-									size="sm"
-									disabled={!hasPrev}
-									onClick={() => setOffset((o) => Math.max(0, o - LIMIT))}
-								>
-									Sebelumnya
-								</Button>
-								<Button
-									variant="outline"
-									size="sm"
-									disabled={!hasNext}
-									onClick={() => setOffset((o) => o + LIMIT)}
-								>
-									Berikutnya
-								</Button>
-							</div>
-						</div>
+					{data && data.page.totalPages > 0 && (
+						<DataTablePagination
+							page={page}
+							pageCount={data.page.totalPages}
+							totalElements={data.page.totalElements}
+							pageSize={pageSize}
+							onPageChange={setPage}
+							onPageSizeChange={setPageSize}
+						/>
 					)}
 				</CardContent>
 			</Card>
 
-			<CreatePublicationDialog open={createOpen} onOpenChange={setCreateOpen} />
-			<EditPublicationDialog pub={editPub} onClose={() => setEditPub(null)} />
-			<DeletePublicationDialog
-				pub={deletePub}
-				onClose={() => setDeletePub(null)}
+			<CreatePublicationDialog
+				open={createOpen}
+				onOpenChange={(v) => {
+					setCreateOpen(v);
+					if (!v) setDuplicatePub(null);
+				}}
+				defaultValues={duplicatePub ?? undefined}
 			/>
+			{editPubId && (
+				<EditPublicationDialog
+					pubId={editPubId}
+					onClose={() => setEditPubId(null)}
+				/>
+			)}
+			{deletePub && (
+				<DeletePublicationDialog
+					pub={deletePub}
+					onClose={() => setDeletePub(null)}
+				/>
+			)}
 		</>
 	);
 });

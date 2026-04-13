@@ -1,7 +1,13 @@
 "use client";
 
-import { IconCalendar, IconFileText, IconTag } from "@tabler/icons-react";
-import { memo } from "react";
+import {
+	IconCalendar,
+	IconDownload,
+	IconEye,
+	IconFileText,
+	IconTag,
+} from "@tabler/icons-react";
+import { memo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -10,8 +16,13 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipButton } from "@/components/ui/tooltip-button";
+import { getFileType } from "@/hooks/publication-hooks";
 import { formatIndonesianDate } from "@/lib/date-helper";
+import { triggerDownload } from "@/lib/publication-api";
 import type { PublicationDto } from "@/types/publication";
+import { PublicationPreviewDialog } from "./publication-preview-dialog";
 
 interface PublicationDetailDialogProps {
 	pub: PublicationDto | null;
@@ -20,6 +31,8 @@ interface PublicationDetailDialogProps {
 
 export const PublicationDetailDialog = memo(
 	({ pub, onClose }: PublicationDetailDialogProps) => {
+		const [previewPub, setPreviewPub] = useState<PublicationDto | null>(null);
+
 		if (!pub) return null;
 
 		return (
@@ -104,6 +117,33 @@ export const PublicationDetailDialog = memo(
 										</p>
 									</div>
 								</div>
+
+								<TooltipProvider delay={0}>
+									<TooltipButton
+										variant="ghost"
+										size="icon-sm"
+										onClick={() => {
+											const type = getFileType(pub.fileName);
+											if (type === "other") {
+												triggerDownload(pub.id, pub.fileName as string);
+											} else {
+												setPreviewPub(pub);
+											}
+										}}
+										tooltip={
+											getFileType(pub.fileName) === "other"
+												? "Download file"
+												: "Lihat file"
+										}
+										className="h-9 w-9 text-primary hover:bg-primary/10 hover:text-primary"
+									>
+										{getFileType(pub.fileName) === "other" ? (
+											<IconDownload className="size-4" aria-hidden="true" />
+										) : (
+											<IconEye className="size-4" aria-hidden="true" />
+										)}
+									</TooltipButton>
+								</TooltipProvider>
 							</div>
 						)}
 					</div>
@@ -114,6 +154,11 @@ export const PublicationDetailDialog = memo(
 						</Button>
 					</DialogFooter>
 				</DialogContent>
+
+				<PublicationPreviewDialog
+					pub={previewPub}
+					onClose={() => setPreviewPub(null)}
+				/>
 			</Dialog>
 		);
 	},

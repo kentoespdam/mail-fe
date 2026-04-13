@@ -106,7 +106,7 @@ export function EditQuickMessageDialog({ qm, onClose }: EditDialogProps) {
 	);
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: React.SubmitEvent) => {
 			e.preventDefault();
 			if (qm) onSubmit(qm.id);
 		},

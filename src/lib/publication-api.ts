@@ -48,10 +48,10 @@ export async function createPublication(
 	file?: File,
 ): Promise<PublicationDto> {
 	const formData = new FormData();
-	formData.append(
-		"data",
-		new Blob([JSON.stringify(data)], { type: "application/json" }),
-	);
+	formData.append("title", data.title);
+	formData.append("description", data.description || "");
+	formData.append("documentTypeId", data.documentTypeId);
+	formData.append("publish", String(data.publish));
 	if (file) formData.append("file", file);
 
 	const res = await fetch(BASE, { method: "POST", body: formData });
@@ -68,10 +68,10 @@ export async function updatePublication(
 	file?: File,
 ): Promise<PublicationDto> {
 	const formData = new FormData();
-	formData.append(
-		"data",
-		new Blob([JSON.stringify(data)], { type: "application/json" }),
-	);
+	formData.append("title", data.title);
+	formData.append("description", data.description || "");
+	formData.append("documentTypeId", data.documentTypeId);
+	formData.append("publish", String(data.publish));
 	if (file) formData.append("file", file);
 
 	const res = await fetch(`${BASE}/${id}`, { method: "PUT", body: formData });

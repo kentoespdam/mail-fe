@@ -28,10 +28,9 @@ export interface PublicationDto {
 	fileSize: number | null;
 	createdByName: string | null;
 	createdByTitle: string | null;
-	createdByUserId: number;
+	createdByUserId: string;
 	createdAt: string;
 	updatedAt: string;
-	updatedBy?: string;
 }
 
 export type PublicationStatus = "DRAFT" | "PUBLISHED" | "DELETED";

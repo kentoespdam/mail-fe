@@ -49,8 +49,6 @@ export const PublicationContent = memo(() => {
 		setEditPubId,
 		deletePub,
 		setDeletePub,
-		duplicatePub,
-		setDuplicatePub,
 		publishPub,
 		setPublishPub,
 	} = usePublicationContent();
@@ -77,7 +75,6 @@ export const PublicationContent = memo(() => {
 						<CardAction className="flex items-center gap-2">
 							<TooltipButton
 								onClick={() => {
-									setDuplicatePub(null);
 									setCreateOpen(true);
 								}}
 								tooltip="Tambah Dokumen Publikasi Baru"
@@ -138,7 +135,6 @@ export const PublicationContent = memo(() => {
 									size="sm"
 									tooltip="Tambah Dokumen Publikasi Baru"
 									onClick={() => {
-										setDuplicatePub(null);
 										setCreateOpen(true);
 									}}
 								>
@@ -166,9 +162,7 @@ export const PublicationContent = memo(() => {
 				open={createOpen}
 				onOpenChange={(v) => {
 					setCreateOpen(v);
-					if (!v) setDuplicatePub(null);
 				}}
-				defaultValues={duplicatePub ?? undefined}
 			/>
 			{editPubId && (
 				<EditPublicationDialog

@@ -51,7 +51,7 @@ export function CreatePublicationDialog({
 	const isDuplicate = !!defaultValues;
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: React.SubmitEvent) => {
 			e.preventDefault();
 			onSubmit(fileRef.current?.files?.[0]);
 		},
@@ -127,7 +127,7 @@ export function EditPublicationDialog({ pubId, onClose }: EditDialogProps) {
 	);
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: React.SubmitEvent) => {
 			e.preventDefault();
 			if (pubId) onSubmit(pubId, fileRef.current?.files?.[0]);
 		},
@@ -162,10 +162,7 @@ export function EditPublicationDialog({ pubId, onClose }: EditDialogProps) {
 								<input id="pub-file-edit" type="file" ref={fileRef} />
 							</div>
 						</form>
-						<AuditTrailInfo
-							updatedAt={publication.updatedAt}
-							updatedBy={publication.updatedBy}
-						/>
+						<AuditTrailInfo updatedAt={publication.updatedAt} />
 					</>
 				) : null}
 				<DialogFooter>

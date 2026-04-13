@@ -181,7 +181,6 @@ export function usePublicationContent() {
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editPubId, setEditPubId] = useState<string | null>(null);
 	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
-	const [duplicatePub, setDuplicatePub] = useState<PublicationDto | null>(null);
 	const [publishPub, setPublishPub] = useState<PublicationDto | null>(null);
 
 	const publishMutation = usePublishPublication();
@@ -278,18 +277,6 @@ export function usePublicationContent() {
 								<TooltipButton
 									variant="ghost"
 									size="icon-sm"
-									onClick={() => {
-										setDuplicatePub(pub);
-										setCreateOpen(true);
-									}}
-									tooltip="Duplikat publikasi"
-									className="h-8 w-8 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-								>
-									<IconCopy className="size-4" aria-hidden="true" />
-								</TooltipButton>
-								<TooltipButton
-									variant="ghost"
-									size="icon-sm"
 									onClick={() => setEditPubId(pub.id)}
 									tooltip="Edit publikasi"
 									className="h-8 w-8 text-primary hover:bg-primary/10 hover:text-primary"
@@ -340,8 +327,6 @@ export function usePublicationContent() {
 		setEditPubId,
 		deletePub,
 		setDeletePub,
-		duplicatePub,
-		setDuplicatePub,
 		publishPub,
 		setPublishPub,
 		publishMutation,

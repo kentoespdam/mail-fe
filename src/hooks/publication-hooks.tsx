@@ -1,5 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconCopy, IconFile, IconPencil, IconTrash } from "@tabler/icons-react";
+import {
+	IconCloudUpload,
+	IconCopy,
+	IconFile,
+	IconPencil,
+	IconTrash,
+} from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
@@ -14,6 +20,7 @@ import {
 	fetchDocumentTypesLookup,
 	fetchPublication,
 	fetchPublications,
+	publishPublication,
 	updatePublication,
 } from "@/lib/publication-api";
 import type { PagedResponse } from "@/types/commons";
@@ -175,6 +182,9 @@ export function usePublicationContent() {
 	const [editPubId, setEditPubId] = useState<string | null>(null);
 	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
 	const [duplicatePub, setDuplicatePub] = useState<PublicationDto | null>(null);
+	const [publishPub, setPublishPub] = useState<PublicationDto | null>(null);
+
+	const publishMutation = usePublishPublication();
 
 	const columns = useMemo<ColumnDef<PublicationDto, unknown>[]>(
 		() => [
@@ -254,6 +264,17 @@ export function usePublicationContent() {
 					return (
 						<TooltipProvider delay={0}>
 							<div className="flex justify-end gap-1">
+								{pub.status === "DRAFT" && (
+									<TooltipButton
+										variant="ghost"
+										size="icon-sm"
+										onClick={() => setPublishPub(pub)}
+										tooltip="Terbitkan publikasi"
+										className="h-8 w-8 text-success hover:bg-success/10 hover:text-success"
+									>
+										<IconCloudUpload className="size-4" aria-hidden="true" />
+									</TooltipButton>
+								)}
 								<TooltipButton
 									variant="ghost"
 									size="icon-sm"
@@ -321,6 +342,9 @@ export function usePublicationContent() {
 		setDeletePub,
 		duplicatePub,
 		setDuplicatePub,
+		publishPub,
+		setPublishPub,
+		publishMutation,
 	};
 }
 
@@ -423,6 +447,21 @@ export function useDeletePublication(onSuccess?: () => void) {
 		mutationFn: (id: string) => deletePublication(id),
 		onSuccess: () => {
 			toast.success("Publikasi berhasil dihapus");
+			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
+			onSuccess?.();
+		},
+		onError: (err) => toast.error(err.message),
+	});
+}
+
+// ─── Publish mutation ────────────────────────────────────────────
+export function usePublishPublication(onSuccess?: () => void) {
+	const qc = useQueryClient();
+
+	return useMutation({
+		mutationFn: (id: string) => publishPublication(id),
+		onSuccess: () => {
+			toast.success("Publikasi berhasil diterbitkan");
 			qc.invalidateQueries({ queryKey: [QUERY_KEY] });
 			onSuccess?.();
 		},

@@ -23,9 +23,7 @@
 	"paths": {
 		"/api/v1/publications/{id}": {
 			"get": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "findById",
 				"parameters": [
 					{
@@ -51,9 +49,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "update",
 				"parameters": [
 					{
@@ -88,9 +84,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "delete",
 				"parameters": [
 					{
@@ -111,9 +105,7 @@
 		},
 		"/api/v1/publications": {
 			"get": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "findAll",
 				"parameters": [
 					{
@@ -122,11 +114,7 @@
 						"required": false,
 						"schema": {
 							"type": "string",
-							"enum": [
-								"DRAFT",
-								"PUBLISHED",
-								"DELETED"
-							]
+							"enum": ["DRAFT", "PUBLISHED", "DELETED"]
 						}
 					},
 					{
@@ -212,9 +200,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "create",
 				"requestBody": {
 					"content": {
@@ -241,9 +227,7 @@
 		},
 		"/api/v1/publications/{id}/publish": {
 			"patch": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "publish_1",
 				"parameters": [
 					{
@@ -271,9 +255,7 @@
 		},
 		"/api/v1/publications/{id}/download": {
 			"get": {
-				"tags": [
-					"publication-controller"
-				],
+				"tags": ["publication-controller"],
 				"operationId": "download",
 				"parameters": [
 					{
@@ -373,10 +355,7 @@
 						"format": "binary"
 					}
 				},
-				"required": [
-					"documentTypeId",
-					"title"
-				]
+				"required": ["documentTypeId", "title"]
 			},
 			"PagedModelPublicationResponse": {
 				"type": "object",
@@ -414,10 +393,7 @@
 						"format": "binary"
 					}
 				},
-				"required": [
-					"documentTypeId",
-					"title"
-				]
+				"required": ["documentTypeId", "title"]
 			},
 			"DocumentTypeLookup": {
 				"type": "object",

@@ -86,3 +86,14 @@ export async function deletePublication(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
 	if (!res.ok) throw new Error("Gagal menghapus publikasi");
 }
+
+export async function publishPublication(id: string): Promise<PublicationDto> {
+	const res = await fetch(`${BASE}/${id}/publish`, {
+		method: "PATCH",
+	});
+	if (!res.ok) {
+		const err = await res.json().catch(() => null);
+		throw new Error(err?.detail ?? "Gagal menerbitkan publikasi");
+	}
+	return res.json();
+}

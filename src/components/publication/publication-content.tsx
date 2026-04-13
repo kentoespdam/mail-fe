@@ -25,6 +25,7 @@ import {
 	CreatePublicationDialog,
 	EditPublicationDialog,
 } from "./publication-form-dialog";
+import { PublishPublicationDialog } from "./publication-publish-dialog";
 
 export const PublicationContent = memo(() => {
 	const {
@@ -50,6 +51,8 @@ export const PublicationContent = memo(() => {
 		setDeletePub,
 		duplicatePub,
 		setDuplicatePub,
+		publishPub,
+		setPublishPub,
 	} = usePublicationContent();
 
 	return (
@@ -179,6 +182,10 @@ export const PublicationContent = memo(() => {
 					onClose={() => setDeletePub(null)}
 				/>
 			)}
+			<PublishPublicationDialog
+				pub={publishPub}
+				onClose={() => setPublishPub(null)}
+			/>
 		</>
 	);
 });

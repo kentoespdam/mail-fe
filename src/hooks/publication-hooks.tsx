@@ -25,6 +25,7 @@ import {
 	triggerDownload,
 	updatePublication,
 } from "@/lib/publication-api";
+import { hasPermission } from "@/lib/rbac";
 import type { PagedResponse } from "@/types/commons";
 import {
 	type CreatePublicationPayload,
@@ -33,6 +34,7 @@ import {
 	type UpdatePublicationPayload,
 } from "@/types/publication";
 import { queryParsers, useQueryStates } from "./use-query-state";
+import { useUser } from "./use-user";
 
 const QUERY_KEY = "publications";
 const DEFAULT_SIZE = 20;
@@ -197,8 +199,13 @@ export function usePublicationContent() {
 	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
 	const [publishPub, setPublishPub] = useState<PublicationDto | null>(null);
 	const [previewPub, setPreviewPub] = useState<PublicationDto | null>(null);
-
 	const publishMutation = usePublishPublication();
+
+	const { user } = useUser();
+	const canWrite = useMemo(
+		() => hasPermission(user?.roles || [], "publikasi:write"),
+		[user?.roles],
+	);
 
 	const columns = useMemo<ColumnDef<PublicationDto, unknown>[]>(
 		() => [
@@ -287,35 +294,42 @@ export function usePublicationContent() {
 								>
 									<IconEye className="size-4" aria-hidden="true" />
 								</TooltipButton>
-								{pub.status === "DRAFT" && (
-									<TooltipButton
-										variant="ghost"
-										size="icon-sm"
-										onClick={() => setPublishPub(pub)}
-										tooltip="Terbitkan publikasi"
-										className="h-8 w-8 text-success hover:bg-success/10 hover:text-success"
-									>
-										<IconCloudUpload className="size-4" aria-hidden="true" />
-									</TooltipButton>
+								{canWrite && (
+									<>
+										{pub.status === "DRAFT" && (
+											<TooltipButton
+												variant="ghost"
+												size="icon-sm"
+												onClick={() => setPublishPub(pub)}
+												tooltip="Terbitkan publikasi"
+												className="h-8 w-8 text-success hover:bg-success/10 hover:text-success"
+											>
+												<IconCloudUpload
+													className="size-4"
+													aria-hidden="true"
+												/>
+											</TooltipButton>
+										)}
+										<TooltipButton
+											variant="ghost"
+											size="icon-sm"
+											onClick={() => setEditPubId(pub.id)}
+											tooltip="Edit publikasi"
+											className="h-8 w-8 text-primary hover:bg-primary/10 hover:text-primary"
+										>
+											<IconPencil className="size-4" aria-hidden="true" />
+										</TooltipButton>
+										<TooltipButton
+											variant="ghost"
+											size="icon-sm"
+											onClick={() => setDeletePub(pub)}
+											tooltip="Hapus publikasi"
+											className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+										>
+											<IconTrash className="size-4" aria-hidden="true" />
+										</TooltipButton>
+									</>
 								)}
-								<TooltipButton
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => setEditPubId(pub.id)}
-									tooltip="Edit publikasi"
-									className="h-8 w-8 text-primary hover:bg-primary/10 hover:text-primary"
-								>
-									<IconPencil className="size-4" aria-hidden="true" />
-								</TooltipButton>
-								<TooltipButton
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => setDeletePub(pub)}
-									tooltip="Hapus publikasi"
-									className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-								>
-									<IconTrash className="size-4" aria-hidden="true" />
-								</TooltipButton>
 
 								{pub.fileName && (
 									<TooltipButton
@@ -348,7 +362,7 @@ export function usePublicationContent() {
 				enableHiding: false,
 			},
 		],
-		[page, pageSize],
+		[page, pageSize, canWrite],
 	);
 
 	const publications = useMemo(() => data?.content ?? [], [data?.content]);
@@ -381,6 +395,7 @@ export function usePublicationContent() {
 		publishMutation,
 		previewPub,
 		setPreviewPub,
+		canWrite,
 	};
 }
 

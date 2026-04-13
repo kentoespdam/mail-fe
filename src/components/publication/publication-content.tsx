@@ -57,6 +57,7 @@ export const PublicationContent = memo(() => {
 		setPublishPub,
 		previewPub,
 		setPreviewPub,
+		canWrite,
 	} = usePublicationContent();
 
 	return (
@@ -78,19 +79,21 @@ export const PublicationContent = memo(() => {
 								</CardDescription>
 							</div>
 						</div>
-						<CardAction className="flex items-center gap-2">
-							<TooltipButton
-								onClick={() => {
-									setCreateOpen(true);
-								}}
-								tooltip="Tambah Dokumen Publikasi Baru"
-								className="gap-2 shadow-sm transition-all hover:shadow-md"
-								size="sm"
-							>
-								<IconPlus className="size-4" aria-hidden="true" />
-								Tambah Dokumen
-							</TooltipButton>
-						</CardAction>
+						{canWrite && (
+							<CardAction className="flex items-center gap-2">
+								<TooltipButton
+									onClick={() => {
+										setCreateOpen(true);
+									}}
+									tooltip="Tambah Dokumen Publikasi Baru"
+									className="gap-2 shadow-sm transition-all hover:shadow-md"
+									size="sm"
+								>
+									<IconPlus className="size-4" aria-hidden="true" />
+									Tambah Dokumen
+								</TooltipButton>
+							</CardAction>
+						)}
 					</div>
 				</CardHeader>
 
@@ -134,19 +137,23 @@ export const PublicationContent = memo(() => {
 									Belum ada publikasi
 								</h3>
 								<p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">
-									Mulai dengan menambahkan dokumen publikasi baru
+									{canWrite
+										? "Mulai dengan menambahkan dokumen publikasi baru"
+										: "Silakan hubungi administrator untuk menambahkan dokumen"}
 								</p>
-								<TooltipButton
-									className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
-									size="sm"
-									tooltip="Tambah Dokumen Publikasi Baru"
-									onClick={() => {
-										setCreateOpen(true);
-									}}
-								>
-									<IconPlus className="size-4" aria-hidden="true" />
-									Tambah Publikasi Pertama
-								</TooltipButton>
+								{canWrite && (
+									<TooltipButton
+										className="mt-6 gap-2 shadow-sm transition-all hover:shadow-md"
+										size="sm"
+										tooltip="Tambah Dokumen Publikasi Baru"
+										onClick={() => {
+											setCreateOpen(true);
+										}}
+									>
+										<IconPlus className="size-4" aria-hidden="true" />
+										Tambah Publikasi Pertama
+									</TooltipButton>
+								)}
 							</div>
 						}
 					/>
@@ -164,28 +171,32 @@ export const PublicationContent = memo(() => {
 				</CardContent>
 			</Card>
 
-			<CreatePublicationDialog
-				open={createOpen}
-				onOpenChange={(v) => {
-					setCreateOpen(v);
-				}}
-			/>
-			{editPubId && (
-				<EditPublicationDialog
-					pubId={editPubId}
-					onClose={() => setEditPubId(null)}
-				/>
+			{canWrite && (
+				<>
+					<CreatePublicationDialog
+						open={createOpen}
+						onOpenChange={(v) => {
+							setCreateOpen(v);
+						}}
+					/>
+					{editPubId && (
+						<EditPublicationDialog
+							pubId={editPubId}
+							onClose={() => setEditPubId(null)}
+						/>
+					)}
+					{deletePub && (
+						<DeletePublicationDialog
+							pub={deletePub}
+							onClose={() => setDeletePub(null)}
+						/>
+					)}
+					<PublishPublicationDialog
+						pub={publishPub}
+						onClose={() => setPublishPub(null)}
+					/>
+				</>
 			)}
-			{deletePub && (
-				<DeletePublicationDialog
-					pub={deletePub}
-					onClose={() => setDeletePub(null)}
-				/>
-			)}
-			<PublishPublicationDialog
-				pub={publishPub}
-				onClose={() => setPublishPub(null)}
-			/>
 			<PublicationDetailDialog
 				pub={detailPub}
 				onClose={() => setDetailPub(null)}

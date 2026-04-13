@@ -20,7 +20,8 @@ export type Permission =
 	| "menu:persuratan"
 	| "menu:arsip_surat"
 	| "menu:publikasi"
-	| "menu:master";
+	| "menu:master"
+	| "publikasi:write";
 
 export interface UserProfile {
 	id: string;

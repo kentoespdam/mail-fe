@@ -7,12 +7,14 @@ export const ROLE_PERMISSIONS: Record<AppwriteRole, Permission[]> = {
 		"menu:arsip_surat",
 		"menu:publikasi",
 		"menu:master",
+		"publikasi:write",
 	],
 	ADMIN: [
 		"menu:dashboard",
 		"menu:persuratan",
 		"menu:arsip_surat",
 		"menu:publikasi",
+		"publikasi:write",
 	],
 	USER: ["menu:dashboard", "menu:persuratan", "menu:publikasi"],
 };

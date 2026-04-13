@@ -5,6 +5,21 @@ import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+// Suppress the React 19 warning about script tags in components.
+// This is a known issue with next-themes's flash prevention script.
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+	const orig = console.error;
+	console.error = (...args: unknown[]) => {
+		if (
+			typeof args[0] === "string" &&
+			args[0].includes("Encountered a script tag")
+		) {
+			return;
+		}
+		orig.apply(console, args);
+	};
+}
+
 const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
 	const [queryClient] = useState(
 		() =>

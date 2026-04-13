@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	IconCloudUpload,
+	IconDownload,
 	IconEye,
 	IconFile,
 	IconPencil,
@@ -21,6 +22,7 @@ import {
 	fetchPublication,
 	fetchPublications,
 	publishPublication,
+	triggerDownload,
 	updatePublication,
 } from "@/lib/publication-api";
 import type { PagedResponse } from "@/types/commons";
@@ -103,6 +105,17 @@ export const formatFileSize = (bytes: number | null) => {
 	return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
+export const getFileType = (
+	fileName: string | null,
+): "pdf" | "image" | "other" => {
+	if (!fileName) return "other";
+	const ext = fileName.split(".").pop()?.toLowerCase();
+	if (ext === "pdf") return "pdf";
+	if (["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext || ""))
+		return "image";
+	return "other";
+};
+
 // ─── Content hook ────────────────────────────────────────────────
 export function usePublicationContent() {
 	const { searchParams, setStates } = useQueryStates();
@@ -183,6 +196,7 @@ export function usePublicationContent() {
 	const [detailPub, setDetailPub] = useState<PublicationDto | null>(null);
 	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
 	const [publishPub, setPublishPub] = useState<PublicationDto | null>(null);
+	const [previewPub, setPreviewPub] = useState<PublicationDto | null>(null);
 
 	const publishMutation = usePublishPublication();
 
@@ -302,11 +316,34 @@ export function usePublicationContent() {
 								>
 									<IconTrash className="size-4" aria-hidden="true" />
 								</TooltipButton>
+
+								{pub.fileName && (
+									<TooltipButton
+										variant="ghost"
+										size="icon-sm"
+										onClick={() => {
+											const type = getFileType(pub.fileName);
+											if (type === "other") {
+												triggerDownload(pub.id, pub.fileName as string);
+											} else {
+												setPreviewPub(pub);
+											}
+										}}
+										tooltip={
+											getFileType(pub.fileName) === "other"
+												? "Download file"
+												: "Preview file"
+										}
+										className="h-8 w-8 text-green-500 hover:bg-secondary/10 hover:text-secondary"
+									>
+										<IconDownload className="size-4" aria-hidden="true" />
+									</TooltipButton>
+								)}
 							</div>
 						</TooltipProvider>
 					);
 				},
-				size: 140,
+				size: 180,
 				enableSorting: false,
 				enableHiding: false,
 			},
@@ -342,6 +379,8 @@ export function usePublicationContent() {
 		publishPub,
 		setPublishPub,
 		publishMutation,
+		previewPub,
+		setPreviewPub,
 	};
 }
 

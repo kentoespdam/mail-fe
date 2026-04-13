@@ -26,6 +26,7 @@ import {
 	CreatePublicationDialog,
 	EditPublicationDialog,
 } from "./publication-form-dialog";
+import { PublicationPreviewDialog } from "./publication-preview-dialog";
 import { PublishPublicationDialog } from "./publication-publish-dialog";
 
 export const PublicationContent = memo(() => {
@@ -54,6 +55,8 @@ export const PublicationContent = memo(() => {
 		setDetailPub,
 		publishPub,
 		setPublishPub,
+		previewPub,
+		setPreviewPub,
 	} = usePublicationContent();
 
 	return (
@@ -100,10 +103,10 @@ export const PublicationContent = memo(() => {
 						onSortingChange={setSorting}
 						searchValue={searchValue}
 						onSearchChange={setSearchValue}
-						searchPlaceholder="Cari judul publikasi..."
+						searchPlaceholder="Cari judul publikasi ..."
 						filterChildren={
 							<Select value={status ?? "all"} onValueChange={setStatus}>
-								<SelectTrigger className="w-[160px]">
+								<SelectTrigger className="w-40">
 									<SelectValue placeholder="Semua Status">
 										{status === "PUBLISHED"
 											? "Terbit"
@@ -186,6 +189,10 @@ export const PublicationContent = memo(() => {
 			<PublicationDetailDialog
 				pub={detailPub}
 				onClose={() => setDetailPub(null)}
+			/>
+			<PublicationPreviewDialog
+				pub={previewPub}
+				onClose={() => setPreviewPub(null)}
 			/>
 		</>
 	);

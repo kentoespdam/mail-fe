@@ -97,3 +97,40 @@ export async function publishPublication(id: string): Promise<PublicationDto> {
 	}
 	return res.json();
 }
+
+/**
+ * Mendapatkan URL download publikasi
+ */
+export function getPublicationDownloadUrl(id: string): string {
+	return `${BASE}/${id}/download`;
+}
+
+/**
+ * Fetch file publikasi sebagai Blob
+ */
+export async function downloadPublication(id: string): Promise<Blob> {
+	const res = await fetch(getPublicationDownloadUrl(id));
+	if (!res.ok) throw new Error("Gagal mengunduh file publikasi");
+	return res.blob();
+}
+
+/**
+ * Trigger download file di browser
+ */
+export async function triggerDownload(id: string, fileName: string) {
+	try {
+		const blob = await downloadPublication(id);
+		const url = window.URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.style.display = "none";
+		a.href = url;
+		a.download = fileName;
+		document.body.appendChild(a);
+		a.click();
+		window.URL.revokeObjectURL(url);
+		document.body.removeChild(a);
+	} catch (error) {
+		console.error("Download failed:", error);
+		throw error;
+	}
+}

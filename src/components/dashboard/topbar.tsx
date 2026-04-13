@@ -2,9 +2,10 @@
 
 import { IconBell } from "@tabler/icons-react";
 import { memo } from "react";
-import { Providers } from "@/app/providers";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useUser } from "@/hooks/use-user";
 import { SmartOfficeIcon } from "../ui/smart-office-icon";
 import TopBarMenu from "./top-menu";
 import UserProfileButton from "./user-profile-button";
@@ -18,6 +19,8 @@ import UserProfileButton from "./user-profile-button";
  * - Proper touch targets (min 44px for accessibility)
  */
 const TopBar = memo(() => {
+	const { user, isLoading } = useUser();
+
 	return (
 		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-secondary px-4 shadow-sm">
 			{/* Left Section: Logo */}
@@ -29,9 +32,7 @@ const TopBar = memo(() => {
 			<div className="flex items-center gap-2">
 				{/* App Menu */}
 				<nav>
-					<Providers>
-						<TopBarMenu />
-					</Providers>
+					<TopBarMenu />
 				</nav>
 
 				{/* Theme Toggle */}
@@ -53,12 +54,21 @@ const TopBar = memo(() => {
 				</Button>
 
 				<div className="flex flex-col space-y-0.5">
-					<p className="text-sm font-semibold text-right text-secondary-foreground">
-						Bagus Sudrajat, S.Kom.
-					</p>
-					<p className="text-[10px] uppercase tracking-wider font-bold text-secondary-foreground/60 text-right">
-						Administrator
-					</p>
+					{isLoading ? (
+						<div className="flex flex-col items-end space-y-1">
+							<Skeleton className="h-4 w-32" />
+							<Skeleton className="h-2 w-20" />
+						</div>
+					) : (
+						<>
+							<p className="text-sm font-semibold text-right text-secondary-foreground">
+								{user?.name ?? "—"}
+							</p>
+							<p className="text-[10px] uppercase tracking-wider font-bold text-secondary-foreground/60 text-right">
+								{user?.jabatan ?? "—"}
+							</p>
+						</>
+					)}
 				</div>
 
 				{/* Divider */}

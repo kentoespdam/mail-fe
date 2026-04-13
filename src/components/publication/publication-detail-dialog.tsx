@@ -2,7 +2,6 @@
 
 import { IconCalendar, IconFileText, IconTag } from "@tabler/icons-react";
 import { memo } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -11,7 +10,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { formatDate } from "@/hooks/publication-hooks";
 import { formatIndonesianDate } from "@/lib/date-helper";
 import type { PublicationDto } from "@/types/publication";
 

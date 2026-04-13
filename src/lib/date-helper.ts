@@ -11,7 +11,7 @@ export function formatIndonesianDate(
 	if (!dateString) return "-";
 
 	const date = new Date(dateString);
-	if (isNaN(date.getTime())) return "-";
+	if (Number.isNaN(date.getTime())) return "-";
 
 	const months = [
 		"Januari",
@@ -36,12 +36,5 @@ export function formatIndonesianDate(
 	const minutes = date.getMinutes().toString().padStart(2, "0");
 	const seconds = date.getSeconds().toString().padStart(2, "0");
 
-	// Output: "10 April 2026 08:03:38"
-	// Assuming day should not be padded to 2 digits if it's single digit?
-	// User example: "10 April 2026", let's parse 1, 2, ..., 10 without 0-padding for days if prefered.
-	// Actually, standard usually has no 0-padding for single digit days, e.g. "1 April".
-	// Let's use `date.getDate()` without padStart.
-	const dayStr = date.getDate().toString();
-
-	return `${dayStr} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+	return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
 }

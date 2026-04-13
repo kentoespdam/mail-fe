@@ -1,6 +1,8 @@
 "use server";
 
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID } from "@/lib/constants";
+import { getUser } from "@/lib/dal";
 import { isEmailValid } from "@/lib/email-validator";
 import {
 	createSession,
@@ -8,7 +10,7 @@ import {
 	getAppwriteSession,
 	getSession,
 } from "@/lib/session";
-import type { LoginSchema } from "@/types/auth";
+import type { LoginSchema, UserProfile } from "@/types/auth";
 
 export const doLogin = async (formData: LoginSchema) => {
 	if (!isEmailValid(formData.username)) {
@@ -118,4 +120,15 @@ export async function logout() {
 	}
 
 	await deleteSession();
+}
+
+export async function getUserProfile(): Promise<UserProfile | null> {
+	try {
+		return await getUser();
+	} catch (error) {
+		if (isRedirectError(error)) {
+			throw error;
+		}
+		return null;
+	}
 }

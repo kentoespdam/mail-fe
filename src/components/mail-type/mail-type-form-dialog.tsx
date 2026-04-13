@@ -103,7 +103,7 @@ export function EditMailTypeDialog({ mt, onClose }: EditDialogProps) {
 	);
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: React.SubmitEvent) => {
 			e.preventDefault();
 			if (mt) onSubmit(mt.id);
 		},

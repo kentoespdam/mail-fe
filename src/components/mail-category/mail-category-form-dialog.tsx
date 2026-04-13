@@ -137,7 +137,7 @@ export function EditMailCategoryDialog({ mcId, onClose }: EditDialogProps) {
 	);
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: React.SubmitEvent) => {
 			e.preventDefault();
 			if (mcId) onSubmit(mcId);
 		},

@@ -21,6 +21,7 @@ import {
 import { TooltipButton } from "@/components/ui/tooltip-button";
 import { usePublicationContent } from "@/hooks/publication-hooks";
 import { DeletePublicationDialog } from "./publication-delete-dialog";
+import { PublicationDetailDialog } from "./publication-detail-dialog";
 import {
 	CreatePublicationDialog,
 	EditPublicationDialog,
@@ -49,6 +50,8 @@ export const PublicationContent = memo(() => {
 		setEditPubId,
 		deletePub,
 		setDeletePub,
+		detailPub,
+		setDetailPub,
 		publishPub,
 		setPublishPub,
 	} = usePublicationContent();
@@ -179,6 +182,10 @@ export const PublicationContent = memo(() => {
 			<PublishPublicationDialog
 				pub={publishPub}
 				onClose={() => setPublishPub(null)}
+			/>
+			<PublicationDetailDialog
+				pub={detailPub}
+				onClose={() => setDetailPub(null)}
 			/>
 		</>
 	);

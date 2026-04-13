@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	IconCloudUpload,
-	IconCopy,
+	IconEye,
 	IconFile,
 	IconPencil,
 	IconTrash,
@@ -87,7 +87,7 @@ const statusBadge = (status: string) => {
 	}
 };
 
-const formatDate = (iso: string | null) => {
+export const formatDate = (iso: string | null) => {
 	if (!iso) return "—";
 	return new Date(iso).toLocaleDateString("id-ID", {
 		day: "2-digit",
@@ -96,7 +96,7 @@ const formatDate = (iso: string | null) => {
 	});
 };
 
-const formatFileSize = (bytes: number | null) => {
+export const formatFileSize = (bytes: number | null) => {
 	if (!bytes) return "—";
 	if (bytes < 1024) return `${bytes} B`;
 	if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -180,6 +180,7 @@ export function usePublicationContent() {
 
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editPubId, setEditPubId] = useState<string | null>(null);
+	const [detailPub, setDetailPub] = useState<PublicationDto | null>(null);
 	const [deletePub, setDeletePub] = useState<PublicationDto | null>(null);
 	const [publishPub, setPublishPub] = useState<PublicationDto | null>(null);
 
@@ -263,6 +264,15 @@ export function usePublicationContent() {
 					return (
 						<TooltipProvider delay={0}>
 							<div className="flex justify-end gap-1">
+								<TooltipButton
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setDetailPub(pub)}
+									tooltip="Lihat detail publikasi"
+									className="h-8 w-8 text-info hover:bg-info/10 hover:text-info"
+								>
+									<IconEye className="size-4" aria-hidden="true" />
+								</TooltipButton>
 								{pub.status === "DRAFT" && (
 									<TooltipButton
 										variant="ghost"
@@ -327,6 +337,8 @@ export function usePublicationContent() {
 		setEditPubId,
 		deletePub,
 		setDeletePub,
+		detailPub,
+		setDetailPub,
 		publishPub,
 		setPublishPub,
 		publishMutation,

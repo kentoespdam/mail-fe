@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "next-devtools-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "next-devtools-mcp"
+      ],
+      "description": "Next.js development tools MCP server with stdio transport"
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "description": "Upstash Context7 MCP server for library documentation"
+    },
+    "next-devtools": {
+      "url": "http://localhost:3000/_next/mcp",
+      "type": "http",
+      "description": "Local Next.js devtools server"
+    }
+  }
+}

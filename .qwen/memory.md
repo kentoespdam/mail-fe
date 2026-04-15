@@ -23,22 +23,25 @@ Next.js 16 (App Router) mail service frontend with Appwrite auth backend.
 src/
 ├── app/
 │   ├── (dashboard)/dashboard/page.tsx  # Protected route
+│   ├── (master)/master/                # Master data pages (tipe-surat, jenis-dokumen)
 │   ├── actions/auth.ts                 # Server: doLogin, logout
 │   ├── login/page.tsx                  # Public login
 │   ├── layout.tsx, page.tsx, providers.tsx
 │   └── globals.css
 ├── components/
 │   ├── auth/login-form.tsx
-│   ├── builder/                        # Form controls
+│   ├── builder/                        # Form controls (input-text, delete-confirm)
+│   ├── mail-type/, document-type/      # Master data components
 │   └── ui/                             # shadcn components
-├── hooks/auth-hooks.tsx                # useLogin
+├── hooks/                              # auth-hooks, mail-type-hooks, document-type-hooks
 ├── lib/
 │   ├── api-client.ts                   # HTTP utils (proxy via /api/proxy)
+│   ├── document-type-api.ts            # Master data API
 │   ├── constants.ts                    # Appwrite config
 │   ├── dal.ts                          # verifySession, getUser (RSC)
 │   ├── session.ts                      # JWT encrypt/decrypt, cookies
 │   └── utils.ts                        # cn()
-├── types/auth.ts, api.ts
+├── types/                              # auth.ts, api.ts, document-type.ts
 └── proxy.ts                            # Middleware: auth, refresh, proxy
 ```
 
@@ -53,6 +56,8 @@ SESSION_SECRET (base64url, A256GCM), DEFAULT_MAIL_DOMAIN, API_BASE_URL
 - **Client:** TanStack Query mutations, toast (sonner)
 - **Proxy:** `/api/proxy/*` → `API_BASE_URL` with Bearer JWT
 - **Validation:** Zod schemas in `types/`
+- **Master Data:** Consistent pattern (Types → API → Hooks/Orchestrator → Components → Page) with DataTable and Form/Delete dialogs.
+- **Form controls:** Standardized controls in `components/builder/` using `react-hook-form`.
 
 ## Commands
 ```bash

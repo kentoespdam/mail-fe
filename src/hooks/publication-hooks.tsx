@@ -8,7 +8,7 @@ import {
 	IconTrash,
 } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ColumnDef, SortingState } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -33,11 +33,10 @@ import {
 	type PublicationDto,
 	type UpdatePublicationPayload,
 } from "@/types/publication";
-import { queryParsers, useQueryStates } from "./use-query-state";
+import { queryParsers, usePagination } from "./use-pagination";
 import { useUser } from "./use-user";
 
 const QUERY_KEY = "publications";
-const DEFAULT_SIZE = 20;
 
 // ─── Single publication ──────────────────────────────────────────
 export function usePublication(id: string | null) {
@@ -120,68 +119,32 @@ export const getFileType = (
 
 // ─── Content hook ────────────────────────────────────────────────
 export function usePublicationContent() {
-	const { searchParams, setStates } = useQueryStates();
+	const {
+		page,
+		setPage,
+		pageSize,
+		setPageSize,
+		searchValue,
+		setSearchValue,
+		sorting,
+		setSorting,
+		sortBy,
+		sortDir,
+		searchParams,
+		setStates,
+	} = usePagination();
 
-	const page = useMemo(
-		() => queryParsers.number(searchParams.get("page")),
-		[searchParams],
-	);
-	const pageSize = useMemo(
-		() => queryParsers.number(searchParams.get("size")) || DEFAULT_SIZE,
-		[searchParams],
-	);
-	const searchValue = useMemo(
-		() => queryParsers.string(searchParams.get("search")),
-		[searchParams],
-	);
 	const status = useMemo(
 		() => queryParsers.optionalString(searchParams.get("status")),
 		[searchParams],
 	);
-	const sortBy = useMemo(
-		() => queryParsers.string(searchParams.get("sortBy")),
-		[searchParams],
-	);
-	const sortDir = useMemo(
-		() => queryParsers.string(searchParams.get("sortDir")) || "asc",
-		[searchParams],
-	);
 
-	const sorting = useMemo<SortingState>(
-		() => (sortBy ? [{ id: sortBy, desc: sortDir === "desc" }] : []),
-		[sortBy, sortDir],
-	);
-
-	const setPage = useCallback(
-		(p: number) => setStates({ page: p }),
-		[setStates],
-	);
-	const setPageSize = useCallback(
-		(s: number) => setStates({ size: s, page: 0 }),
-		[setStates],
-	);
-	const setSearchValue = useCallback(
-		(s: string) => setStates({ search: s, page: 0 }),
-		[setStates],
-	);
 	const setStatus = useCallback(
 		(s: string | null | undefined) => {
 			const value = s === "all" || s === null ? undefined : s;
 			setStates({ status: value, page: 0 });
 		},
 		[setStates],
-	);
-	const setSorting = useCallback(
-		(updater: SortingState | ((prev: SortingState) => SortingState)) => {
-			const next = typeof updater === "function" ? updater(sorting) : updater;
-			const item = next[0];
-			setStates({
-				sortBy: item?.id,
-				sortDir: item ? (item.desc ? "desc" : "asc") : undefined,
-				page: 0,
-			});
-		},
-		[setStates, sorting],
 	);
 
 	const { data, isLoading } = usePublications(

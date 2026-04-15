@@ -2,6 +2,7 @@
 
 import {
 	IconCategory,
+	IconFileDescription,
 	IconListLetters,
 	IconMailFast,
 } from "@tabler/icons-react";
@@ -26,6 +27,12 @@ const MASTER_TABS = [
 		label: "Pesan Singkat",
 		path: "/master/pesan-singkat",
 		icon: IconMailFast,
+	},
+	{
+		value: "jenis-dokumen",
+		label: "Jenis Dokumen",
+		path: "/master/jenis-dokumen",
+		icon: IconFileDescription,
 	},
 ];
 

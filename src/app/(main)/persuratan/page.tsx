@@ -1,5 +1,7 @@
-const PersuratanPage = () => {
-	return <div>View Persuratan</div>;
-};
+import { PersuratanContent } from "@/components/persuratan/persuratan-content";
 
-export default PersuratanPage;
+export const dynamic = "force-dynamic";
+
+export default function PersuratanPage() {
+	return <PersuratanContent />;
+}

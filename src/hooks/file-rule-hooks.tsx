@@ -211,7 +211,11 @@ export function useFileRuleContent() {
 					return (
 						<Badge
 							variant="outline"
-							className={isActive ? "bg-success/10 text-success border-success/20" : "bg-muted text-muted-foreground"}
+							className={
+								isActive
+									? "bg-success/10 text-success border-success/20"
+									: "bg-muted text-muted-foreground"
+							}
 						>
 							{isActive ? "Aktif" : "Nonaktif"}
 						</Badge>

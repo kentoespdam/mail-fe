@@ -4,7 +4,9 @@ import type { PagedResponse } from "./commons";
 export const FileRuleSchema = z.object({
 	context: z.string().min(1, "Context wajib diisi"),
 	extension: z.string().min(1, "Ekstensi wajib diisi"),
-	maxSizeMb: z.number({ message: "Ukuran maksimal wajib diisi" }).min(1, "Ukuran maksimal minimal 1 MB"),
+	maxSizeMb: z
+		.number({ message: "Ukuran maksimal wajib diisi" })
+		.min(1, "Ukuran maksimal minimal 1 MB"),
 	isActive: z.boolean(),
 });
 

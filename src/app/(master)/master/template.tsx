@@ -3,6 +3,7 @@
 import {
 	IconCategory,
 	IconFileDescription,
+	IconFileSettings,
 	IconListLetters,
 	IconMailFast,
 } from "@tabler/icons-react";
@@ -33,6 +34,12 @@ const MASTER_TABS = [
 		label: "Jenis Dokumen",
 		path: "/master/jenis-dokumen",
 		icon: IconFileDescription,
+	},
+	{
+		value: "file-rule",
+		label: "Aturan File",
+		path: "/master/file-rule",
+		icon: IconFileSettings,
 	},
 ];
 

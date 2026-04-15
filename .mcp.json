@@ -1,5 +1,9 @@
 {
 	"mcpServers": {
+		"next-devtools": {
+			"url": "http://localhost:3000/_next/mcp",
+			"type": "http"
+		},
 		"context7": {
 			"command": "npx",
 			"args": ["-y", "@upstash/context7-mcp@latest"],

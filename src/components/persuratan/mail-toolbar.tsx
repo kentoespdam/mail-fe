@@ -67,62 +67,66 @@ export const MailToolbar = memo(
 							Tulis Baru
 						</TooltipButton>
 
-						{selectedMailId && (<>
-							<DropdownMenu>
-								<DropdownMenuTrigger
-									className={cn(
-										buttonVariants({ variant: "outline", size: "sm" }),
-										"h-7 text-[11px] px-2",
-									)}
-									disabled={!selectedMailId}
-								>
-									<IconDots className="size-3 mr-1" />
-									Tindakan
-								</DropdownMenuTrigger>
-								<DropdownMenuContent align="start">
-									<DropdownMenuItem onClick={() => handleAction("Disposisi")}>
-										Disposisi
-									</DropdownMenuItem>
-									<DropdownMenuItem onClick={() => handleAction("Teruskan")}>
-										Teruskan
-									</DropdownMenuItem>
-									<DropdownMenuItem onClick={() => handleAction("Pindah Folder")}>
-										Pindah Folder
-									</DropdownMenuItem>
-								</DropdownMenuContent>
-							</DropdownMenu>
+						{selectedMailId && (
+							<>
+								<DropdownMenu>
+									<DropdownMenuTrigger
+										className={cn(
+											buttonVariants({ variant: "outline", size: "sm" }),
+											"h-7 text-[11px] px-2",
+										)}
+										disabled={!selectedMailId}
+									>
+										<IconDots className="size-3 mr-1" />
+										Tindakan
+									</DropdownMenuTrigger>
+									<DropdownMenuContent align="start">
+										<DropdownMenuItem onClick={() => handleAction("Disposisi")}>
+											Disposisi
+										</DropdownMenuItem>
+										<DropdownMenuItem onClick={() => handleAction("Teruskan")}>
+											Teruskan
+										</DropdownMenuItem>
+										<DropdownMenuItem
+											onClick={() => handleAction("Pindah Folder")}
+										>
+											Pindah Folder
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
 
-							<Button
-								variant="outline"
-								size="sm"
-								className="h-7 text-[11px] px-2 text-destructive hover:text-destructive"
-								disabled={!selectedMailId}
-								onClick={() => setDeleteDialogOpen(true)}
-							>
-								<IconTrash className="size-3 mr-1" />
-								Hapus
-							</Button>
-							<Button
-								variant="outline"
-								size="sm"
-								className="h-7 text-[11px] px-2"
-								disabled={!selectedMailId}
-								onClick={() => handleAction("Respon")}
-							>
-								<IconArrowBackUp className="size-3 mr-1" />
-								Respon
-							</Button>
-							<Button
-								variant="outline"
-								size="sm"
-								className="h-7 text-[11px] px-2"
-								disabled={!isDeletedItems || !selectedMailId}
-								onClick={() => handleAction("Kembalikan")}
-							>
-								<IconArrowBack className="size-3 mr-1" />
-								Kembalikan
-							</Button>
-						</>)}
+								<Button
+									variant="outline"
+									size="sm"
+									className="h-7 text-[11px] px-2 text-destructive hover:text-destructive"
+									disabled={!selectedMailId}
+									onClick={() => setDeleteDialogOpen(true)}
+								>
+									<IconTrash className="size-3 mr-1" />
+									Hapus
+								</Button>
+								<Button
+									variant="outline"
+									size="sm"
+									className="h-7 text-[11px] px-2"
+									disabled={!selectedMailId}
+									onClick={() => handleAction("Respon")}
+								>
+									<IconArrowBackUp className="size-3 mr-1" />
+									Respon
+								</Button>
+								<Button
+									variant="outline"
+									size="sm"
+									className="h-7 text-[11px] px-2"
+									disabled={!isDeletedItems || !selectedMailId}
+									onClick={() => handleAction("Kembalikan")}
+								>
+									<IconArrowBack className="size-3 mr-1" />
+									Kembalikan
+								</Button>
+							</>
+						)}
 
 						{isDraftOrRevisi && (
 							<Button
@@ -184,9 +188,7 @@ export const MailToolbar = memo(
 					</div>
 				</div>
 
-				<div className="flex items-center gap-1">
-
-				</div>
+				<div className="flex items-center gap-1"></div>
 
 				<DeleteConfirmDialog
 					open={deleteDialogOpen}

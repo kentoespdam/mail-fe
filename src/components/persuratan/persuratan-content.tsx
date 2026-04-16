@@ -1,79 +1,24 @@
 "use client";
 
-import type { OnChangeFn, SortingState } from "@tanstack/react-table";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo } from "react";
 import {
 	ResizableHandle,
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import {
-	DUMMY_FOLDERS,
-	DUMMY_MAIL_DETAIL,
-	DUMMY_MAILS,
-} from "@/lib/dummy/mail-dummy";
+import { useMailDetailState } from "@/hooks/persuratan/use-mail-detail-state";
+import { useMailListState } from "@/hooks/persuratan/use-mail-list-state";
+import { useMailNavigation } from "@/hooks/persuratan/use-mail-navigation";
+import { DUMMY_FOLDERS } from "@/lib/dummy/mail-dummy";
 import { MailDetail } from "./mail-detail";
 import { MailFolderTree } from "./mail-folder-tree";
 import { MailList } from "./mail-list";
 import { MailToolbar } from "./mail-toolbar";
 
 export const PersuratanContent = memo(() => {
-	const [selectedFolderId, setSelectedFolderId] = useState<string>("inbox");
-	const [selectedMailId, setSelectedMailId] = useState<string | null>(null);
-	const [keyword, setKeyword] = useState("");
-	const [page, setPage] = useState(0);
-	const [pageSize, setPageSize] = useState(10);
-	const [sorting, setSorting] = useState<SortingState>([]);
-
-	// Filtering logic for dummy data
-	const filteredMails = useMemo(() => {
-		return DUMMY_MAILS.filter((mail) => {
-			const matchesFolder = mail.folderId === selectedFolderId;
-			const matchesKeyword =
-				mail.subject.toLowerCase().includes(keyword.toLowerCase()) ||
-				mail.mailNumber.toLowerCase().includes(keyword.toLowerCase());
-			return matchesFolder && matchesKeyword;
-		});
-	}, [selectedFolderId, keyword]);
-
-	const selectedMailSummary = useMemo(() => {
-		return DUMMY_MAILS.find((m) => m.id === selectedMailId);
-	}, [selectedMailId]);
-
-	const selectedMailDetail = useMemo(() => {
-		return selectedMailId === "mail-1" ? DUMMY_MAIL_DETAIL : null;
-	}, [selectedMailId]);
-
-	const handleSelectMail = useCallback((mailId: string) => {
-		setSelectedMailId(mailId);
-	}, []);
-
-	const handleSelectFolder = useCallback((folderId: string) => {
-		setSelectedFolderId(folderId);
-		setSelectedMailId(null);
-		setPage(0);
-	}, []);
-
-	const handleSearch = useCallback((newKeyword: string) => {
-		setKeyword(newKeyword);
-		setPage(0);
-	}, []);
-
-	const handlePageChange = useCallback((newPage: number) => {
-		setPage(newPage);
-	}, []);
-
-	const handlePageSizeChange = useCallback((newSize: number) => {
-		setPageSize(newSize);
-		setPage(0);
-	}, []);
-
-	const handleSortingChange: OnChangeFn<SortingState> = useCallback(
-		(updaterOrValue) => {
-			setSorting(updaterOrValue);
-		},
-		[],
-	);
+	const navigation = useMailNavigation();
+	const mailList = useMailListState(navigation.selectedFolderId);
+	const mailDetail = useMailDetailState(navigation.selectedMailId);
 
 	return (
 		<div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden bg-background">
@@ -89,8 +34,8 @@ export const PersuratanContent = memo(() => {
 						<div className="flex-1 overflow-auto">
 							<MailFolderTree
 								folders={DUMMY_FOLDERS}
-								selectedFolderId={selectedFolderId}
-								onSelectFolder={handleSelectFolder}
+								selectedFolderId={navigation.selectedFolderId}
+								onSelectFolder={navigation.selectFolder}
 							/>
 						</div>
 					</div>
@@ -102,11 +47,11 @@ export const PersuratanContent = memo(() => {
 				<ResizablePanel defaultSize={85}>
 					<div className="flex flex-col h-full overflow-hidden">
 						<MailToolbar
-							onSearch={handleSearch}
+							onSearch={mailList.handleSearch}
 							onDateFilter={(start, end) => console.log(start, end)}
-							selectedMailId={selectedMailId}
-							selectedFolderId={selectedFolderId}
-							mailStatus={selectedMailSummary?.status}
+							selectedMailId={navigation.selectedMailId}
+							selectedFolderId={navigation.selectedFolderId}
+							mailStatus={mailDetail.selectedMailSummary?.status}
 						/>
 
 						<div className="flex-1 flex flex-col overflow-hidden">
@@ -114,16 +59,16 @@ export const PersuratanContent = memo(() => {
 								<ResizablePanel defaultSize={55} minSize={25}>
 									<div className="h-full p-1">
 										<MailList
-											mails={filteredMails}
-											selectedMailId={selectedMailId}
-											onSelectMail={handleSelectMail}
-											page={page}
-											pageSize={pageSize}
-											totalElements={filteredMails.length}
-											onPageChange={handlePageChange}
-											onPageSizeChange={handlePageSizeChange}
-											sorting={sorting}
-											onSortingChange={handleSortingChange}
+											mails={mailList.filteredMails}
+											selectedMailId={navigation.selectedMailId}
+											onSelectMail={navigation.selectMail}
+											page={mailList.page}
+											pageSize={mailList.pageSize}
+											totalElements={mailList.filteredMails.length}
+											onPageChange={mailList.handlePageChange}
+											onPageSizeChange={mailList.handlePageSizeChange}
+											sorting={mailList.sorting}
+											onSortingChange={mailList.handleSortingChange}
 										/>
 									</div>
 								</ResizablePanel>
@@ -132,7 +77,7 @@ export const PersuratanContent = memo(() => {
 
 								<ResizablePanel defaultSize={45} minSize={20}>
 									<div className="h-full bg-muted/5 p-1 overflow-auto">
-										<MailDetail mail={selectedMailDetail} />
+										<MailDetail mail={mailDetail.selectedMailDetail} />
 									</div>
 								</ResizablePanel>
 							</ResizablePanelGroup>

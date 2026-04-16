@@ -165,7 +165,7 @@ export const MailList = memo(
 							cn(
 								"text-[11px] transition-colors hover:bg-muted/50 group h-8",
 								selectedMailId === row.original.id &&
-								"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
+									"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
 								row.original.readStatus !== 0 && "text-muted-foreground",
 							)
 						}

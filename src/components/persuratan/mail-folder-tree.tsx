@@ -24,21 +24,21 @@ interface MailFolderTreeProps {
 const getIcon = (id: string, _iconCls: string) => {
 	switch (id) {
 		case "inbox":
-			return <IconInbox className="size-4 text-blue-500" />;
+			return <IconInbox className="size-3.5 text-blue-500" />;
 		case "draft":
-			return <IconFileDescription className="size-4 text-amber-500" />;
+			return <IconFileDescription className="size-3.5 text-amber-500" />;
 		case "read-items":
-			return <IconMailOpened className="size-4 text-emerald-500" />;
+			return <IconMailOpened className="size-3.5 text-emerald-500" />;
 		case "sent-items":
-			return <IconSend className="size-4 text-sky-500" />;
+			return <IconSend className="size-3.5 text-sky-500" />;
 		case "deleted-items":
-			return <IconTrash className="size-4 text-rose-500" />;
+			return <IconTrash className="size-3.5 text-rose-500" />;
 		case "penting":
-			return <IconStar className="size-4 text-yellow-500 fill-yellow-500" />;
+			return <IconStar className="size-3.5 text-yellow-500 fill-yellow-500" />;
 		case "archive":
-			return <IconArchive className="size-4 text-purple-500" />;
+			return <IconArchive className="size-3.5 text-purple-500" />;
 		default:
-			return <IconFolder className="size-4 text-slate-400" />;
+			return <IconFolder className="size-3.5 text-slate-400" />;
 	}
 };
 
@@ -57,14 +57,14 @@ export const MailFolderTree = ({
 					variant="ghost"
 					size="sm"
 					className={cn(
-						"group justify-between px-2 h-8 font-normal hover:bg-muted/80 transition-all",
+						"group justify-between px-2 h-7 font-normal hover:bg-muted/80 transition-all text-xs",
 						isSelected &&
 							"bg-accent text-accent-foreground font-semibold shadow-sm",
-						level > 0 && "ml-4",
+						level > 0 && "ml-3",
 					)}
 					onClick={() => onSelectFolder(folder.id)}
 				>
-					<div className="flex items-center gap-2 truncate">
+					<div className="flex items-center gap-1.5 truncate">
 						{getIcon(folder.id, folder.iconCls)}
 						<span className="truncate group-hover:translate-x-0.5 transition-transform duration-200">
 							{folder.name}
@@ -74,7 +74,7 @@ export const MailFolderTree = ({
 						<Badge
 							variant="secondary"
 							className={cn(
-								"h-4 min-w-4 px-1 justify-center text-[9px] font-bold",
+								"h-3.5 min-w-3.5 px-1 justify-center text-[9px] font-bold",
 								isSelected ? "bg-background" : "bg-primary/10 text-primary",
 							)}
 						>

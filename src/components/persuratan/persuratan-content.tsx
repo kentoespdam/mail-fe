@@ -81,7 +81,7 @@ export const PersuratanContent = memo(() => {
 				{/* Sidebar Panel */}
 				<ResizablePanel defaultSize={15} minSize={10} className="bg-muted/10">
 					<div className="flex flex-col h-full border-r bg-muted/5">
-						<div className="p-3 border-b bg-muted/20">
+						<div className="p-2 border-b bg-muted/20">
 							<h2 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
 								Folders
 							</h2>
@@ -111,8 +111,8 @@ export const PersuratanContent = memo(() => {
 
 						<div className="flex-1 flex flex-col overflow-hidden">
 							<ResizablePanelGroup orientation="vertical">
-								<ResizablePanel defaultSize={30} minSize={20}>
-									<div className="h-full p-2">
+								<ResizablePanel defaultSize={55} minSize={25}>
+									<div className="h-full p-1">
 										<MailList
 											mails={filteredMails}
 											selectedMailId={selectedMailId}
@@ -130,8 +130,8 @@ export const PersuratanContent = memo(() => {
 
 								<ResizableHandle withHandle />
 
-								<ResizablePanel defaultSize={40} minSize={20}>
-									<div className="h-full bg-muted/5 p-2 overflow-auto">
+								<ResizablePanel defaultSize={45} minSize={20}>
+									<div className="h-full bg-muted/5 p-1 overflow-auto">
 										<MailDetail mail={selectedMailDetail} />
 									</div>
 								</ResizablePanel>

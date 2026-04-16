@@ -36,11 +36,11 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 			const mail = row.original;
 			const isUnread = mail.readStatus === 0;
 			return (
-				<div className="flex items-center gap-2 py-0.5">
+				<div className="flex items-center gap-1.5 py-0.5">
 					{isUnread && (
 						<div className="size-1.5 rounded-full bg-primary shrink-0 animate-pulse" />
 					)}
-					<span className="whitespace-nowrap">
+					<span className="whitespace-nowrap text-[11px]">
 						{format(new Date(mail.mailDate), "dd/MM/yyyy HH:mm", {
 							locale: id,
 						})}
@@ -56,7 +56,7 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 		enableSorting: true,
 		cell: ({ row }) => (
 			<div
-				className="whitespace-nowrap truncate max-w-[120px]"
+				className="whitespace-nowrap truncate max-w-[100px] text-[11px]"
 				title={row.original.audit.createdByName}
 			>
 				{row.original.audit.createdByName}
@@ -73,7 +73,7 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 			return (
 				<div
 					className={cn(
-						"max-w-[300px] truncate group-hover:text-primary transition-colors py-0.5",
+						"max-w-[250px] truncate group-hover:text-primary transition-colors py-0.5 text-[11px]",
 						isUnread && "font-bold text-foreground",
 					)}
 					title={mail.subject}
@@ -89,7 +89,9 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 		header: "Tipe",
 		enableSorting: false,
 		cell: ({ row }) => (
-			<span className="whitespace-nowrap">{row.original.type.name}</span>
+			<span className="whitespace-nowrap text-[11px]">
+				{row.original.type.name}
+			</span>
 		),
 	},
 	{
@@ -100,7 +102,7 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 		cell: ({ row }) => (
 			<Badge
 				variant="outline"
-				className="text-[9px] px-1 py-0 h-4 font-bold uppercase leading-none"
+				className="text-[9px] px-1 py-0 h-3.5 font-bold uppercase leading-none"
 			>
 				{row.original.category.name}
 			</Badge>
@@ -111,7 +113,9 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 		header: "Sirkulasi",
 		enableSorting: false,
 		cell: ({ row }) => (
-			<span className="whitespace-nowrap">{row.original.circulationName}</span>
+			<span className="whitespace-nowrap text-[11px]">
+				{row.original.circulationName}
+			</span>
 		),
 	},
 	{
@@ -122,7 +126,7 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 			const date = row.original.maxResponseDate;
 			if (!date) return <span className="text-muted-foreground">-</span>;
 			return (
-				<span className="text-destructive font-medium whitespace-nowrap">
+				<span className="text-destructive font-medium whitespace-nowrap text-[11px]">
 					{format(new Date(date), "dd/MM/yyyy", { locale: id })}
 				</span>
 			);
@@ -147,8 +151,8 @@ export const MailList = memo(
 		const pageCount = Math.ceil(totalElements / pageSize);
 
 		return (
-			<div className="flex flex-col gap-2 h-full overflow-hidden">
-				<div className="flex-1 overflow-auto bg-card rounded-md border shadow-sm">
+			<div className="flex flex-col gap-1.5 h-full overflow-hidden">
+				<div className="flex-1 overflow-auto bg-card border shadow-sm">
 					<DataTable
 						columns={columns}
 						data={mails}
@@ -159,22 +163,24 @@ export const MailList = memo(
 						onRowClick={(row) => onSelectMail(row.original.id)}
 						getRowClassName={(row) =>
 							cn(
-								"text-xs transition-colors hover:bg-muted/50 group",
+								"text-[11px] transition-colors hover:bg-muted/50 group h-8",
 								selectedMailId === row.original.id &&
-									"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
+								"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
 								row.original.readStatus !== 0 && "text-muted-foreground",
 							)
 						}
 					/>
 				</div>
-				<DataTablePagination
-					page={page}
-					pageCount={pageCount}
-					totalElements={totalElements}
-					pageSize={pageSize}
-					onPageChange={onPageChange}
-					onPageSizeChange={onPageSizeChange}
-				/>
+				<div className="bg-card px-1">
+					<DataTablePagination
+						page={page}
+						pageCount={pageCount}
+						totalElements={totalElements}
+						pageSize={pageSize}
+						onPageChange={onPageChange}
+						onPageSizeChange={onPageSizeChange}
+					/>
+				</div>
 			</div>
 		);
 	},

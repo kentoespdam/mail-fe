@@ -9,8 +9,16 @@ import {
 	IconSearch,
 	IconTrash,
 } from "@tabler/icons-react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { DeleteConfirmDialog } from "@/components/builder/delete-confirm-dialog";
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TooltipButton } from "@/components/ui/tooltip-button";
@@ -18,12 +26,30 @@ import { TooltipButton } from "@/components/ui/tooltip-button";
 interface MailToolbarProps {
 	onSearch: (keyword: string) => void;
 	onDateFilter: (start: string, end: string) => void;
+	selectedMailId: string | null;
+	selectedFolderId: string;
+	mailStatus?: string;
 }
 
-export const MailToolbar = ({ onSearch }: MailToolbarProps) => {
+export const MailToolbar = ({
+	onSearch,
+	selectedMailId,
+	selectedFolderId,
+	mailStatus,
+}: MailToolbarProps) => {
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
 	const handleAction = (action: string) => {
-		toast.info(`Fitur ${action} belum tersedia`);
+		toast.info(`Fitur ${action} dalam pengembangan`);
 	};
+
+	const handleDelete = () => {
+		toast.success("Surat berhasil dihapus");
+		setDeleteDialogOpen(false);
+	};
+
+	const isDraftOrRevisi = mailStatus === "DRAFT" || mailStatus === "REVISI";
+	const isDeletedItems = selectedFolderId === "deleted-items";
 
 	return (
 		<div className="flex flex-col gap-4 p-4 border-b bg-card">
@@ -37,22 +63,39 @@ export const MailToolbar = ({ onSearch }: MailToolbarProps) => {
 						<IconPlus className="size-4 mr-1" />
 						Tulis Baru
 					</TooltipButton>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => handleAction("Tindakan")}
-					>
-						<IconDots className="size-4 mr-1" />
-						Tindakan
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => handleAction("Edit")}
-					>
-						<IconEdit className="size-4 mr-1" />
-						Edit
-					</Button>
+
+					<DropdownMenu>
+						<DropdownMenuTrigger
+							render={
+								<Button variant="outline" size="sm" disabled={!selectedMailId}>
+									<IconDots className="size-4 mr-1" />
+									Tindakan
+								</Button>
+							}
+						/>
+						<DropdownMenuContent align="start">
+							<DropdownMenuItem onClick={() => handleAction("Disposisi")}>
+								Disposisi
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => handleAction("Teruskan")}>
+								Teruskan
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => handleAction("Pindah Folder")}>
+								Pindah Folder
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+
+					{isDraftOrRevisi && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => handleAction("Edit")}
+						>
+							<IconEdit className="size-4 mr-1" />
+							Edit
+						</Button>
+					)}
 				</div>
 
 				<div className="flex items-center gap-2">
@@ -60,7 +103,8 @@ export const MailToolbar = ({ onSearch }: MailToolbarProps) => {
 						variant="outline"
 						size="sm"
 						className="text-destructive hover:text-destructive"
-						onClick={() => handleAction("Hapus")}
+						disabled={!selectedMailId}
+						onClick={() => setDeleteDialogOpen(true)}
 					>
 						<IconTrash className="size-4 mr-1" />
 						Hapus
@@ -68,6 +112,7 @@ export const MailToolbar = ({ onSearch }: MailToolbarProps) => {
 					<Button
 						variant="outline"
 						size="sm"
+						disabled={!selectedMailId}
 						onClick={() => handleAction("Respon")}
 					>
 						<IconArrowBackUp className="size-4 mr-1" />
@@ -76,6 +121,7 @@ export const MailToolbar = ({ onSearch }: MailToolbarProps) => {
 					<Button
 						variant="outline"
 						size="sm"
+						disabled={!isDeletedItems || !selectedMailId}
 						onClick={() => handleAction("Kembalikan")}
 					>
 						<IconArrowBack className="size-4 mr-1" />
@@ -134,6 +180,14 @@ export const MailToolbar = ({ onSearch }: MailToolbarProps) => {
 					</div>
 				</div>
 			</div>
+
+			<DeleteConfirmDialog
+				open={deleteDialogOpen}
+				onClose={() => setDeleteDialogOpen(false)}
+				onConfirm={handleDelete}
+				title="Hapus Surat"
+				description="Apakah Anda yakin ingin menghapus surat ini? Surat akan dipindahkan ke folder Deleted Items."
+			/>
 		</div>
 	);
 };

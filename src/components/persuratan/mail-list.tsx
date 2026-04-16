@@ -1,10 +1,18 @@
 "use client";
 
-import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { memo, useMemo } from "react";
+import { memo } from "react";
+import { Badge } from "@/components/ui/badge";
 import { DataTablePagination } from "@/components/ui/data-table";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import type { MailSummaryDto } from "@/types/mail";
 
@@ -32,148 +40,111 @@ export const MailList = memo(
 		onPageChange,
 		onPageSizeChange,
 	}: MailListProps) => {
-		const columns = useMemo<ColumnDef<MailSummaryDto>[]>(
-			() => [
-				{
-					accessorKey: "mailDate",
-					header: "Tgl Pengiriman",
-					cell: ({ row }) => {
-						const date = row.original.mailDate;
-						return format(new Date(date), "dd/MM/yyyy HH:mm", { locale: id });
-					},
-				},
-				{
-					accessorKey: "audit.createdByName",
-					header: "Pengirim",
-				},
-				{
-					accessorKey: "subject",
-					header: "Perihal",
-					cell: ({ row }) => (
-						<div
-							className="max-w-[300px] truncate"
-							title={row.original.subject}
-						>
-							{row.original.subject}
-						</div>
-					),
-				},
-				{
-					accessorKey: "type.name",
-					header: "Tipe",
-				},
-				{
-					accessorKey: "category.name",
-					header: "Jenis",
-				},
-				{
-					accessorKey: "circulationName",
-					header: "Sirkulasi",
-				},
-				{
-					accessorKey: "maxResponseDate",
-					header: "Batas Respon",
-					cell: ({ row }) => {
-						const date = row.original.maxResponseDate;
-						return date
-							? format(new Date(date), "dd/MM/yyyy", { locale: id })
-							: "-";
-					},
-				},
-			],
-			[],
-		);
-
 		const pageCount = Math.ceil(totalElements / pageSize);
 
 		return (
 			<div className="flex flex-col gap-4 h-full">
-				<div className="flex-1 overflow-auto rounded-md border bg-card">
-					<table className="w-full text-sm">
-						<thead className="sticky top-0 bg-muted/50 text-muted-foreground border-b z-10">
-							<tr>
-								{columns.map((col, i) => (
-									<th
-										key={i.toString()}
-										className="h-10 px-4 text-left align-middle font-medium whitespace-nowrap"
-									>
-										{typeof col.header === "string" ? col.header : ""}
-									</th>
-								))}
-							</tr>
-						</thead>
-						<tbody>
+				<div className="flex-1 overflow-auto rounded-md border bg-card shadow-sm">
+					<Table>
+						<TableHeader className="bg-muted/50 sticky top-0 z-10 shadow-sm">
+							<TableRow>
+								<TableHead className="w-45">Tgl Pengiriman</TableHead>
+								<TableHead className="w-37.5">Pengirim</TableHead>
+								<TableHead className="min-w-62.5">Perihal</TableHead>
+								<TableHead>Tipe</TableHead>
+								<TableHead>Jenis</TableHead>
+								<TableHead>Sirkulasi</TableHead>
+								<TableHead className="text-right">Batas Respon</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
 							{isLoading ? (
-								<tr>
-									<td
-										colSpan={columns.length}
-										className="h-24 text-center align-middle"
-									>
+								<TableRow>
+									<TableCell colSpan={7} className="h-24 text-center">
 										Memuat data...
-									</td>
-								</tr>
+									</TableCell>
+								</TableRow>
 							) : mails.length === 0 ? (
-								<tr>
-									<td
-										colSpan={columns.length}
-										className="h-24 text-center align-middle"
-									>
+								<TableRow>
+									<TableCell colSpan={7} className="h-24 text-center">
 										Tidak ada surat.
-									</td>
-								</tr>
+									</TableCell>
+								</TableRow>
 							) : (
 								mails.map((mail) => {
 									const isSelected = selectedMailId === mail.id;
 									const isUnread = mail.readStatus === 0;
 
 									return (
-										<tr
+										<TableRow
 											key={mail.id}
 											className={cn(
-												"border-b transition-colors hover:bg-muted/50 cursor-pointer",
-												isSelected && "bg-accent text-accent-foreground",
-												isUnread && "font-bold",
+												"cursor-pointer transition-all hover:bg-muted/50 group",
+												isSelected &&
+												"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
+												!isUnread && "text-muted-foreground",
 											)}
 											onClick={() => onSelectMail(mail.id)}
 										>
-											<td className="p-4 align-middle whitespace-nowrap">
-												{format(new Date(mail.mailDate), "dd/MM/yyyy HH:mm", {
-													locale: id,
-												})}
-											</td>
-											<td className="p-4 align-middle">
+											<TableCell className="font-medium whitespace-nowrap py-3">
+												<div className="flex items-center gap-2">
+													{isUnread && (
+														<div className="size-2 rounded-full bg-primary shrink-0 animate-pulse" />
+													)}
+													{format(new Date(mail.mailDate), "dd/MM/yyyy HH:mm", {
+														locale: id,
+													})}
+												</div>
+											</TableCell>
+											<TableCell className="whitespace-nowrap">
 												{mail.audit.createdByName}
-											</td>
-											<td className="p-4 align-middle">
+											</TableCell>
+											<TableCell>
 												<div
-													className="max-w-[300px] truncate"
+													className={cn(
+														"max-w-100 truncate group-hover:text-primary transition-colors",
+														isUnread && "font-bold text-foreground",
+													)}
 													title={mail.subject}
 												>
 													{mail.subject}
 												</div>
-											</td>
-											<td className="p-4 align-middle">{mail.type.name}</td>
-											<td className="p-4 align-middle">{mail.category.name}</td>
-											<td className="p-4 align-middle">
+											</TableCell>
+											<TableCell className="whitespace-nowrap">
+												{mail.type.name}
+											</TableCell>
+											<TableCell>
+												<Badge
+													variant="outline"
+													className="text-[10px] font-bold uppercase"
+												>
+													{mail.category.name}
+												</Badge>
+											</TableCell>
+											<TableCell className="whitespace-nowrap">
 												{mail.circulationName}
-											</td>
-											<td className="p-4 align-middle whitespace-nowrap">
-												{mail.maxResponseDate
-													? format(
+											</TableCell>
+											<TableCell className="text-right whitespace-nowrap">
+												{mail.maxResponseDate ? (
+													<span className="text-destructive font-medium">
+														{format(
 															new Date(mail.maxResponseDate),
 															"dd/MM/yyyy",
 															{
 																locale: id,
 															},
-														)
-													: "-"}
-											</td>
-										</tr>
+														)}
+													</span>
+												) : (
+													"-"
+												)}
+											</TableCell>
+										</TableRow>
 									);
 								})
 							)}
-						</tbody>
-					</table>
+						</TableBody>
+					</Table>
 				</div>
 				<DataTablePagination
 					page={page}

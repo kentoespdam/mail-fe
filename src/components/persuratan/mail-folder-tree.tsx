@@ -1,11 +1,13 @@
 "use client";
 
 import {
+	IconArchive,
 	IconFileDescription,
 	IconFolder,
 	IconInbox,
 	IconMailOpened,
 	IconSend,
+	IconStar,
 	IconTrash,
 } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
@@ -19,20 +21,24 @@ interface MailFolderTreeProps {
 	onSelectFolder: (folderId: string) => void;
 }
 
-const getIcon = (iconCls: string) => {
-	switch (iconCls) {
-		case "icon-inbox":
-			return <IconInbox className="size-4" />;
-		case "icon-draft":
-			return <IconFileDescription className="size-4" />;
-		case "icon-read":
-			return <IconMailOpened className="size-4" />;
-		case "icon-sent":
-			return <IconSend className="size-4" />;
-		case "icon-delete":
-			return <IconTrash className="size-4" />;
+const getIcon = (id: string, _iconCls: string) => {
+	switch (id) {
+		case "inbox":
+			return <IconInbox className="size-4 text-blue-500" />;
+		case "draft":
+			return <IconFileDescription className="size-4 text-amber-500" />;
+		case "read-items":
+			return <IconMailOpened className="size-4 text-emerald-500" />;
+		case "sent-items":
+			return <IconSend className="size-4 text-sky-500" />;
+		case "deleted-items":
+			return <IconTrash className="size-4 text-rose-500" />;
+		case "penting":
+			return <IconStar className="size-4 text-yellow-500 fill-yellow-500" />;
+		case "archive":
+			return <IconArchive className="size-4 text-purple-500" />;
 		default:
-			return <IconFolder className="size-4" />;
+			return <IconFolder className="size-4 text-slate-400" />;
 	}
 };
 
@@ -51,27 +57,33 @@ export const MailFolderTree = ({
 					variant="ghost"
 					size="sm"
 					className={cn(
-						"justify-between px-2 h-8 font-normal",
-						isSelected && "bg-accent text-accent-foreground font-medium",
+						"group justify-between px-2 h-8 font-normal hover:bg-muted/80 transition-all",
+						isSelected &&
+							"bg-accent text-accent-foreground font-semibold shadow-sm",
 						level > 0 && "ml-4",
 					)}
 					onClick={() => onSelectFolder(folder.id)}
 				>
 					<div className="flex items-center gap-2 truncate">
-						{getIcon(folder.iconCls)}
-						<span className="truncate">{folder.name}</span>
+						{getIcon(folder.id, folder.iconCls)}
+						<span className="truncate group-hover:translate-x-0.5 transition-transform duration-200">
+							{folder.name}
+						</span>
 					</div>
 					{folder.unread > 0 && (
 						<Badge
 							variant="secondary"
-							className="h-5 min-w-5 px-1 justify-center text-[10px]"
+							className={cn(
+								"h-4 min-w-4 px-1 justify-center text-[9px] font-bold",
+								isSelected ? "bg-background" : "bg-primary/10 text-primary",
+							)}
 						>
 							{folder.unread}
 						</Badge>
 					)}
 				</Button>
 				{children.length > 0 && (
-					<div className="flex flex-col">
+					<div className="flex flex-col mt-0.5">
 						{children.map((child) => renderFolder(child, level + 1))}
 					</div>
 				)}

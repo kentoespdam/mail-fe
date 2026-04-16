@@ -24,7 +24,7 @@ export default function DashboardPage() {
 	};
 
 	return (
-		<div className="space-y-6">
+		<div className="container mx-auto px-4 py-8 text-foreground space-y-6">
 			{/* Page Header */}
 			<div className="flex flex-col gap-1">
 				<h1 className="text-2xl font-bold tracking-tight text-foreground">

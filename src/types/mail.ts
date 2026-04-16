@@ -44,6 +44,7 @@ export interface MailSummaryDto {
 	audit: MailAuditInfo;
 	summary: MailSummaryInfo;
 	readStatus: number; // 0: unread, 1: read
+	status: string;
 	folderId: string;
 	type: MailTypeLookup;
 	category: MailCategoryLookup;

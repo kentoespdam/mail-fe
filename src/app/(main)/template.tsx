@@ -17,9 +17,7 @@ const Template = memo(({ children }: TemplateProps) => {
 		<div className="flex min-h-screen flex-col bg-background">
 			<TopBar />
 			<main className="flex-1 overflow-y-auto bg-linear-to-b from-background via-muted/10 to-muted/30">
-				<div className="container mx-auto px-4 py-8 text-foreground">
-					{children}
-				</div>
+				{children}
 			</main>
 		</div>
 	);

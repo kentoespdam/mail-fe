@@ -2,6 +2,7 @@
 
 import {
 	IconArchive,
+	IconChevronRight,
 	IconFileDescription,
 	IconFolder,
 	IconInbox,
@@ -10,9 +11,24 @@ import {
 	IconStar,
 	IconTrash,
 } from "@tabler/icons-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+	SidebarContent,
+	SidebarGroup,
+	SidebarGroupLabel,
+	SidebarMenu,
+	SidebarMenuBadge,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
+} from "@/components/ui/sidebar";
+import { useMailFolderTree } from "@/hooks/persuratan/use-mail-folder-tree";
 import type { MailFolderDto } from "@/types/mail";
 
 interface MailFolderTreeProps {
@@ -24,21 +40,21 @@ interface MailFolderTreeProps {
 const getIcon = (id: string, _iconCls: string) => {
 	switch (id) {
 		case "inbox":
-			return <IconInbox className="size-3.5 text-blue-500" />;
+			return <IconInbox className="size-4 text-blue-500" />;
 		case "draft":
-			return <IconFileDescription className="size-3.5 text-amber-500" />;
+			return <IconFileDescription className="size-4 text-amber-500" />;
 		case "read-items":
-			return <IconMailOpened className="size-3.5 text-emerald-500" />;
+			return <IconMailOpened className="size-4 text-emerald-500" />;
 		case "sent-items":
-			return <IconSend className="size-3.5 text-sky-500" />;
+			return <IconSend className="size-4 text-sky-500" />;
 		case "deleted-items":
-			return <IconTrash className="size-3.5 text-rose-500" />;
+			return <IconTrash className="size-4 text-rose-500" />;
 		case "penting":
-			return <IconStar className="size-3.5 text-yellow-500 fill-yellow-500" />;
+			return <IconStar className="size-4 text-yellow-500 fill-yellow-500" />;
 		case "archive":
-			return <IconArchive className="size-3.5 text-purple-500" />;
+			return <IconArchive className="size-4 text-purple-500" />;
 		default:
-			return <IconFolder className="size-3.5 text-slate-400" />;
+			return <IconFolder className="size-4 text-slate-400" />;
 	}
 };
 
@@ -47,57 +63,115 @@ export const MailFolderTree = ({
 	selectedFolderId,
 	onSelectFolder,
 }: MailFolderTreeProps) => {
+	const { rootFolders, getChildren, isOpen, toggleFolder } = useMailFolderTree({
+		folders,
+		selectedFolderId,
+	});
+
 	const renderFolder = (folder: MailFolderDto, level = 0) => {
-		const children = folders.filter((f) => f.parentFolderId === folder.id);
+		const children = getChildren(folder.id);
 		const isSelected = selectedFolderId === folder.id;
+		const hasChildren = children.length > 0;
+		const open = isOpen(folder.id);
+
+		if (hasChildren) {
+			return (
+				<Collapsible
+					key={folder.id}
+					open={open}
+					onOpenChange={(open) => toggleFolder(folder.id, open)}
+					className="group/collapsible"
+					render={level > 0 ? <SidebarMenuSubItem /> : <SidebarMenuItem />}
+				>
+					<CollapsibleTrigger
+						render={
+							level > 0 ? (
+								<SidebarMenuSubButton
+									isActive={isSelected}
+								// onClick={() => onSelectFolder(folder.id)}
+								>
+									<div className="flex items-center gap-2 truncate">
+										{getIcon(folder.id, folder.iconCls)}
+										<span className="truncate">{folder.name}</span>
+									</div>
+									{folder.unread > 0 && (
+										<span className="ml-auto text-[10px] font-bold">
+											{folder.unread}
+										</span>
+									)}
+									<IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+								</SidebarMenuSubButton>
+							) : (
+								<SidebarMenuButton
+									isActive={isSelected}
+									// onClick={() => onSelectFolder(folder.id)}
+									tooltip={folder.name}
+								>
+									{getIcon(folder.id, folder.iconCls)}
+									<span>{folder.name}</span>
+									<IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+								</SidebarMenuButton>
+							)
+						}
+					/>
+					{folder.unread > 0 && level === 0 && (
+						<SidebarMenuBadge>{folder.unread}</SidebarMenuBadge>
+					)}
+					<CollapsibleContent>
+						<SidebarMenuSub>
+							{children.map((child) => renderFolder(child, level + 1))}
+						</SidebarMenuSub>
+					</CollapsibleContent>
+				</Collapsible>
+			);
+		}
+
+		if (level > 0) {
+			return (
+				<SidebarMenuSubItem key={folder.id}>
+					<SidebarMenuSubButton
+						isActive={isSelected}
+						onClick={() => onSelectFolder(folder.id)}
+					>
+						<div className="flex items-center gap-2 truncate">
+							{getIcon(folder.id, folder.iconCls)}
+							<span className="truncate">{folder.name}</span>
+						</div>
+						{folder.unread > 0 && (
+							<span className="ml-auto text-[10px] font-bold">
+								{folder.unread}
+							</span>
+						)}
+					</SidebarMenuSubButton>
+				</SidebarMenuSubItem>
+			);
+		}
 
 		return (
-			<div key={folder.id} className="flex flex-col">
-				<Button
-					variant="ghost"
-					size="sm"
-					className={cn(
-						"group justify-between px-2 h-7 font-normal hover:bg-muted/80 transition-all text-xs",
-						isSelected &&
-							"bg-accent text-accent-foreground font-semibold shadow-sm",
-						level > 0 && "ml-3",
-					)}
+			<SidebarMenuItem key={folder.id}>
+				<SidebarMenuButton
+					isActive={isSelected}
 					onClick={() => onSelectFolder(folder.id)}
+					tooltip={folder.name}
 				>
-					<div className="flex items-center gap-1.5 truncate">
-						{getIcon(folder.id, folder.iconCls)}
-						<span className="truncate group-hover:translate-x-0.5 transition-transform duration-200">
-							{folder.name}
-						</span>
-					</div>
-					{folder.unread > 0 && (
-						<Badge
-							variant="secondary"
-							className={cn(
-								"h-3.5 min-w-3.5 px-1 justify-center text-[9px] font-bold",
-								isSelected ? "bg-background" : "bg-primary/10 text-primary",
-							)}
-						>
-							{folder.unread}
-						</Badge>
-					)}
-				</Button>
-				{children.length > 0 && (
-					<div className="flex flex-col mt-0.5">
-						{children.map((child) => renderFolder(child, level + 1))}
-					</div>
+					{getIcon(folder.id, folder.iconCls)}
+					<span>{folder.name}</span>
+				</SidebarMenuButton>
+				{folder.unread > 0 && (
+					<SidebarMenuBadge>{folder.unread}</SidebarMenuBadge>
 				)}
-			</div>
+			</SidebarMenuItem>
 		);
 	};
 
-	const rootFolders = folders.filter((f) => f.parentFolderId === null);
-
 	return (
-		<div className="h-full overflow-auto">
-			<div className="flex flex-col gap-1 p-2">
-				{rootFolders.map((folder) => renderFolder(folder))}
-			</div>
-		</div>
+		<SidebarContent>
+			<SidebarGroup>
+				<SidebarGroupLabel>Folder</SidebarGroupLabel>
+				<SidebarMenu>
+					{rootFolders.map((folder) => renderFolder(folder))}
+				</SidebarMenu>
+			</SidebarGroup>
+		</SidebarContent>
 	);
 };

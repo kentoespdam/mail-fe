@@ -9,8 +9,7 @@ import {
 	IconSearch,
 	IconTrash,
 } from "@tabler/icons-react";
-import { memo, useCallback, useState } from "react";
-import { toast } from "sonner";
+import { memo } from "react";
 import { DeleteConfirmDialog } from "@/components/builder/delete-confirm-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -20,7 +19,10 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { TooltipButton } from "@/components/ui/tooltip-button";
+import { useMailToolbar } from "@/hooks/persuratan/use-mail-toolbar";
 import { cn } from "@/lib/utils";
 
 interface MailToolbarProps {
@@ -34,28 +36,38 @@ interface MailToolbarProps {
 export const MailToolbar = memo(
 	({
 		onSearch,
+		onDateFilter,
 		selectedMailId,
 		selectedFolderId,
 		mailStatus,
 	}: MailToolbarProps) => {
-		const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-		const handleAction = useCallback((action: string) => {
-			toast.info(`Fitur ${action} dalam pengembangan`);
-		}, []);
-
-		const handleDelete = useCallback(() => {
-			toast.success("Surat berhasil dihapus");
-			setDeleteDialogOpen(false);
-		}, []);
-
-		const isDraftOrRevisi = mailStatus === "DRAFT" || mailStatus === "REVISI";
-		const isDeletedItems = selectedFolderId === "deleted-items";
+		const {
+			deleteDialogOpen,
+			setDeleteDialogOpen,
+			handleAction,
+			handleDelete,
+			handleSearch,
+			handleClearSearch,
+			handleDateChange,
+			searchKeyword,
+			setSearchKeyword,
+			startDate,
+			endDate,
+			isDraftOrRevisi,
+			isDeletedItems,
+		} = useMailToolbar({
+			selectedFolderId,
+			mailStatus,
+			onSearch,
+			onDateFilter,
+		});
 
 		return (
 			<div className="flex flex-col gap-1.5 p-1.5 border-b bg-card">
 				<div className="flex flex-wrap items-center gap-2">
 					<div className="flex items-center gap-1">
+						<SidebarTrigger className="-ml-1" />
+						<Separator orientation="vertical" className="mr-1 h-4" />
 						<TooltipButton
 							size="sm"
 							variant="default"
@@ -151,13 +163,15 @@ export const MailToolbar = memo(
 							<Input
 								type="date"
 								className="h-7 w-28.75 text-[10px] px-1.5 py-0"
-								onChange={(e) => console.log(e.target.value)}
+								value={startDate}
+								onChange={(e) => handleDateChange("start", e.target.value)}
 							/>
 							<span className="text-[10px] text-muted-foreground">s.d</span>
 							<Input
 								type="date"
 								className="h-7 w-28.75 text-[10px] px-1.5 py-0"
-								onChange={(e) => console.log(e.target.value)}
+								value={endDate}
+								onChange={(e) => handleDateChange("end", e.target.value)}
 							/>
 						</div>
 
@@ -169,16 +183,18 @@ export const MailToolbar = memo(
 								<Input
 									placeholder="Cari..."
 									className="h-7 w-32 text-[10px] px-2"
+									value={searchKeyword}
+									onChange={(e) => setSearchKeyword(e.target.value)}
 									onKeyDown={(e) => {
 										if (e.key === "Enter") {
-											onSearch((e.target as HTMLInputElement).value);
+											handleSearch();
 										}
 									}}
 								/>
 								<Button
 									size="sm"
 									className="h-7 text-[11px] px-2"
-									onClick={() => onSearch("")}
+									onClick={() => handleClearSearch()}
 								>
 									<IconSearch className="size-3 mr-1" />
 									Cari

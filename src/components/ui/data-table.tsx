@@ -18,6 +18,7 @@ import {
 	getFilteredRowModel,
 	getSortedRowModel,
 	type OnChangeFn,
+	type Row,
 	type RowSelectionState,
 	type SortingState,
 	useReactTable,
@@ -42,6 +43,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
+import { cn } from "@/lib/utils";
 
 // ─── Generic DataTable ──────────────────────────────────────────
 
@@ -67,6 +69,10 @@ interface DataTableProps<TData, TValue> {
 	rowSelection?: RowSelectionState;
 	onRowSelectionChange?: OnChangeFn<RowSelectionState>;
 	bulkActionChildren?: React.ReactNode;
+
+	// Events
+	onRowClick?: (row: Row<TData>) => void;
+	getRowClassName?: (row: Row<TData>) => string;
 }
 
 function DataTableComponent<TData, TValue>({
@@ -84,6 +90,8 @@ function DataTableComponent<TData, TValue>({
 	rowSelection,
 	onRowSelectionChange,
 	bulkActionChildren,
+	onRowClick,
+	getRowClassName,
 }: DataTableProps<TData, TValue>) {
 	// Local input state with debounce to parent
 	const [localSearch, setLocalSearch] = useState(searchValue ?? "");
@@ -164,7 +172,7 @@ function DataTableComponent<TData, TValue>({
 				)}
 			</div>
 
-			<div className="rounded-md border">
+			<div className="rounded-md border overflow-hidden">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -233,6 +241,11 @@ function DataTableComponent<TData, TValue>({
 								<TableRow
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
+									onClick={() => onRowClick?.(row)}
+									className={cn(
+										onRowClick && "cursor-pointer",
+										getRowClassName?.(row),
+									)}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>

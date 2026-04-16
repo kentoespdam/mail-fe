@@ -2,6 +2,7 @@
 
 import {
 	IconArchive,
+	IconChevronDown,
 	IconChevronRight,
 	IconFileDescription,
 	IconFolder,
@@ -29,6 +30,7 @@ import {
 	SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { useMailFolderTree } from "@/hooks/persuratan/use-mail-folder-tree";
+import { cn } from "@/lib/utils";
 import type { MailFolderDto } from "@/types/mail";
 
 interface MailFolderTreeProps {
@@ -86,30 +88,37 @@ export const MailFolderTree = ({
 					<CollapsibleTrigger
 						render={
 							level > 0 ? (
-								<SidebarMenuSubButton
-									isActive={isSelected}
-								// onClick={() => onSelectFolder(folder.id)}
-								>
-									<div className="flex items-center gap-2 truncate">
+								<SidebarMenuSubButton isActive={isSelected}>
+									<div className="flex flex-1 items-center gap-2 truncate">
 										{getIcon(folder.id, folder.iconCls)}
 										<span className="truncate">{folder.name}</span>
 									</div>
-									{folder.unread > 0 && (
-										<span className="ml-auto text-[10px] font-bold">
-											{folder.unread}
-										</span>
+									{(folder.unread > 0 || hasChildren) && (
+										<div className="ml-auto flex items-center gap-1.5">
+											{folder.unread > 0 && (
+												<span className="text-[10px] font-bold">
+													{folder.unread}
+												</span>
+											)}
+											{open ? <IconChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> :
+												<IconChevronRight className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+											}
+										</div>
 									)}
-									<IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
 								</SidebarMenuSubButton>
 							) : (
 								<SidebarMenuButton
 									isActive={isSelected}
 									// onClick={() => onSelectFolder(folder.id)}
 									tooltip={folder.name}
+									className={cn(folder.unread > 0 && "pr-10")}
 								>
 									{getIcon(folder.id, folder.iconCls)}
 									<span>{folder.name}</span>
-									<IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+									{open ?
+										<IconChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> :
+										<IconChevronRight className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+									}
 								</SidebarMenuButton>
 							)
 						}
@@ -133,12 +142,12 @@ export const MailFolderTree = ({
 						isActive={isSelected}
 						onClick={() => onSelectFolder(folder.id)}
 					>
-						<div className="flex items-center gap-2 truncate">
+						<div className="flex flex-1 items-center gap-2 truncate">
 							{getIcon(folder.id, folder.iconCls)}
 							<span className="truncate">{folder.name}</span>
 						</div>
 						{folder.unread > 0 && (
-							<span className="ml-auto text-[10px] font-bold">
+							<span className="ml-auto text-[10px] font-bold tabular-nums">
 								{folder.unread}
 							</span>
 						)}

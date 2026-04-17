@@ -18,6 +18,11 @@ import {
 	CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import {
 	SidebarContent,
 	SidebarGroup,
 	SidebarGroupLabel,
@@ -28,6 +33,7 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
+	useSidebar,
 } from "@/components/ui/sidebar";
 import { useMailFolderTree } from "@/hooks/persuratan/use-mail-folder-tree";
 import { cn } from "@/lib/utils";
@@ -65,6 +71,9 @@ export const MailFolderTree = ({
 	selectedFolderId,
 	onSelectFolder,
 }: MailFolderTreeProps) => {
+	const { state, isMobile } = useSidebar();
+	const isCollapsedMode = state === "collapsed" && !isMobile;
+
 	const { rootFolders, getChildren, isOpen, toggleFolder } = useMailFolderTree({
 		folders,
 		selectedFolderId,
@@ -77,6 +86,62 @@ export const MailFolderTree = ({
 		const open = isOpen(folder.id);
 
 		if (hasChildren) {
+			if (isCollapsedMode && level === 0) {
+				return (
+					<SidebarMenuItem key={folder.id}>
+						<Popover>
+							<PopoverTrigger
+								render={
+									<SidebarMenuButton
+										isActive={isSelected}
+										tooltip={folder.name}
+										className={cn(folder.unread > 0 && "pr-10")}
+									/>
+								}
+							>
+								{getIcon(folder.id, folder.iconCls)}
+								<span>{folder.name}</span>
+								{folder.unread > 0 && (
+									<SidebarMenuBadge>{folder.unread}</SidebarMenuBadge>
+								)}
+							</PopoverTrigger>
+							<PopoverContent
+								side="right"
+								align="start"
+								sideOffset={8}
+								className="w-48 p-1 bg-sidebar text-sidebar-foreground border-sidebar-border shadow-md"
+							>
+								<div className="flex flex-col gap-0.5">
+									<div className="px-2 py-1.5 text-[11px] font-semibold text-sidebar-foreground/70 border-b border-sidebar-border mb-1">
+										{folder.name}
+									</div>
+									{children.map((child) => (
+										<button
+											key={child.id}
+											type="button"
+											className={cn(
+												"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-xs transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+												selectedFolderId === child.id &&
+													"bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+											)}
+											onClick={() => onSelectFolder(child.id)}
+										>
+											{getIcon(child.id, child.iconCls)}
+											<span className="truncate">{child.name}</span>
+											{child.unread > 0 && (
+												<span className="ml-auto text-[10px] font-bold tabular-nums">
+													{child.unread}
+												</span>
+											)}
+										</button>
+									))}
+								</div>
+							</PopoverContent>
+						</Popover>
+					</SidebarMenuItem>
+				);
+			}
+
 			return (
 				<Collapsible
 					key={folder.id}
@@ -100,9 +165,11 @@ export const MailFolderTree = ({
 													{folder.unread}
 												</span>
 											)}
-											{open ? <IconChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> :
+											{open ? (
+												<IconChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+											) : (
 												<IconChevronRight className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-											}
+											)}
 										</div>
 									)}
 								</SidebarMenuSubButton>
@@ -115,10 +182,11 @@ export const MailFolderTree = ({
 								>
 									{getIcon(folder.id, folder.iconCls)}
 									<span>{folder.name}</span>
-									{open ?
-										<IconChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> :
+									{open ? (
+										<IconChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+									) : (
 										<IconChevronRight className="size-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-									}
+									)}
 								</SidebarMenuButton>
 							)
 						}

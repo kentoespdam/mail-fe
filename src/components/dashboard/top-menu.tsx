@@ -2,17 +2,13 @@
 
 import {
 	IconArchive,
-	IconBroadcast,
-	IconChartHistogram,
 	IconFileDescription,
 	IconFileSearch,
 	IconFileSettings,
 	IconLayoutDashboard,
-	IconMail,
-	IconSettings2,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import {
 	Menubar,
 	MenubarContent,
@@ -30,63 +26,12 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useUser } from "@/hooks/use-user";
-import { hasPermission } from "@/lib/rbac";
-import type { Permission } from "@/types/auth";
-
-interface MenuItem {
-	label: string;
-	href: string;
-	icon: typeof IconLayoutDashboard;
-	permission: Permission;
-}
+import { useTopMenu } from "@/hooks/use-top-menu";
 
 const MenuAplikasi = memo(() => {
-	const { user } = useUser();
+	const { visibleItems, showArsipSurat, isVisible } = useTopMenu();
 
-	const menuItems = useMemo<MenuItem[]>(
-		() => [
-			{
-				label: "Dashboard",
-				href: "/dashboard",
-				icon: IconChartHistogram,
-				permission: "menu:dashboard",
-			},
-			{
-				label: "Persuratan",
-				href: "/persuratan",
-				icon: IconMail,
-				permission: "menu:persuratan",
-			},
-			{
-				label: "Publikasi Dokumen",
-				href: "/publikasi",
-				icon: IconBroadcast,
-				permission: "menu:publikasi",
-			},
-			{
-				label: "Master Mail",
-				href: "/master/tipe-surat",
-				icon: IconSettings2,
-				permission: "menu:master",
-			},
-		],
-		[],
-	);
-
-	const visibleItems = useMemo(() => {
-		if (!user) return [];
-		return menuItems.filter((item) =>
-			hasPermission(user.roles, item.permission),
-		);
-	}, [user, menuItems]);
-
-	const showArsipSurat = useMemo(() => {
-		if (!user) return false;
-		return hasPermission(user.roles, "menu:arsip_surat");
-	}, [user]);
-
-	if (visibleItems.length === 0 && !showArsipSurat) return null;
+	if (!isVisible) return null;
 
 	return (
 		<MenubarMenu>

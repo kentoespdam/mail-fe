@@ -12,6 +12,7 @@ import {
 	IconStar,
 	IconTrash,
 } from "@tabler/icons-react";
+import { useState } from "react";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -71,13 +72,19 @@ export const MailFolderTree = ({
 	selectedFolderId,
 	onSelectFolder,
 }: MailFolderTreeProps) => {
-	const { state, isMobile } = useSidebar();
+	const { state, isMobile, setOpenMobile } = useSidebar();
+	const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 	const isCollapsedMode = state === "collapsed" && !isMobile;
 
 	const { rootFolders, getChildren, isOpen, toggleFolder } = useMailFolderTree({
 		folders,
 		selectedFolderId,
 	});
+
+	const handleSelectFolder = (folderId: string) => {
+		onSelectFolder(folderId);
+		if (isMobile) setOpenMobile(false);
+	};
 
 	const renderFolder = (folder: MailFolderDto, level = 0) => {
 		const children = getChildren(folder.id);
@@ -89,7 +96,10 @@ export const MailFolderTree = ({
 			if (isCollapsedMode && level === 0) {
 				return (
 					<SidebarMenuItem key={folder.id}>
-						<Popover>
+						<Popover
+							open={openPopoverId === folder.id}
+							onOpenChange={(o) => setOpenPopoverId(o ? folder.id : null)}
+						>
 							<PopoverTrigger
 								render={
 									<SidebarMenuButton
@@ -122,9 +132,12 @@ export const MailFolderTree = ({
 											className={cn(
 												"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-xs transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
 												selectedFolderId === child.id &&
-													"bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+												"bg-sidebar-accent font-medium text-sidebar-accent-foreground",
 											)}
-											onClick={() => onSelectFolder(child.id)}
+											onClick={() => {
+												handleSelectFolder(child.id);
+												setOpenPopoverId(null);
+											}}
 										>
 											{getIcon(child.id, child.iconCls)}
 											<span className="truncate">{child.name}</span>
@@ -176,7 +189,7 @@ export const MailFolderTree = ({
 							) : (
 								<SidebarMenuButton
 									isActive={isSelected}
-									// onClick={() => onSelectFolder(folder.id)}
+									// onClick={() => handleSelectFolder(folder.id)}
 									tooltip={folder.name}
 									className={cn(folder.unread > 0 && "pr-10")}
 								>
@@ -195,7 +208,7 @@ export const MailFolderTree = ({
 						<SidebarMenuBadge>{folder.unread}</SidebarMenuBadge>
 					)}
 					<CollapsibleContent>
-						<SidebarMenuSub>
+						<SidebarMenuSub className="ml-3.5 mr-0 pr-0">
 							{children.map((child) => renderFolder(child, level + 1))}
 						</SidebarMenuSub>
 					</CollapsibleContent>
@@ -208,7 +221,7 @@ export const MailFolderTree = ({
 				<SidebarMenuSubItem key={folder.id}>
 					<SidebarMenuSubButton
 						isActive={isSelected}
-						onClick={() => onSelectFolder(folder.id)}
+						onClick={() => handleSelectFolder(folder.id)}
 					>
 						<div className="flex flex-1 items-center gap-2 truncate">
 							{getIcon(folder.id, folder.iconCls)}
@@ -228,7 +241,7 @@ export const MailFolderTree = ({
 			<SidebarMenuItem key={folder.id}>
 				<SidebarMenuButton
 					isActive={isSelected}
-					onClick={() => onSelectFolder(folder.id)}
+					onClick={() => handleSelectFolder(folder.id)}
 					tooltip={folder.name}
 				>
 					{getIcon(folder.id, folder.iconCls)}

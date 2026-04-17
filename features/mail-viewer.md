@@ -2,15 +2,15 @@
 
 ## Recent Changes
 
-### MailFolderTree Collapsed Mode Expansion
-- **Issue:** Folder dengan children tidak bisa di-expand saat sidebar dalam kondisi collapsed (icon-only).
-- **Solution:** Menambahkan jalur rendering khusus untuk mode collapsed menggunakan component `Popover` dari shadcn/ui.
+### Auto-close Popover & Mobile Sidebar Sheet
+- **Issue:** Popover tidak otomatis tertutup saat klik child folder (Desktop Collapsed) dan Sidebar Sheet tidak otomatis tertutup saat klik folder (Mobile).
+- **Solution:** 
+    - Mengubah `Popover` menjadi controlled component menggunakan state `openPopoverId`.
+    - Implementasi handler terpadu `handleSelectFolder` untuk menangani seleksi folder dan penutupan otomatis sidebar di mobile.
 - **Details:**
-    - Saat sidebar expanded: Tetap menggunakan behavior `Collapsible` inline.
-    - Saat sidebar collapsed: Menggunakan `Popover` yang muncul di sebelah kanan icon folder.
-    - Popover berisi daftar children folder tersebut yang bisa diklik untuk navigasi.
-    - Menggunakan hook `useSidebar` untuk mendeteksi state sidebar.
-    - Styling popover disesuaikan dengan tema sidebar (`bg-sidebar`, `text-sidebar-foreground`).
+    - **Desktop Collapsed:** Klik child di popover akan memicu `setOpenPopoverId(null)` yang langsung menutup popover.
+    - **Mobile:** Klik folder apapun (tanpa children atau child folder) memicu `setOpenMobile(false)` untuk menutup sheet sidebar secara otomatis.
+    - **Desktop Expanded:** Sidebar tetap terbuka (tidak ada perubahan behavior).
+    - Mempertahankan unread badge dan tooltip behavior di semua mode.
 - **Files Modified:**
     - `src/components/persuratan/mail-folder-tree.tsx`
-    - `src/components/ui/popover.tsx` (Created via shadcn CLI)

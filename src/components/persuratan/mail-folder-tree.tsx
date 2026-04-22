@@ -47,23 +47,30 @@ interface MailFolderTreeProps {
 }
 
 const getIcon = (id: string, _iconCls: string) => {
+	const baseClass = "size-4 transition-colors duration-200";
 	switch (id) {
 		case "inbox":
-			return <IconInbox className="size-4 text-blue-500" />;
+			return <IconInbox className={cn(baseClass, "text-primary")} />;
 		case "draft":
-			return <IconFileDescription className="size-4 text-amber-500" />;
+			return (
+				<IconFileDescription className={cn(baseClass, "text-primary/70")} />
+			);
 		case "read-items":
-			return <IconMailOpened className="size-4 text-emerald-500" />;
+			return <IconMailOpened className={cn(baseClass, "text-primary/60")} />;
 		case "sent-items":
-			return <IconSend className="size-4 text-sky-500" />;
+			return <IconSend className={cn(baseClass, "text-primary/70")} />;
 		case "deleted-items":
-			return <IconTrash className="size-4 text-rose-500" />;
+			return <IconTrash className={cn(baseClass, "text-destructive/70")} />;
 		case "penting":
-			return <IconStar className="size-4 text-yellow-500 fill-yellow-500" />;
+			return (
+				<IconStar className={cn(baseClass, "text-amber-500 fill-amber-500")} />
+			);
 		case "archive":
-			return <IconArchive className="size-4 text-purple-500" />;
+			return <IconArchive className={cn(baseClass, "text-primary/70")} />;
 		default:
-			return <IconFolder className="size-4 text-slate-400" />;
+			return (
+				<IconFolder className={cn(baseClass, "text-muted-foreground/60")} />
+			);
 	}
 };
 

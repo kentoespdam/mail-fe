@@ -12,15 +12,15 @@ export const LoginForm = memo(() => {
 	const { form, onSubmit, isPending } = useLogin();
 
 	return (
-		<Card className="overflow-hidden shadow-2xl backdrop-blur-sm bg-white/80 dark:bg-slate-900/80 border-sky-200/50 dark:border-sky-800/50 py-0">
+		<Card className="overflow-hidden shadow-2xl backdrop-blur-sm bg-background/80 dark:bg-card/80 border-primary/20 dark:border-primary/10 py-0">
 			<CardContent className="grid p-0 md:grid-cols-5">
 				{/* Branding Section */}
-				<div className="relative flex md:col-span-2 flex-col items-center justify-center bg-linear-to-br from-sky-600 via-blue-700 to-sky-800 p-8 text-white overflow-hidden">
+				<div className="relative flex md:col-span-2 flex-col items-center justify-center bg-linear-to-br from-primary via-primary/90 to-primary/80 p-8 text-primary-foreground overflow-hidden">
 					{/* Floating bubbles */}
 					{[0, 1, 2, 3].map((i) => (
 						<div
 							key={`bubble-${i}`}
-							className="absolute rounded-full border border-white/20 bg-white/5 animate-float-bubble"
+							className="absolute rounded-full border border-primary-foreground/20 bg-primary-foreground/5 animate-float-bubble"
 							style={{
 								width: `${8 + i * 4}px`,
 								height: `${8 + i * 4}px`,
@@ -45,17 +45,17 @@ export const LoginForm = memo(() => {
 
 						{/* Title & tagline */}
 						<div className="space-y-2">
-							<h3 className="text-lg font-bold tracking-wide uppercase">
+							<h3 className="text-lg font-bold tracking-wide uppercase text-primary-foreground">
 								Sistem Persuratan
 							</h3>
 						</div>
 
 						{/* Footer info */}
-						<div className="pt-2 border-t border-white/15 w-full text-center space-y-1">
-							<p className="text-[11px] italic text-sky-100/80">
+						<div className="pt-2 border-t border-primary-foreground/15 w-full text-center space-y-1">
+							<p className="text-[11px] italic text-primary-foreground/80">
 								"Melayani dengan SATRIA"
 							</p>
-							<p className="text-[10px] text-sky-200/60">
+							<p className="text-[10px] text-primary-foreground/60">
 								Perumda Air Minum Tirta Satria — Kab. Banyumas
 							</p>
 						</div>
@@ -70,7 +70,7 @@ export const LoginForm = memo(() => {
 						onSubmit={form.handleSubmit(onSubmit)}
 					>
 						<div className="space-y-2 text-center md:text-left">
-							<h2 className="text-xl font-bold text-slate-900 dark:text-white">
+							<h2 className="text-xl font-bold text-foreground">
 								Masuk ke Akun Anda
 							</h2>
 							<p className="text-balance text-muted-foreground text-sm">
@@ -96,7 +96,7 @@ export const LoginForm = memo(() => {
 									type="submit"
 									form="auth-form"
 									disabled={isPending}
-									className="w-full bg-linear-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 dark:from-sky-500 dark:to-blue-500 text-white shadow-lg shadow-sky-500/20"
+									className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 dark:from-primary dark:to-primary/80 text-primary-foreground shadow-lg shadow-primary/20"
 									size="lg"
 								>
 									{isPending ? (

@@ -29,3 +29,22 @@
 - **Files Modified/Created:**
     - `src/components/ui/sticky-data-table.tsx` (Baru)
     - `src/components/persuratan/mail-list.tsx` (Update)
+
+### Color Harmonization & UI/UX Refinement
+- **Issue:** Inkonsistensi warna antara Topbar, Sidebar, dan Workspace yang menyebabkan hierarki visual kurang tajam dan kelelahan mata pada penggunaan jangka panjang.
+- **Solution:** 
+    - Redesign sistem token menggunakan OKLch di `globals.css` dengan penambahan token `--topbar`.
+    - Harmonisasi `TopBar`, `Sidebar`, dan `Template` utama untuk menciptakan separasi visual yang jelas (Chrome vs Workspace).
+    - Normalisasi warna logo dan ikon folder menggunakan design tokens (Zero literal colors).
+- **Details:**
+    - **Navigation Zone:** Topbar kini menggunakan background netral (White/Dark Card) untuk mengurangi distraksi. Sidebar memiliki separasi visual yang lebih tajam dari content area.
+    - **Workspace Zone:** Area konten utama menggunakan background solid yang bersih untuk meningkatkan readability.
+    - **Accessibility:** Seluruh kombinasi warna memenuhi standar WCAG AA (Contrast >= 4.5:1).
+    - **Iconography:** Ikon folder di Sidebar diharmonisasi menggunakan variasi opacity warna primer, menciptakan tampilan institusional yang profesional.
+- **Files Modified:**
+    - `src/app/globals.css`
+    - `src/app/(main)/template.tsx`
+    - `src/components/dashboard/topbar.tsx`
+    - `src/components/ui/smart-office-icon.tsx`
+    - `src/components/persuratan/mail-folder-tree.tsx`
+    - `src/components/auth/login-form.tsx`

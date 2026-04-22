@@ -22,7 +22,7 @@ const TopBar = memo(() => {
 	const { user, isLoading } = useUser();
 
 	return (
-		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-primary px-4 shadow-sm">
+		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-topbar text-topbar-foreground px-4 shadow-xs transition-colors duration-300">
 			{/* Left Section: Logo */}
 			<div className="flex min-w-0 items-center gap-6">
 				<SmartOfficeIcon className="shrink-0" />
@@ -42,18 +42,18 @@ const TopBar = memo(() => {
 				<Button
 					variant="ghost"
 					size="icon"
-					className="relative h-10 w-10 shrink-0"
+					className="relative h-10 w-10 shrink-0 hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-colors"
 					title="Notifikasi"
 					aria-label="Notifikasi"
 				>
-					<IconBell className="size-5 text-secondary-foreground" />
-					<span className="absolute right-2 top-2 flex h-2 w-2">
+					<IconBell className="size-5" />
+					<span className="absolute right-2.5 top-2.5 flex h-2 w-2">
 						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
 						<span className="inline-flex h-2 w-2 rounded-full bg-primary" />
 					</span>
 				</Button>
 
-				<div className="flex flex-col space-y-0.5">
+				<div className="flex flex-col space-y-0.5 px-2">
 					{isLoading ? (
 						<div className="flex flex-col items-end space-y-1">
 							<Skeleton className="h-4 w-32" />
@@ -61,10 +61,10 @@ const TopBar = memo(() => {
 						</div>
 					) : (
 						<>
-							<p className="text-sm font-semibold text-right text-secondary-foreground">
+							<p className="text-sm font-semibold text-right text-foreground">
 								{user?.name ?? "—"}
 							</p>
-							<p className="text-[10px] uppercase tracking-wider font-bold text-secondary-foreground/60 text-right">
+							<p className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground text-right">
 								{user?.jabatan ?? "—"}
 							</p>
 						</>

@@ -202,7 +202,6 @@ export const MailToolbar = memo(
 					</div>
 
 					<div className="h-4 w-px bg-border mx-1 hidden sm:block" />
-
 				</div>
 
 				<div className="flex items-center gap-1"></div>

@@ -1,11 +1,11 @@
 "use client";
 
 import {
-	IconChartHistogram,
-	IconMail,
 	IconBroadcast,
+	IconChartHistogram,
+	type IconLayoutDashboard,
+	IconMail,
 	IconSettings2,
-	IconLayoutDashboard,
 } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useUser } from "@/hooks/use-user";

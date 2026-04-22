@@ -132,7 +132,7 @@ export const MailFolderTree = ({
 											className={cn(
 												"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-xs transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
 												selectedFolderId === child.id &&
-												"bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+													"bg-sidebar-accent font-medium text-sidebar-accent-foreground",
 											)}
 											onClick={() => {
 												handleSelectFolder(child.id);

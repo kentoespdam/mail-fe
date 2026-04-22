@@ -9,7 +9,8 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { DataTable, DataTablePagination } from "@/components/ui/data-table";
+import { DataTablePagination } from "@/components/ui/data-table";
+import { StickyDataTable } from "@/components/ui/sticky-data-table";
 import { cn } from "@/lib/utils";
 import type { MailSummaryDto } from "@/types/mail";
 
@@ -151,26 +152,25 @@ export const MailList = memo(
 		const pageCount = Math.ceil(totalElements / pageSize);
 
 		return (
-			<div className="flex flex-col gap-1.5 h-full overflow-hidden">
-				<div className="flex-1 overflow-auto bg-card border shadow-sm">
-					<DataTable
-						columns={columns}
-						data={mails}
-						isLoading={isLoading}
-						sorting={sorting}
-						onSortingChange={onSortingChange}
-						emptyMessage="Tidak ada surat."
-						onRowClick={(row) => onSelectMail(row.original.id)}
-						getRowClassName={(row) =>
-							cn(
-								"text-[11px] transition-colors hover:bg-muted/50 group h-8",
-								selectedMailId === row.original.id &&
-									"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
-								row.original.readStatus !== 0 && "text-muted-foreground",
-							)
-						}
-					/>
-				</div>
+			<div className="flex flex-col gap-1.5 h-full overflow-hidden bg-white">
+				<StickyDataTable
+					columns={columns}
+					data={mails}
+					isLoading={isLoading}
+					sorting={sorting}
+					onSortingChange={onSortingChange}
+					emptyMessage="Tidak ada surat."
+					onRowClick={(row) => onSelectMail(row.original.id)}
+					getRowClassName={(row) =>
+						cn(
+							"text-[11px] transition-colors hover:bg-muted/50 group h-8",
+							selectedMailId === row.original.id &&
+							"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
+							row.original.readStatus !== 0 && "text-muted-foreground",
+						)
+					}
+					className="flex-1"
+				/>
 				<div className="bg-card px-1">
 					<DataTablePagination
 						page={page}

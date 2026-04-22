@@ -22,7 +22,7 @@ const TopBar = memo(() => {
 	const { user, isLoading } = useUser();
 
 	return (
-		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-secondary px-4 shadow-sm">
+		<header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-between border-b border-border bg-primary px-4 shadow-sm">
 			{/* Left Section: Logo */}
 			<div className="flex min-w-0 items-center gap-6">
 				<SmartOfficeIcon className="shrink-0" />

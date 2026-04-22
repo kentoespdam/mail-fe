@@ -14,3 +14,18 @@
     - Mempertahankan unread badge dan tooltip behavior di semua mode.
 - **Files Modified:**
     - `src/components/persuratan/mail-folder-tree.tsx`
+
+### Sticky Header Table Integration in MailList
+- **Issue:** Header kolom di MailList hilang saat daftar surat yang panjang di-scroll di panel atas `ResizablePanel`.
+- **Solution:** 
+    - Implementasi `StickyDataTable` sebagai jembatan antara TanStack Table dan primitif `StickyTable`.
+    - Integrasi `StickyDataTable` ke `MailList` dengan mengganti `DataTable` existing.
+- **Details:**
+    - **Sticky Header:** Header tetap terlihat saat scroll body secara vertikal.
+    - **Responsive:** Scroll horizontal tetap berfungsi tanpa memecah sticky behavior.
+    - **Logic Preservation:** Sorting, row selection highlight, unread indicator, dan pagination tetap berfungsi normal.
+    - **Clean Architecture:** Menggunakan pola composition (Opsi A) sehingga `StickyDataTable` dapat digunakan kembali di halaman lain.
+    - **UI/UX:** Loading skeleton dan empty state diimplementasikan dengan tetap menjaga header terlihat.
+- **Files Modified/Created:**
+    - `src/components/ui/sticky-data-table.tsx` (Baru)
+    - `src/components/persuratan/mail-list.tsx` (Update)

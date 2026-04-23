@@ -21,5 +21,10 @@
       "type": "http",
       "description": "Local Next.js devtools server"
     }
+  },
+  "context": {
+    "fileFiltering": {
+      "respectGitIgnore": false
+    }
   }
 }

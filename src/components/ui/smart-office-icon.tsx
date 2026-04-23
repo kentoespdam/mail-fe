@@ -26,20 +26,20 @@ export function SmartOfficeIcon({
 				height={iconSize}
 				priority={priority}
 				style={{ width: iconSize, height: iconSize }}
-				className="w-auto object-contain"
+				className="w-auto object-contain dark:brightness-110 transition-all"
 			/>
 			<div className="flex flex-col gap-0.5">
-				<span className="text-[18px] font-black tracking-wide text-[#0f172a]">
+				<span className="text-[18px] font-black tracking-wide text-foreground leading-tight">
 					PERUMDAM
 				</span>
-				<span className="text-[19px] font-black tracking-wide text-[#1e3a8a]">
+				<span className="text-[19px] font-black tracking-wide text-primary leading-tight">
 					TIRTA SATRIA
 				</span>
 				<div className="flex items-center gap-1">
-					<span className="text-[11px] font-bold text-[#0284c7]">
+					<span className="text-[11px] font-bold text-primary/80">
 						Kab. Banyumas
 					</span>
-					<span className="text-[11px] font-medium text-[#64748b]">
+					<span className="text-[11px] font-medium text-muted-foreground">
 						| Smart Office
 					</span>
 				</div>

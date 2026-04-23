@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import Footer from "@/components/dashboard/footer";
 import CustomThemeProvider from "./theme-providers";
 
 const merriweatherHeading = Merriweather({
@@ -42,6 +43,7 @@ export default function RootLayout({
 			<body className="min-h-full flex flex-col">
 				<TooltipProvider>
 					<CustomThemeProvider>{children}</CustomThemeProvider>
+					<Footer />
 				</TooltipProvider>
 				<Toaster richColors position="top-right" />
 			</body>

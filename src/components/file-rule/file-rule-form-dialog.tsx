@@ -16,7 +16,7 @@ import {
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
 import { useCreateFileRule, useUpdateFileRule } from "@/hooks/file-rule-hooks";
-import type { FileRuleDto, FileRulePayload } from "@/types/file-rule";
+import type { FileRuleDto } from "@/types/file-rule";
 
 // ─── Create ─────────────────────────────────────────────────────
 interface CreateDialogProps {

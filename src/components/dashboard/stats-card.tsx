@@ -33,7 +33,7 @@ export function StatsCard({
 			)}
 		>
 			{/* Gradient background accent */}
-			<div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br from-primary/5 to-accent/5 blur-2xl transition-all group-hover:from-primary/10 group-hover:to-accent/10" />
+			<div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-linear-to-br from-primary/5 to-accent/5 blur-2xl transition-all group-hover:from-primary/10 group-hover:to-accent/10" />
 
 			<div className="relative flex items-start justify-between gap-4">
 				<div className="space-y-2">

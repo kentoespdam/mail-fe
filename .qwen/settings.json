@@ -1,6 +1,0 @@
-{
-	"permissions": {
-		"allow": ["Bash(bun *)", "Bash(bunx *)", "Bash(node *)"]
-	},
-	"$version": 3
-}

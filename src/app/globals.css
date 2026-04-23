@@ -26,6 +26,8 @@
 	--color-sidebar-primary: var(--sidebar-primary);
 	--color-sidebar-foreground: var(--sidebar-foreground);
 	--color-sidebar: var(--sidebar);
+	--color-topbar: var(--topbar);
+	--color-topbar-foreground: var(--topbar-foreground);
 	--color-chart-5: var(--chart-5);
 	--color-chart-4: var(--chart-4);
 	--color-chart-3: var(--chart-3);
@@ -73,6 +75,16 @@
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.2 0.04 230);
 
+	/* Navigation Zone: Topbar & Sidebar
+	   Subtle distinction from content area */
+	--topbar: oklch(1 0 0);
+	--topbar-foreground: oklch(0.2 0.04 230);
+	--sidebar: oklch(0.975 0.01 225);
+	--sidebar-foreground: oklch(0.2 0.04 230);
+	--sidebar-border: oklch(0.91 0.012 225);
+	--sidebar-accent: oklch(0.94 0.02 225);
+	--sidebar-accent-foreground: oklch(0.25 0.05 225);
+
 	/* 30% SECONDARY: Supporting Elements
 	   Soft blue-gray tones for structure */
 	--secondary: oklch(0.96 0.015 225);
@@ -81,11 +93,6 @@
 	--muted-foreground: oklch(0.5 0.04 225);
 	--border: oklch(0.91 0.012 225);
 	--input: oklch(0.91 0.012 225);
-	--sidebar: oklch(0.985 0.005 230);
-	--sidebar-foreground: oklch(0.2 0.04 230);
-	--sidebar-border: oklch(0.91 0.012 225);
-	--sidebar-accent: oklch(0.94 0.02 225);
-	--sidebar-accent-foreground: oklch(0.25 0.05 225);
 
 	/* 10% ACCENT: Interactive & Highlight Elements
 	   Fresh Water Blue for CTAs and focus */
@@ -113,6 +120,9 @@
 
 	/* Border Radius */
 	--radius: 0.45rem;
+
+	/* Layout Constants */
+	--footer-height: 3rem;
 }
 
 /* ==========================================================================
@@ -121,12 +131,22 @@
 .dark {
 	/* 60% DOMINANT: Backgrounds & Base Surfaces
 	   Deep blue-tinted foundation for water-inspired dark theme */
-	--background: oklch(0.18 0.012 230);
+	--background: oklch(0.14 0.01 230);
 	--foreground: oklch(0.98 0.005 230);
 	--card: oklch(0.22 0.015 225);
 	--card-foreground: oklch(0.98 0.005 230);
 	--popover: oklch(0.22 0.015 225);
 	--popover-foreground: oklch(0.98 0.005 230);
+
+	/* Navigation Zone: Topbar & Sidebar
+	   Subtle distinction from content area */
+	--topbar: oklch(0.22 0.015 225);
+	--topbar-foreground: oklch(0.98 0.005 230);
+	--sidebar: oklch(0.18 0.012 230);
+	--sidebar-foreground: oklch(0.98 0.005 230);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-accent: oklch(0.26 0.02 225);
+	--sidebar-accent-foreground: oklch(0.98 0.005 230);
 
 	/* 30% SECONDARY: Supporting Elements
 	   Muted deep blue for hierarchy */
@@ -136,11 +156,6 @@
 	--muted-foreground: oklch(0.75 0.015 230);
 	--border: oklch(1 0 0 / 10%);
 	--input: oklch(1 0 0 / 15%);
-	--sidebar: oklch(0.22 0.015 225);
-	--sidebar-foreground: oklch(0.98 0.005 230);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-accent: oklch(0.26 0.02 225);
-	--sidebar-accent-foreground: oklch(0.98 0.005 230);
 
 	/* 10% ACCENT: Interactive & Highlight Elements
 	   Bright Water Blue for contrast */

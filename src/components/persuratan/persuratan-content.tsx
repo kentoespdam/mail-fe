@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useCallback, useState } from "react";
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -19,12 +19,16 @@ import { DUMMY_FOLDERS } from "@/lib/dummy/mail-dummy";
 import { MailDetail } from "./mail-detail";
 import { MailFolderTree } from "./mail-folder-tree";
 import { MailList } from "./mail-list";
+import { MailListToggle } from "./mail-list-toggle";
 import { MailToolbar } from "./mail-toolbar";
 
 export const PersuratanContent = memo(() => {
 	const navigation = useMailNavigation();
 	const mailList = useMailListState(navigation.selectedFolderId);
 	const mailDetail = useMailDetailState(navigation.selectedMailId);
+	const [isListHidden, setIsListHidden] = useState(false);
+
+	const toggleList = useCallback(() => setIsListHidden((v) => !v), []);
 
 	return (
 		<SidebarProvider className="h-[calc(100vh-80px)] min-h-0 overflow-hidden bg-background">
@@ -50,33 +54,49 @@ export const PersuratanContent = memo(() => {
 						mailStatus={mailDetail.selectedMailSummary?.status}
 					/>
 
-					<div className="flex-1 flex flex-col overflow-hidden">
-						<ResizablePanelGroup orientation="vertical">
-							<ResizablePanel defaultSize={45} minSize={25}>
-								<div className="h-full p-1">
-									<MailList
-										mails={mailList.filteredMails}
-										selectedMailId={navigation.selectedMailId}
-										onSelectMail={navigation.selectMail}
-										page={mailList.page}
-										pageSize={mailList.pageSize}
-										totalElements={mailList.filteredMails.length}
-										onPageChange={mailList.handlePageChange}
-										onPageSizeChange={mailList.handlePageSizeChange}
-										sorting={mailList.sorting}
-										onSortingChange={mailList.handleSortingChange}
-									/>
+					<div className="relative flex-1 flex flex-col overflow-hidden">
+						{!isListHidden ? (
+							<>
+								<ResizablePanelGroup orientation="vertical">
+									<ResizablePanel defaultSize={45} minSize={25}>
+										<div className="h-full p-1">
+											<MailList
+												mails={mailList.filteredMails}
+												selectedMailId={navigation.selectedMailId}
+												onSelectMail={navigation.selectMail}
+												page={mailList.page}
+												pageSize={mailList.pageSize}
+												totalElements={mailList.filteredMails.length}
+												onPageChange={mailList.handlePageChange}
+												onPageSizeChange={mailList.handlePageSizeChange}
+												sorting={mailList.sorting}
+												onSortingChange={mailList.handleSortingChange}
+											/>
+										</div>
+									</ResizablePanel>
+
+									<ResizableHandle withHandle />
+
+									<ResizablePanel defaultSize={45} minSize={20}>
+										<div className="h-full bg-muted/5 p-1 overflow-auto">
+											<MailDetail mail={mailDetail.selectedMailDetail} />
+										</div>
+									</ResizablePanel>
+								</ResizablePanelGroup>
+								<div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+									<MailListToggle hidden={false} onToggle={toggleList} />
 								</div>
-							</ResizablePanel>
-
-							<ResizableHandle withHandle />
-
-							<ResizablePanel defaultSize={45} minSize={20}>
-								<div className="h-full bg-muted/5 p-1 overflow-auto">
+							</>
+						) : (
+							<div className="flex flex-col h-full overflow-hidden">
+								<div className="flex h-7 shrink-0 items-center justify-center border-b border-border bg-background">
+									<MailListToggle hidden={true} onToggle={toggleList} />
+								</div>
+								<div className="flex-1 bg-muted/5 p-1 overflow-auto">
 									<MailDetail mail={mailDetail.selectedMailDetail} />
 								</div>
-							</ResizablePanel>
-						</ResizablePanelGroup>
+							</div>
+						)}
 					</div>
 				</div>
 			</SidebarInset>

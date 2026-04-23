@@ -37,6 +37,9 @@ export function MailListToggle({
 				e.stopPropagation();
 				onToggle();
 			}}
+			onPointerDown={(e) => {
+				e.stopPropagation();
+			}}
 			aria-label={label}
 		>
 			<Icon className="size-4 text-foreground" />

@@ -24,24 +24,40 @@ function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
 	return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />;
 }
 
+/**
+ * Custom handle component for ResizablePanelGroup.
+ * Mendukung rendering children kustom (misal: toggle button) di tengah separator.
+ * Jika children diberikan, withHandle diabaikan.
+ */
 function ResizableHandle({
 	withHandle,
+	children,
 	className,
 	...props
 }: ResizablePrimitive.SeparatorProps & {
 	withHandle?: boolean;
+	children?: React.ReactNode;
 }) {
 	return (
 		<ResizablePrimitive.Separator
 			data-slot="resizable-handle"
 			className={cn(
-				"relative flex w-px items-center justify-center bg-border ring-offset-background after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90",
+				"relative flex w-px items-center justify-center bg-border ring-offset-background after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>[data-slot=resizable-handle-grip]]:rotate-90",
 				className,
 			)}
 			{...props}
 		>
-			{withHandle && (
-				<div className="z-10 flex h-6 w-1 shrink-0 rounded-lg bg-border" />
+			{children ? (
+				<div className="z-10 flex items-center justify-center pointer-events-auto">
+					{children}
+				</div>
+			) : (
+				withHandle && (
+					<div
+						data-slot="resizable-handle-grip"
+						className="z-10 flex h-6 w-1 shrink-0 rounded-lg bg-border"
+					/>
+				)
 			)}
 		</ResizablePrimitive.Separator>
 	);

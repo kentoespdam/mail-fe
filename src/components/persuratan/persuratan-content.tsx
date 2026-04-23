@@ -56,37 +56,34 @@ export const PersuratanContent = memo(() => {
 
 					<div className="relative flex-1 flex flex-col overflow-hidden">
 						{!isListHidden ? (
-							<>
-								<ResizablePanelGroup orientation="vertical">
-									<ResizablePanel defaultSize={45} minSize={25}>
-										<div className="h-full p-1">
-											<MailList
-												mails={mailList.filteredMails}
-												selectedMailId={navigation.selectedMailId}
-												onSelectMail={navigation.selectMail}
-												page={mailList.page}
-												pageSize={mailList.pageSize}
-												totalElements={mailList.filteredMails.length}
-												onPageChange={mailList.handlePageChange}
-												onPageSizeChange={mailList.handlePageSizeChange}
-												sorting={mailList.sorting}
-												onSortingChange={mailList.handleSortingChange}
-											/>
-										</div>
-									</ResizablePanel>
+							<ResizablePanelGroup orientation="vertical">
+								<ResizablePanel defaultSize={35} minSize={25}>
+									<div className="h-full p-1">
+										<MailList
+											mails={mailList.filteredMails}
+											selectedMailId={navigation.selectedMailId}
+											onSelectMail={navigation.selectMail}
+											page={mailList.page}
+											pageSize={mailList.pageSize}
+											totalElements={mailList.filteredMails.length}
+											onPageChange={mailList.handlePageChange}
+											onPageSizeChange={mailList.handlePageSizeChange}
+											sorting={mailList.sorting}
+											onSortingChange={mailList.handleSortingChange}
+										/>
+									</div>
+								</ResizablePanel>
 
-									<ResizableHandle withHandle />
-
-									<ResizablePanel defaultSize={45} minSize={20}>
-										<div className="h-full bg-muted/5 p-1 overflow-auto">
-											<MailDetail mail={mailDetail.selectedMailDetail} />
-										</div>
-									</ResizablePanel>
-								</ResizablePanelGroup>
-								<div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+								<ResizableHandle>
 									<MailListToggle hidden={false} onToggle={toggleList} />
-								</div>
-							</>
+								</ResizableHandle>
+
+								<ResizablePanel defaultSize={55} minSize={20}>
+									<div className="h-full bg-muted/5 p-1 overflow-auto">
+										<MailDetail mail={mailDetail.selectedMailDetail} />
+									</div>
+								</ResizablePanel>
+							</ResizablePanelGroup>
 						) : (
 							<div className="flex flex-col h-full overflow-hidden">
 								<div className="flex h-7 shrink-0 items-center justify-center border-b border-border bg-background">

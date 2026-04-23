@@ -57,7 +57,7 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 		enableSorting: true,
 		cell: ({ row }) => (
 			<div
-				className="whitespace-nowrap truncate max-w-[100px] text-[11px]"
+				className="whitespace-nowrap truncate max-w-25 text-[11px]"
 				title={row.original.audit.createdByName}
 			>
 				{row.original.audit.createdByName}
@@ -74,7 +74,7 @@ const columns: ColumnDef<MailSummaryDto>[] = [
 			return (
 				<div
 					className={cn(
-						"max-w-[250px] truncate group-hover:text-primary transition-colors py-0.5 text-[11px]",
+						"max-w-62.5 truncate group-hover:text-primary transition-colors py-0.5 text-[11px]",
 						isUnread && "font-bold text-foreground",
 					)}
 					title={mail.subject}
@@ -165,7 +165,7 @@ export const MailList = memo(
 						cn(
 							"text-[11px] transition-colors hover:bg-muted/50 group h-8",
 							selectedMailId === row.original.id &&
-								"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
+							"bg-primary/5 hover:bg-primary/10 border-l-2 border-l-primary",
 							row.original.readStatus !== 0 && "text-muted-foreground",
 						)
 					}

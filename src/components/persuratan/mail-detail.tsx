@@ -24,7 +24,7 @@ export const MailDetail = ({ mail }: MailDetailProps) => {
 	}
 
 	return (
-		<Card className="h-full flex flex-col shadow-none border-0 bg-transparent overflow-hidden">
+		<Card className="h-full flex flex-col shadow-none border-0 overflow-hidden">
 			<CardHeader className="p-3 border-b shrink-0 bg-card/50 backdrop-blur-sm space-y-1.5">
 				<div className="flex items-center gap-2">
 					<Badge
@@ -68,7 +68,7 @@ export const MailDetail = ({ mail }: MailDetailProps) => {
 
 					<Separator className="bg-border/50" />
 
-					<div className="bg-background/50 rounded-lg p-3 ring-1 ring-border/50 shadow-xs min-h-[200px]">
+					<div className="bg-background/50 rounded-lg p-3 ring-1 ring-border/50 shadow-xs min-h-50">
 						<div
 							className="prose prose-slate prose-sm max-w-none text-foreground/80 leading-relaxed text-[12px]"
 							// biome-ignore lint/security/noDangerouslySetInnerHtml: Internal dummy content

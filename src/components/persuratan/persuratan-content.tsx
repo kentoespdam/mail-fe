@@ -31,10 +31,10 @@ export const PersuratanContent = memo(() => {
 	const toggleList = useCallback(() => setIsListHidden((v) => !v), []);
 
 	return (
-		<SidebarProvider className="h-[calc(100vh-80px)] min-h-0 overflow-hidden bg-background">
+		<SidebarProvider className="h-[calc(100svh-80px-var(--footer-height,3rem))] min-h-0 overflow-hidden bg-background">
 			<Sidebar
 				collapsible="icon"
-				className="border-r top-20! h-[calc(100svh-80px)]!"
+				className="border-r top-20! h-[calc(100svh-80px-var(--footer-height,3rem))]!"
 			>
 				<MailFolderTree
 					folders={DUMMY_FOLDERS}

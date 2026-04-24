@@ -25,6 +25,11 @@ export interface MailThreadInfo {
 	parentMailId: string | null;
 }
 
+export interface MailFolderLookup {
+	id: string;
+	name: string;
+}
+
 export interface MailFolderDto {
 	id: string;
 	parentFolderId: string | null;
@@ -44,7 +49,7 @@ export interface MailSummaryDto {
 	audit: MailAuditInfo;
 	summary: MailSummaryInfo;
 	readStatus: number; // 0: unread, 1: read
-	status: string;
+	status: string; // DRAFT, SENT, RECEIVED
 	folderId: string;
 	type: MailTypeLookup;
 	category: MailCategoryLookup;
@@ -52,6 +57,16 @@ export interface MailSummaryDto {
 	maxResponseDate: string | null;
 	thread: MailThreadInfo;
 	totalCount: number;
+	restoreFolder?: MailFolderLookup;
+}
+
+/**
+ * ThreadMailDto used for detail source.
+ * Similar to MailSummaryDto but with optional content/note.
+ */
+export interface ThreadMailDto extends MailSummaryDto {
+	content?: string;
+	note?: string;
 }
 
 export interface MailDetailDto {
@@ -76,6 +91,68 @@ export interface MailDetailDto {
 	circulationName: string;
 }
 
+export interface MailResponse extends MailDetailDto {}
+
+export interface MailTrackingDto {
+	recipientId: string;
+	empName: string;
+	posName: string;
+	circulationName: string;
+	isRead: boolean;
+	readDate: string | null;
+}
+
+export interface RecipientReadStatusDto {
+	recipientId: string;
+	userId: string;
+	empName: string;
+	posName: string;
+	circulationName: string;
+	readStatus: number;
+	readDate: string | null;
+}
+
+export interface MailReportDto {
+	mailTypeName: string;
+	mailCategoryName: string;
+	totalMails: number;
+	totalRead: number;
+	totalUnread: number;
+	totalCount: number;
+}
+
+export interface RecipientDto {
+	id: string;
+	employee: {
+		userId: string;
+		empId: string;
+		empName: string;
+		posName: string;
+	};
+	circulation: {
+		type: string; // ASLI, TEMBUSAN
+		name: string;
+	};
+	notifications: {
+		emailNotif: number;
+		smsNotif: number;
+		notified: boolean;
+		read: boolean;
+		folderPosition: number;
+	};
+}
+
+export interface BatchRecipientResponse {
+	succeeded: RecipientDto[];
+	failed: {
+		empId: string;
+		reason: string;
+	}[];
+	totalRequested: number;
+	totalSucceeded: number;
+	totalFailed: number;
+}
+
 export interface FolderCounterDto {
 	folderId: string;
 	folderName: string;
@@ -93,4 +170,49 @@ export interface MailSearchParams {
 	size: number;
 	sortBy?: string;
 	sortDir?: string;
+}
+
+// Request Types
+
+export interface MailFolderRequest {
+	name: string;
+	parentFolderId: string;
+}
+
+export interface MoveMailRequest {
+	mailIds: string[];
+	fromFolderId: string;
+	toFolderId: string;
+}
+
+export interface MailCreateRequest {
+	subject: string;
+	content?: string;
+	note?: string;
+	mailTypeId: string;
+	mailCategoryId: string;
+	mailDate?: string;
+	maxResponseDate?: string;
+	rootMailId?: string;
+	parentMailId?: string;
+	noSuratMasuk?: string;
+	asalSuratMasuk?: string;
+	tglSuratMasuk?: string;
+	tujuanSuratKeluar?: string;
+	penerimaSuratKeluar?: string;
+}
+
+export interface MailUpdateRequest extends MailCreateRequest {}
+
+export interface RecipientBatchRequest {
+	empIds: string[];
+	circulation: string; // ASLI, TEMBUSAN
+}
+
+export interface RecipientDeleteBatchRequest {
+	ids: string[];
+}
+
+export interface MailSendRequest extends MailCreateRequest {
+	recipients: RecipientBatchRequest[];
 }

@@ -1,4 +1,5 @@
-import type { AppwriteRole, Permission } from "@/types/auth";
+import type { AppwriteRole, Permission, UserProfile } from "@/types/auth";
+import type { MailFolderDto, MailSummaryDto } from "@/types/mail";
 
 export const ROLE_PERMISSIONS: Record<AppwriteRole, Permission[]> = {
 	SYSTEM: [
@@ -65,4 +66,51 @@ export function getJabatan(roles: AppwriteRole[]): string {
 	});
 
 	return ROLE_DISPLAY_NAMES[highestRole];
+}
+
+/**
+ * RBAC Helpers for Mail (Ownership-based)
+ */
+
+export function isSuperUser(user: UserProfile): boolean {
+	return user.roles.some((role) => role === "SYSTEM" || role === "ADMIN");
+}
+
+export function canEditMail(
+	mail: Pick<MailSummaryDto, "audit" | "status">,
+	user: UserProfile,
+): boolean {
+	if (isSuperUser(user)) return true;
+	const isOwner = mail.audit.createdBy === user.id;
+	return isOwner && mail.status === "DRAFT";
+}
+
+export function canSendMail(
+	mail: Pick<MailSummaryDto, "audit" | "status">,
+	user: UserProfile,
+): boolean {
+	return canEditMail(mail, user);
+}
+
+export function canDeleteMail(
+	mail: Pick<MailSummaryDto, "audit" | "status">,
+	user: UserProfile,
+): boolean {
+	return canEditMail(mail, user);
+}
+
+export function canManageAttachment(
+	mail: Pick<MailSummaryDto, "audit" | "status">,
+	user: UserProfile,
+): boolean {
+	return canEditMail(mail, user);
+}
+
+export function canManageFolder(
+	folder: Pick<MailFolderDto, "ownerId" | "system">,
+	user: UserProfile,
+): boolean {
+	if (folder.system) return false;
+	if (isSuperUser(user)) return true;
+	return folder.ownerId === user.id;
 }

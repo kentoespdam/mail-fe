@@ -74,7 +74,7 @@ export async function deleteMailCategory(id: string): Promise<void> {
 export async function toggleMailCategoryStatus(
 	id: string,
 ): Promise<MailCategoryDto> {
-	const res = await fetch(`${BASE}/${id}/toggle-status`, {
+	const res = await fetch(`${BASE}/${id}/status`, {
 		method: "PATCH",
 	});
 	if (!res.ok) {

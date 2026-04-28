@@ -75,7 +75,7 @@ export async function deleteMailType(id: string): Promise<void> {
 }
 
 export async function toggleMailTypeStatus(id: string): Promise<MailTypeDto> {
-	const res = await fetch(`${BASE}/${id}/toggle-status`, {
+	const res = await fetch(`${BASE}/${id}/status`, {
 		method: "PATCH",
 	});
 	if (!res.ok) {

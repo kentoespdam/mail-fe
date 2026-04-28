@@ -25,6 +25,12 @@ export async function fetchQuickMessages(
 	return res.json();
 }
 
+export const fetchQuickMessagesLookup = async () => {
+	const res = await fetch(`${BASE}/lookup`);
+	if (!res.ok) throw new Error("Gagal memuat data lookup pesan singkat");
+	return res.json();
+};
+
 export async function fetchQuickMessage(id: string): Promise<QuickMessageDto> {
 	const res = await fetch(`${BASE}/${id}`);
 	if (!res.ok) throw new Error("Gagal memuat detail pesan singkat");
@@ -65,4 +71,17 @@ export async function updateQuickMessage(
 export async function deleteQuickMessage(id: string): Promise<void> {
 	const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
 	if (!res.ok) throw new Error("Gagal menghapus pesan singkat");
+}
+
+export async function toggleQuickMessageStatus(
+	id: string,
+): Promise<QuickMessageDto> {
+	const res = await fetch(`${BASE}/${id}/status`, {
+		method: "PATCH",
+	});
+	if (!res.ok) {
+		const err = await res.json().catch(() => null);
+		throw new Error(err?.detail ?? "Gagal mengubah status pesan singkat");
+	}
+	return res.json();
 }

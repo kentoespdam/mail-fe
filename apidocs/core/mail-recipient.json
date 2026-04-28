@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/mails/{mailId}/recipients": {
 			"get": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "getRecipients",
 				"parameters": [
 					{
@@ -52,7 +54,9 @@
 				}
 			},
 			"post": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "addRecipient",
 				"parameters": [
 					{
@@ -88,7 +92,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "deleteBatch",
 				"parameters": [
 					{
@@ -119,7 +125,9 @@
 		},
 		"/api/v1/mails/{mailId}/recipients/copy-thread/{refId}": {
 			"post": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "copyThread",
 				"parameters": [
 					{
@@ -158,7 +166,9 @@
 		},
 		"/api/v1/mails/{mailId}/recipients/copy-from/{refId}": {
 			"post": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "copyFrom",
 				"parameters": [
 					{
@@ -197,7 +207,9 @@
 		},
 		"/api/v1/mails/{mailId}/recipients/batch": {
 			"post": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "addBatch",
 				"parameters": [
 					{
@@ -235,7 +247,9 @@
 		},
 		"/api/v1/mails/{mailId}/recipients/{rid}": {
 			"delete": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "deleteRecipient",
 				"parameters": [
 					{
@@ -262,7 +276,9 @@
 				}
 			},
 			"patch": {
-				"tags": ["mail-recipient-controller"],
+				"tags": [
+					"mail-recipient-controller"
+				],
 				"operationId": "updateNotifFlags",
 				"parameters": [
 					{
@@ -336,7 +352,10 @@
 						"type": "string"
 					}
 				},
-				"required": ["circulation", "empId"]
+				"required": [
+					"circulation",
+					"empId"
+				]
 			},
 			"RecipientDeleteBatchRequest": {
 				"type": "object",
@@ -349,7 +368,9 @@
 						"minItems": 1
 					}
 				},
-				"required": ["ids"]
+				"required": [
+					"ids"
+				]
 			},
 			"RecipientBatchRequest": {
 				"type": "object",
@@ -365,7 +386,10 @@
 						"type": "string"
 					}
 				},
-				"required": ["circulation", "empIds"]
+				"required": [
+					"circulation",
+					"empIds"
+				]
 			},
 			"BatchRecipientResponse": {
 				"type": "object",

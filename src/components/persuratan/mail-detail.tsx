@@ -72,7 +72,7 @@ export const MailDetail = ({ mail }: MailDetailProps) => {
 						<div
 							className="prose prose-slate prose-sm max-w-none text-foreground/80 leading-relaxed text-[12px]"
 							// biome-ignore lint/security/noDangerouslySetInnerHtml: Internal dummy content
-							dangerouslySetInnerHTML={{ __html: mail.content }}
+							dangerouslySetInnerHTML={{ __html: mail.content || "" }}
 						/>
 					</div>
 

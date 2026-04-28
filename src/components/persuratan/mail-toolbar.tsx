@@ -9,6 +9,7 @@ import {
 	IconSearch,
 	IconTrash,
 } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query"; // Import useQueryClient
 import { memo } from "react";
 import { DeleteConfirmDialog } from "@/components/builder/delete-confirm-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -28,8 +29,9 @@ import { cn } from "@/lib/utils";
 interface MailToolbarProps {
 	onSearch: (keyword: string) => void;
 	onDateFilter: (start: string, end: string) => void;
-	selectedMailId: string | null;
+	selectedMailId: string | null; // Keep for individual actions if needed, but main delete uses selectedMailIds
 	selectedFolderId: string;
+	selectedMailIds: string[]; // Added for bulk actions like delete
 	mailStatus?: string;
 }
 
@@ -39,13 +41,25 @@ export const MailToolbar = memo(
 		onDateFilter,
 		selectedMailId,
 		selectedFolderId,
+		selectedMailIds, // Destructure selectedMailIds
 		mailStatus,
 	}: MailToolbarProps) => {
+		const queryClient = useQueryClient(); // Get query client instance
+
+		// Assume refetchMailList is a function provided by the parent that invalidates the query
+		// In a real app, this might be passed down or handled by a context/global state
+		const refetchMailList = () => {
+			queryClient.invalidateQueries({
+				queryKey: ["mailList", selectedFolderId, "", 0, 10, "", "asc"], // Example key, adjust as needed
+			});
+		};
+
 		const {
 			deleteDialogOpen,
 			setDeleteDialogOpen,
 			handleAction,
-			handleDelete,
+			handleDeleteConfirm, // Renamed from handleDelete
+			handleDeleteClick, // New handler to open dialog
 			handleSearch,
 			handleClearSearch,
 			handleDateChange,
@@ -55,11 +69,14 @@ export const MailToolbar = memo(
 			endDate,
 			isDraftOrRevisi,
 			isDeletedItems,
+			isDeleting, // Expose mutation state from hook
 		} = useMailToolbar({
 			selectedFolderId,
+			selectedMailIds, // Pass selectedMailIds to the hook
 			mailStatus,
 			onSearch,
 			onDateFilter,
+			refetchMailList, // Pass the refetch callback
 		});
 
 		return (
@@ -127,7 +144,7 @@ export const MailToolbar = memo(
 							</div>
 						</div>
 
-						{selectedMailId && (
+						{selectedMailId && ( // This condition might need adjustment if bulk actions are primary
 							<>
 								<DropdownMenu>
 									<DropdownMenuTrigger
@@ -135,7 +152,7 @@ export const MailToolbar = memo(
 											buttonVariants({ variant: "outline", size: "sm" }),
 											"h-7 text-[11px] px-2",
 										)}
-										disabled={!selectedMailId}
+										disabled={!selectedMailId} // Check if individual mail is selected for actions
 									>
 										<IconDots className="size-3 mr-1" />
 										Tindakan
@@ -159,8 +176,9 @@ export const MailToolbar = memo(
 									variant="outline"
 									size="sm"
 									className="h-7 text-[11px] px-2 text-destructive hover:text-destructive"
-									disabled={!selectedMailId}
-									onClick={() => setDeleteDialogOpen(true)}
+									// Enable delete button if any mail is selected for bulk action
+									disabled={selectedMailIds.length === 0}
+									onClick={handleDeleteClick} // Use the new handler to open dialog
 								>
 									<IconTrash className="size-3 mr-1" />
 									Hapus
@@ -209,9 +227,11 @@ export const MailToolbar = memo(
 				<DeleteConfirmDialog
 					open={deleteDialogOpen}
 					onClose={() => setDeleteDialogOpen(false)}
-					onConfirm={handleDelete}
+					onConfirm={handleDeleteConfirm} // Use the new confirm handler
 					title="Hapus Surat"
 					description="Apakah Anda yakin ingin menghapus surat ini? Surat akan dipindahkan ke folder Deleted Items."
+					// Add loading state to dialog if needed
+					isPending={isDeleting}
 				/>
 			</div>
 		);

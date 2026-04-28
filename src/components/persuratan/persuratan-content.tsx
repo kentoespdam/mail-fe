@@ -15,7 +15,6 @@ import {
 import { useMailDetailState } from "@/hooks/persuratan/use-mail-detail-state";
 import { useMailListState } from "@/hooks/persuratan/use-mail-list-state";
 import { useMailNavigation } from "@/hooks/persuratan/use-mail-navigation";
-import { DUMMY_FOLDERS } from "@/lib/dummy/mail-dummy";
 import { MailDetail } from "./mail-detail";
 import { MailFolderTree } from "./mail-folder-tree";
 import { MailList } from "./mail-list";
@@ -37,7 +36,6 @@ export const PersuratanContent = memo(() => {
 				className="border-r top-20! h-[calc(100svh-80px-var(--footer-height,3rem))]!"
 			>
 				<MailFolderTree
-					folders={DUMMY_FOLDERS}
 					selectedFolderId={navigation.selectedFolderId}
 					onSelectFolder={navigation.selectFolder}
 				/>
@@ -51,7 +49,10 @@ export const PersuratanContent = memo(() => {
 						onDateFilter={(start, end) => console.log(start, end)}
 						selectedMailId={navigation.selectedMailId}
 						selectedFolderId={navigation.selectedFolderId}
-						mailStatus={mailDetail.selectedMailSummary?.status}
+						selectedMailIds={
+							navigation.selectedMailId ? [navigation.selectedMailId] : []
+						}
+						mailStatus={mailDetail.selectedMailSummary?.status?.toString()}
 					/>
 
 					<div className="relative flex-1 flex flex-col overflow-hidden">
@@ -60,12 +61,12 @@ export const PersuratanContent = memo(() => {
 								<ResizablePanel defaultSize={35} minSize={25}>
 									<div className="h-full p-1">
 										<MailList
-											mails={mailList.filteredMails}
+											mails={mailList.data}
 											selectedMailId={navigation.selectedMailId}
 											onSelectMail={navigation.selectMail}
 											page={mailList.page}
 											pageSize={mailList.pageSize}
-											totalElements={mailList.filteredMails.length}
+											totalElements={mailList.totalElements}
 											onPageChange={mailList.handlePageChange}
 											onPageSizeChange={mailList.handlePageSizeChange}
 											sorting={mailList.sorting}

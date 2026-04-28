@@ -1,34 +1,70 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
-import { toast } from "sonner";
+import { deleteMail } from "@/lib/mail-api"; // Import API function for deletion
 
 interface UseMailToolbarProps {
 	selectedFolderId: string;
+	selectedMailIds: string[]; // Added to identify mails for action
 	mailStatus?: string;
 	onSearch: (keyword: string) => void;
 	onDateFilter: (start: string, end: string) => void;
+	refetchMailList: () => void; // Callback to refetch the mail list after mutation
 }
 
 export const useMailToolbar = ({
 	selectedFolderId,
+	selectedMailIds,
 	mailStatus,
 	onSearch,
 	onDateFilter,
+	refetchMailList, // Use the refetch callback
 }: UseMailToolbarProps) => {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
 	const [searchKeyword, setSearchKeyword] = useState("");
 
+	// Mutation for deleting mails
+	const deleteMutation = useMutation({
+		mutationFn: (ids: string[]) => {
+			// Assuming deleteMail handles multiple IDs or we iterate
+			// For simplicity, let's assume deleteMail takes an array or we loop
+			return Promise.all(ids.map((id) => deleteMail(id)));
+		},
+		onSuccess: () => {
+			refetchMailList(); // Invalidate mail list query
+			// Optionally provide user feedback here, e.g., via a state manager or a returned status
+			console.log("Mail(s) deleted successfully"); // Replace with better UI feedback
+			setDeleteDialogOpen(false); // Close dialog on success
+		},
+		onError: (error) => {
+			console.error("Failed to delete mail(s):", error);
+			// Handle error feedback to the user
+		},
+	});
+
 	const handleAction = useCallback((action: string) => {
-		toast.info(`Fitur ${action} dalam pengembangan`);
+		// Placeholder for other actions (move, archive, etc.)
+		console.log(`Action ${action} not yet implemented.`);
 	}, []);
 
-	const handleDelete = useCallback(() => {
-		toast.success("Surat berhasil dihapus");
-		setDeleteDialogOpen(false);
-	}, []);
+	const handleDeleteClick = useCallback(() => {
+		// Action to open the confirmation dialog
+		if (selectedMailIds.length > 0) {
+			setDeleteDialogOpen(true);
+		} else {
+			console.log("No mail selected for deletion.");
+		}
+	}, [selectedMailIds]);
+
+	const handleDeleteConfirm = useCallback(() => {
+		// Action to perform deletion after confirmation
+		if (selectedMailIds.length > 0) {
+			deleteMutation.mutate(selectedMailIds);
+		}
+	}, [deleteMutation, selectedMailIds]);
 
 	const handleSearch = useCallback(() => {
 		onSearch(searchKeyword);
@@ -66,7 +102,8 @@ export const useMailToolbar = ({
 		deleteDialogOpen,
 		setDeleteDialogOpen,
 		handleAction,
-		handleDelete,
+		handleDeleteConfirm, // Renamed for clarity on confirmation action
+		handleDeleteClick, // New handler to open dialog
 		handleSearch,
 		handleClearSearch,
 		handleDateChange,
@@ -76,5 +113,6 @@ export const useMailToolbar = ({
 		endDate,
 		isDraftOrRevisi,
 		isDeletedItems,
+		isDeleting: deleteMutation.isPending, // Expose mutation state
 	};
 };

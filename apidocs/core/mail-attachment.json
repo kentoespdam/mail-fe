@@ -21,33 +21,19 @@
 		}
 	],
 	"paths": {
-		"/api/v1/attachments": {
+		"/api/v1/mails/{mailId}/attachments": {
 			"get": {
 				"tags": [
-					"attachment-controller"
+					"mail-attachment-controller"
 				],
-				"operationId": "findByOwner",
+				"operationId": "getAttachments",
 				"parameters": [
 					{
-						"name": "refType",
-						"in": "query",
+						"name": "mailId",
+						"in": "path",
 						"required": true,
 						"schema": {
-							"type": "integer",
-							"format": "int32",
-							"enum": [
-								1,
-								2
-							]
-						}
-					},
-					{
-						"name": "refId",
-						"in": "query",
-						"required": true,
-						"schema": {
-							"type": "integer",
-							"format": "int64"
+							"type": "string"
 						}
 					}
 				],
@@ -69,30 +55,16 @@
 			},
 			"post": {
 				"tags": [
-					"attachment-controller"
+					"mail-attachment-controller"
 				],
-				"operationId": "upload_1",
+				"operationId": "upload",
 				"parameters": [
 					{
-						"name": "refType",
-						"in": "query",
+						"name": "mailId",
+						"in": "path",
 						"required": true,
 						"schema": {
-							"type": "integer",
-							"format": "int32",
-							"enum": [
-								1,
-								2
-							]
-						}
-					},
-					{
-						"name": "refId",
-						"in": "query",
-						"required": true,
-						"schema": {
-							"type": "integer",
-							"format": "int64"
+							"type": "string"
 						}
 					},
 					{
@@ -128,7 +100,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/AttachmentResponse"
+									"$ref": "#/components/schemas/AttachmentDetailResponse"
 								}
 							}
 						}
@@ -136,20 +108,27 @@
 				}
 			}
 		},
-		"/api/v1/attachments/{id}": {
+		"/api/v1/mails/{mailId}/attachments/{attachmentId}": {
 			"get": {
 				"tags": [
-					"attachment-controller"
+					"mail-attachment-controller"
 				],
-				"operationId": "findById_1",
+				"operationId": "getAttachmentDetail",
 				"parameters": [
 					{
-						"name": "id",
+						"name": "mailId",
 						"in": "path",
 						"required": true,
 						"schema": {
-							"type": "integer",
-							"format": "int32"
+							"type": "string"
+						}
+					},
+					{
+						"name": "attachmentId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
 				],
@@ -159,7 +138,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/AttachmentResponse"
+									"$ref": "#/components/schemas/AttachmentDetailResponse"
 								}
 							}
 						}
@@ -168,17 +147,24 @@
 			},
 			"delete": {
 				"tags": [
-					"attachment-controller"
+					"mail-attachment-controller"
 				],
-				"operationId": "delete_1",
+				"operationId": "deleteAttachment",
 				"parameters": [
 					{
-						"name": "id",
+						"name": "mailId",
 						"in": "path",
 						"required": true,
 						"schema": {
-							"type": "integer",
-							"format": "int32"
+							"type": "string"
+						}
+					},
+					{
+						"name": "attachmentId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
 				],
@@ -189,20 +175,27 @@
 				}
 			}
 		},
-		"/api/v1/attachments/{id}/download": {
+		"/api/v1/mails/{mailId}/attachments/{attachmentId}/download": {
 			"get": {
 				"tags": [
-					"attachment-controller"
+					"mail-attachment-controller"
 				],
-				"operationId": "download_1",
+				"operationId": "downloadAttachment",
 				"parameters": [
 					{
-						"name": "id",
+						"name": "mailId",
 						"in": "path",
 						"required": true,
 						"schema": {
-							"type": "integer",
-							"format": "int32"
+							"type": "string"
+						}
+					},
+					{
+						"name": "attachmentId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
 				],
@@ -235,6 +228,34 @@
 						"format": "int32"
 					},
 					"refId": {
+						"type": "string"
+					},
+					"originalFilename": {
+						"type": "string"
+					},
+					"fileExt": {
+						"type": "string"
+					},
+					"fileSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"docNotes": {
+						"type": "string"
+					},
+					"uploadDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"uploadByName": {
+						"type": "string"
+					}
+				}
+			},
+			"AttachmentDetailResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
 						"type": "string"
 					},
 					"originalFilename": {

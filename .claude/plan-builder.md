@@ -9,7 +9,7 @@ Focus: Architecture clarity, component reuse, clean handoff.
 <context_protocol>
 ! IMPORTANT: Stack, Path, & Reuse rules are LOCKED. 
 Reference external memory for details:
-- Project Memory: `/home/dev/.claude/projects/.../MEMORY.md`
+- Project Memory: `/home/dev/.claude/projects/-mnt-DATA-html-mail-fe/memory/MEMORY.md`
 - Tech Stack: [LOAD_STACK_CONTEXT]
 - Component Library: [LOAD_REUSE_MAP]
 - RBAC Rules: [LOAD_RBAC_CONTEXT]

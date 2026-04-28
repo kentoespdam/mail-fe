@@ -377,13 +377,18 @@
 						"name": "page",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": { "type": "integer", "format": "int32", "minimum": 0 }
 					},
 					{
 						"name": "size",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
+						}
 					}
 				],
 				"responses": {
@@ -460,13 +465,18 @@
 						"name": "page",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": { "type": "integer", "format": "int32", "minimum": 0 }
 					},
 					{
 						"name": "size",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
+						}
 					}
 				],
 				"responses": {
@@ -538,13 +548,18 @@
 						"name": "page",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": { "type": "integer", "format": "int32", "minimum": 0 }
 					},
 					{
 						"name": "size",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
+						}
 					}
 				],
 				"responses": {
@@ -618,13 +633,18 @@
 						"name": "page",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": { "type": "integer", "format": "int32", "minimum": 0 }
 					},
 					{
 						"name": "size",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
+						}
 					}
 				],
 				"responses": {
@@ -701,13 +721,18 @@
 						"name": "page",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": { "type": "integer", "format": "int32", "minimum": 0 }
 					},
 					{
 						"name": "size",
 						"in": "query",
 						"required": false,
-						"schema": { "type": "integer", "format": "int32" }
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
+						}
 					}
 				],
 				"responses": {

@@ -1,3 +1,5 @@
+import type { AttachmentResponse } from "@/types/attachment";
+
 export interface MailTypeLookup {
 	id: string;
 	name: string;
@@ -48,8 +50,7 @@ export interface MailSummaryDto {
 	subject: string;
 	audit: MailAuditInfo;
 	summary: MailSummaryInfo;
-	readStatus: number; // 0: unread, 1: read
-	status: string; // DRAFT, SENT, RECEIVED
+	readStatus: number;
 	folderId: string;
 	type: MailTypeLookup;
 	category: MailCategoryLookup;
@@ -57,6 +58,7 @@ export interface MailSummaryDto {
 	maxResponseDate: string | null;
 	thread: MailThreadInfo;
 	totalCount: number;
+	status: string | number;
 	restoreFolder?: MailFolderLookup;
 }
 
@@ -67,6 +69,12 @@ export interface MailSummaryDto {
 export interface ThreadMailDto extends MailSummaryDto {
 	content?: string;
 	note?: string;
+	noSuratMasuk?: string | null;
+	asalSuratMasuk?: string | null;
+	tglSuratMasuk?: string | null;
+	tujuanSuratKeluar?: string | null;
+	penerimaSuratKeluar?: string | null;
+	attachments?: AttachmentResponse[];
 }
 
 export interface MailDetailDto {
@@ -76,19 +84,20 @@ export interface MailDetailDto {
 	type: MailTypeLookup;
 	category: MailCategoryLookup;
 	subject: string;
-	content: string;
-	note: string;
+	content?: string;
+	note?: string;
 	maxResponseDate: string | null;
-	status: string;
+	status: string | number;
 	thread: MailThreadInfo;
 	summary: MailSummaryInfo;
 	audit: MailAuditInfo;
-	noSuratMasuk: string | null;
-	asalSuratMasuk: string | null;
-	tglSuratMasuk: string | null;
-	tujuanSuratKeluar: string | null;
-	penerimaSuratKeluar: string | null;
+	noSuratMasuk?: string | null;
+	asalSuratMasuk?: string | null;
+	tglSuratMasuk?: string | null;
+	tujuanSuratKeluar?: string | null;
+	penerimaSuratKeluar?: string | null;
 	circulationName: string;
+	attachments?: AttachmentResponse[];
 }
 
 export interface MailResponse extends MailDetailDto {}
@@ -215,4 +224,16 @@ export interface RecipientDeleteBatchRequest {
 
 export interface MailSendRequest extends MailCreateRequest {
 	recipients: RecipientBatchRequest[];
+}
+
+export interface MailLookupResponse {
+	id: string;
+	mailDate: string;
+	createdByName: string;
+	subject: string;
+	typeName: string;
+	categoryName: string;
+	circulationName: string;
+	maxResponseDate: string | null;
+	isRead: boolean;
 }

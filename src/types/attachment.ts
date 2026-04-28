@@ -3,15 +3,26 @@ export enum AttachmentRefType {
 	ARCHIVE = 2,
 }
 
-export interface AttachmentDto {
+export interface AttachmentResponse {
 	id: string;
+	refType: number;
 	refId: string;
-	refType: AttachmentRefType;
-	fileName: string;
+	originalFilename: string;
+	fileExt: string;
 	fileSize: number;
-	contentType: string;
 	docNotes: string | null;
 	uploadDate: string;
-	uploadedBy: string;
-	uploadedByName: string;
+	uploadByName: string;
 }
+
+export interface AttachmentDetailResponse {
+	id: string;
+	originalFilename: string;
+	fileExt: string;
+	fileSize: number;
+	docNotes: string | null;
+	uploadDate: string;
+	uploadByName: string;
+}
+
+export type AttachmentDto = AttachmentResponse;

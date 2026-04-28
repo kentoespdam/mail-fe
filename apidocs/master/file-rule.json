@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/file-rules/{id}": {
 			"put": {
-				"tags": ["allowed-file-type-controller"],
+				"tags": [
+					"allowed-file-type-controller"
+				],
 				"operationId": "update_3",
 				"parameters": [
 					{
@@ -59,7 +61,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["allowed-file-type-controller"],
+				"tags": [
+					"allowed-file-type-controller"
+				],
 				"operationId": "delete_3",
 				"parameters": [
 					{
@@ -80,7 +84,9 @@
 		},
 		"/api/v1/file-rules": {
 			"get": {
-				"tags": ["allowed-file-type-controller"],
+				"tags": [
+					"allowed-file-type-controller"
+				],
 				"operationId": "findAll_3",
 				"parameters": [
 					{
@@ -121,7 +127,8 @@
 						"required": false,
 						"schema": {
 							"type": "integer",
-							"format": "int32"
+							"format": "int32",
+							"minimum": 0
 						}
 					},
 					{
@@ -130,7 +137,9 @@
 						"required": false,
 						"schema": {
 							"type": "integer",
-							"format": "int32"
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
 						}
 					}
 				],
@@ -148,7 +157,9 @@
 				}
 			},
 			"post": {
-				"tags": ["allowed-file-type-controller"],
+				"tags": [
+					"allowed-file-type-controller"
+				],
 				"operationId": "create_3",
 				"requestBody": {
 					"content": {
@@ -176,7 +187,9 @@
 		},
 		"/api/v1/file-rules/lookup": {
 			"get": {
-				"tags": ["allowed-file-type-controller"],
+				"tags": [
+					"allowed-file-type-controller"
+				],
 				"operationId": "listByContext",
 				"parameters": [
 					{
@@ -227,7 +240,11 @@
 						"type": "boolean"
 					}
 				},
-				"required": ["context", "extension", "maxSizeMb"]
+				"required": [
+					"context",
+					"extension",
+					"maxSizeMb"
+				]
 			},
 			"AllowedFileTypeDto": {
 				"type": "object",

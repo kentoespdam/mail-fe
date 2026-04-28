@@ -22,8 +22,38 @@
 	],
 	"paths": {
 		"/api/v1/mails/{id}": {
+			"get": {
+				"tags": [
+					"mail-controller"
+				],
+				"operationId": "getById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/MailResponse"
+								}
+							}
+						}
+					}
+				}
+			},
 			"put": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "updateDraft",
 				"parameters": [
 					{
@@ -59,7 +89,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "deleteMail",
 				"parameters": [
 					{
@@ -80,7 +112,9 @@
 		},
 		"/api/v1/mails": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "createDraft",
 				"requestBody": {
 					"content": {
@@ -108,7 +142,9 @@
 		},
 		"/api/v1/mails/{id}/send": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "send",
 				"parameters": [
 					{
@@ -136,7 +172,9 @@
 		},
 		"/api/v1/mails/{id}/restore": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "restoreMail",
 				"parameters": [
 					{
@@ -157,7 +195,9 @@
 		},
 		"/api/v1/mails/{id}/read": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "markRead",
 				"parameters": [
 					{
@@ -178,7 +218,9 @@
 		},
 		"/api/v1/mails/send": {
 			"post": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "sendMail",
 				"requestBody": {
 					"content": {
@@ -206,7 +248,9 @@
 		},
 		"/api/v1/mails/{id}/tracking": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "getTracking",
 				"parameters": [
 					{
@@ -237,7 +281,9 @@
 		},
 		"/api/v1/mails/{id}/thread": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "getThread",
 				"parameters": [
 					{
@@ -268,7 +314,9 @@
 		},
 		"/api/v1/mails/{id}/read-status": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "getReadStatus",
 				"parameters": [
 					{
@@ -299,15 +347,104 @@
 		},
 		"/api/v1/mails/search": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "search",
 				"parameters": [
 					{
-						"name": "request",
+						"name": "keyword",
 						"in": "query",
-						"required": true,
+						"required": false,
 						"schema": {
-							"$ref": "#/components/schemas/MailSearchRequest"
+							"type": "string"
+						}
+					},
+					{
+						"name": "mailTypeId",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "mailCategoryId",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "startDate",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "endDate",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "hasAttachment",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"name": "senderId",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"minimum": 0
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
 						}
 					}
 				],
@@ -317,7 +454,7 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/PagedResponseMailSummaryResponse"
+									"$ref": "#/components/schemas/PagedModelMailSummaryResponse"
 								}
 							}
 						}
@@ -327,15 +464,80 @@
 		},
 		"/api/v1/mails/report": {
 			"get": {
-				"tags": ["mail-controller"],
+				"tags": [
+					"mail-controller"
+				],
 				"operationId": "report",
 				"parameters": [
 					{
-						"name": "request",
+						"name": "mailTypeId",
 						"in": "query",
-						"required": true,
+						"required": false,
 						"schema": {
-							"$ref": "#/components/schemas/MailReportRequest"
+							"type": "string"
+						}
+					},
+					{
+						"name": "mailCategoryId",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "startDate",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "endDate",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"minimum": 0
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
 						}
 					}
 				],
@@ -345,7 +547,74 @@
 						"content": {
 							"*/*": {
 								"schema": {
-									"$ref": "#/components/schemas/PagedResponseMailReportResponse"
+									"$ref": "#/components/schemas/PagedModelMailReportResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/mails/lookup": {
+			"get": {
+				"tags": [
+					"mail-controller"
+				],
+				"operationId": "lookup",
+				"parameters": [
+					{
+						"name": "folderId",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"minimum": 0
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/PagedModelMailLookupResponse"
 								}
 							}
 						}
@@ -356,58 +625,6 @@
 	},
 	"components": {
 		"schemas": {
-			"MailUpdateRequest": {
-				"type": "object",
-				"properties": {
-					"subject": {
-						"type": "string"
-					},
-					"content": {
-						"type": "string"
-					},
-					"note": {
-						"type": "string"
-					},
-					"mailTypeId": {
-						"type": "string",
-						"minLength": 1
-					},
-					"mailCategoryId": {
-						"type": "string",
-						"minLength": 1
-					},
-					"mailDate": {
-						"type": "string",
-						"format": "date"
-					},
-					"maxResponseDate": {
-						"type": "string",
-						"format": "date"
-					},
-					"rootMailId": {
-						"type": "string"
-					},
-					"parentMailId": {
-						"type": "string"
-					},
-					"noSuratMasuk": {
-						"type": "string"
-					},
-					"asalSuratMasuk": {
-						"type": "string"
-					},
-					"tglSuratMasuk": {
-						"type": "string"
-					},
-					"tujuanSuratKeluar": {
-						"type": "string"
-					},
-					"penerimaSuratKeluar": {
-						"type": "string"
-					}
-				},
-				"required": ["mailCategoryId", "mailTypeId"]
-			},
 			"MailResponse": {
 				"type": "object",
 				"properties": {
@@ -467,8 +684,69 @@
 					},
 					"penerimaSuratKeluar": {
 						"type": "string"
+					},
+					"attachments": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AttachmentResponse"
+						}
 					}
 				}
+			},
+			"MailUpdateRequest": {
+				"type": "object",
+				"properties": {
+					"subject": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"note": {
+						"type": "string"
+					},
+					"mailTypeId": {
+						"type": "string",
+						"minLength": 1
+					},
+					"mailCategoryId": {
+						"type": "string",
+						"minLength": 1
+					},
+					"mailDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"maxResponseDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"rootMailId": {
+						"type": "string"
+					},
+					"parentMailId": {
+						"type": "string"
+					},
+					"noSuratMasuk": {
+						"type": "string"
+					},
+					"asalSuratMasuk": {
+						"type": "string"
+					},
+					"tglSuratMasuk": {
+						"type": "string"
+					},
+					"tujuanSuratKeluar": {
+						"type": "string"
+					},
+					"penerimaSuratKeluar": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"mailCategoryId",
+					"mailTypeId"
+				]
 			},
 			"MailCreateRequest": {
 				"type": "object",
@@ -521,7 +799,11 @@
 						"type": "string"
 					}
 				},
-				"required": ["mailCategoryId", "mailTypeId", "subject"]
+				"required": [
+					"mailCategoryId",
+					"mailTypeId",
+					"subject"
+				]
 			},
 			"MailSendRequest": {
 				"type": "object",
@@ -581,7 +863,12 @@
 						"minItems": 1
 					}
 				},
-				"required": ["mailCategoryId", "mailTypeId", "recipients", "subject"]
+				"required": [
+					"mailCategoryId",
+					"mailTypeId",
+					"recipients",
+					"subject"
+				]
 			},
 			"MailTrackingResponse": {
 				"type": "object",
@@ -685,49 +972,7 @@
 					}
 				}
 			},
-			"MailSearchRequest": {
-				"type": "object",
-				"properties": {
-					"page": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"size": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"sortBy": {
-						"type": "string"
-					},
-					"sortDir": {
-						"type": "string"
-					},
-					"keyword": {
-						"type": "string"
-					},
-					"mailTypeId": {
-						"type": "string"
-					},
-					"mailCategoryId": {
-						"type": "string"
-					},
-					"startDate": {
-						"type": "string",
-						"format": "date"
-					},
-					"endDate": {
-						"type": "string",
-						"format": "date"
-					},
-					"hasAttachment": {
-						"type": "boolean"
-					},
-					"senderId": {
-						"type": "string"
-					}
-				}
-			},
-			"PagedResponseMailSummaryResponse": {
+			"PagedModelMailSummaryResponse": {
 				"type": "object",
 				"properties": {
 					"content": {
@@ -737,63 +982,11 @@
 						}
 					},
 					"page": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"size": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"totalElements": {
-						"type": "integer",
-						"format": "int64"
-					},
-					"totalPages": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"first": {
-						"type": "boolean"
-					},
-					"last": {
-						"type": "boolean"
+						"$ref": "#/components/schemas/PageMetadata"
 					}
 				}
 			},
-			"MailReportRequest": {
-				"type": "object",
-				"properties": {
-					"page": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"size": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"sortBy": {
-						"type": "string"
-					},
-					"sortDir": {
-						"type": "string"
-					},
-					"mailTypeId": {
-						"type": "string"
-					},
-					"mailCategoryId": {
-						"type": "string"
-					},
-					"startDate": {
-						"type": "string",
-						"format": "date"
-					},
-					"endDate": {
-						"type": "string",
-						"format": "date"
-					}
-				}
-			},
-			"PagedResponseMailReportResponse": {
+			"PagedModelMailReportResponse": {
 				"type": "object",
 				"properties": {
 					"content": {
@@ -803,26 +996,21 @@
 						}
 					},
 					"page": {
-						"type": "integer",
-						"format": "int32"
+						"$ref": "#/components/schemas/PageMetadata"
+					}
+				}
+			},
+			"PagedModelMailLookupResponse": {
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/MailLookupResponse"
+						}
 					},
-					"size": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"totalElements": {
-						"type": "integer",
-						"format": "int64"
-					},
-					"totalPages": {
-						"type": "integer",
-						"format": "int32"
-					},
-					"first": {
-						"type": "boolean"
-					},
-					"last": {
-						"type": "boolean"
+					"page": {
+						"$ref": "#/components/schemas/PageMetadata"
 					}
 				}
 			},
@@ -890,6 +1078,41 @@
 					}
 				}
 			},
+			"AttachmentResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"refType": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"refId": {
+						"type": "string"
+					},
+					"originalFilename": {
+						"type": "string"
+					},
+					"fileExt": {
+						"type": "string"
+					},
+					"fileSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"docNotes": {
+						"type": "string"
+					},
+					"uploadDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"uploadByName": {
+						"type": "string"
+					}
+				}
+			},
 			"RecipientBatchRequest": {
 				"type": "object",
 				"properties": {
@@ -904,7 +1127,10 @@
 						"type": "string"
 					}
 				},
-				"required": ["circulation", "empIds"]
+				"required": [
+					"circulation",
+					"empIds"
+				]
 			},
 			"MailFolderLookup": {
 				"type": "object",
@@ -914,6 +1140,27 @@
 					},
 					"name": {
 						"type": "string"
+					}
+				}
+			},
+			"PageMetadata": {
+				"type": "object",
+				"properties": {
+					"size": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"number": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int64"
 					}
 				}
 			},
@@ -941,6 +1188,40 @@
 					"totalCount": {
 						"type": "integer",
 						"format": "int64"
+					}
+				}
+			},
+			"MailLookupResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"mailDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"createdByName": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"typeName": {
+						"type": "string"
+					},
+					"categoryName": {
+						"type": "string"
+					},
+					"circulationName": {
+						"type": "string"
+					},
+					"maxResponseDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"isRead": {
+						"type": "boolean"
 					}
 				}
 			}

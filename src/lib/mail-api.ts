@@ -18,21 +18,10 @@ const BASE = "/api/proxy/v1/mails";
  * Adapter untuk mengubah PagedResponse flat dari backend
  * menjadi struktur PagedResponse<T> yang diharapkan UI.
  */
-function mapPagedResponse<T>(res: {
-	content: T[];
-	page: number;
-	size: number;
-	totalElements: number;
-	totalPages: number;
-}): PagedResponse<T> {
+function mapPagedResponse<T>(res: PagedResponse<T>): PagedResponse<T> {
 	return {
 		content: res.content,
-		page: {
-			number: res.page,
-			size: res.size,
-			totalElements: res.totalElements,
-			totalPages: res.totalPages,
-		},
+		page: res.page,
 	};
 }
 

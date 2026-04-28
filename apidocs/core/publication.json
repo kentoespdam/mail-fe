@@ -23,7 +23,9 @@
 	"paths": {
 		"/api/v1/publications/{id}": {
 			"get": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "findById",
 				"parameters": [
 					{
@@ -49,7 +51,9 @@
 				}
 			},
 			"put": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "update",
 				"parameters": [
 					{
@@ -84,7 +88,9 @@
 				}
 			},
 			"delete": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "delete",
 				"parameters": [
 					{
@@ -105,7 +111,9 @@
 		},
 		"/api/v1/publications": {
 			"get": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "findAll",
 				"parameters": [
 					{
@@ -114,7 +122,11 @@
 						"required": false,
 						"schema": {
 							"type": "string",
-							"enum": ["DRAFT", "PUBLISHED", "DELETED"]
+							"enum": [
+								"DRAFT",
+								"PUBLISHED",
+								"DELETED"
+							]
 						}
 					},
 					{
@@ -173,7 +185,8 @@
 						"required": false,
 						"schema": {
 							"type": "integer",
-							"format": "int32"
+							"format": "int32",
+							"minimum": 0
 						}
 					},
 					{
@@ -182,7 +195,9 @@
 						"required": false,
 						"schema": {
 							"type": "integer",
-							"format": "int32"
+							"format": "int32",
+							"maximum": 100,
+							"minimum": 1
 						}
 					}
 				],
@@ -200,7 +215,9 @@
 				}
 			},
 			"post": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "create",
 				"requestBody": {
 					"content": {
@@ -227,7 +244,9 @@
 		},
 		"/api/v1/publications/{id}/publish": {
 			"patch": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "publish_1",
 				"parameters": [
 					{
@@ -255,7 +274,9 @@
 		},
 		"/api/v1/publications/{id}/download": {
 			"get": {
-				"tags": ["publication-controller"],
+				"tags": [
+					"publication-controller"
+				],
 				"operationId": "download",
 				"parameters": [
 					{
@@ -307,7 +328,7 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"fileName": {
+					"originalFileName": {
 						"type": "string"
 					},
 					"fileSize": {
@@ -318,9 +339,6 @@
 						"type": "string"
 					},
 					"createdByTitle": {
-						"type": "string"
-					},
-					"createdByUserId": {
 						"type": "string"
 					},
 					"createdAt": {
@@ -355,7 +373,10 @@
 						"format": "binary"
 					}
 				},
-				"required": ["documentTypeId", "title"]
+				"required": [
+					"documentTypeId",
+					"title"
+				]
 			},
 			"PagedModelPublicationResponse": {
 				"type": "object",
@@ -393,7 +414,10 @@
 						"format": "binary"
 					}
 				},
-				"required": ["documentTypeId", "title"]
+				"required": [
+					"documentTypeId",
+					"title"
+				]
 			},
 			"DocumentTypeLookup": {
 				"type": "object",

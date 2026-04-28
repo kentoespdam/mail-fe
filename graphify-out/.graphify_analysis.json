@@ -1,0 +1,1268 @@
+{
+  "communities": {
+    "0": [
+      "actions_auth_createemailsession",
+      "actions_auth_createjwt",
+      "actions_auth_dologin",
+      "actions_auth_getuserprofile",
+      "actions_auth_logout",
+      "actions_auth_ts",
+      "lib_email_validator_isemailvalid",
+      "lib_email_validator_ts",
+      "lib_email_validator_validateemail",
+      "lib_session_createsession",
+      "lib_session_decrypt",
+      "lib_session_deletesession",
+      "lib_session_encrypt",
+      "lib_session_getappwritesession",
+      "lib_session_getencryptionkey",
+      "lib_session_getsession",
+      "lib_session_ts",
+      "mnt_data_html_mail_fe_src_actions_auth_ts",
+      "mnt_data_html_mail_fe_src_lib_email_validator_ts",
+      "mnt_data_html_mail_fe_src_lib_session_ts"
+    ],
+    "1": [
+      "components_publication_publication_preview_dialog_tsx",
+      "lib_publication_api_createpublication",
+      "lib_publication_api_deletepublication",
+      "lib_publication_api_downloadpublication",
+      "lib_publication_api_fetchdocumenttypeslookup",
+      "lib_publication_api_fetchpublication",
+      "lib_publication_api_fetchpublications",
+      "lib_publication_api_getpublicationdownloadurl",
+      "lib_publication_api_publishpublication",
+      "lib_publication_api_triggerdownload",
+      "lib_publication_api_ts",
+      "lib_publication_api_updatepublication",
+      "mnt_data_html_mail_fe_src_components_publication_publication_preview_dialog_tsx",
+      "mnt_data_html_mail_fe_src_lib_publication_api_ts",
+      "publication_publication_preview_dialog_handledownload"
+    ],
+    "2": [
+      "lib_mail_api_createdraft",
+      "lib_mail_api_deletemail",
+      "lib_mail_api_fetchmailsinfolder",
+      "lib_mail_api_fetchreadstatus",
+      "lib_mail_api_fetchthread",
+      "lib_mail_api_fetchtracking",
+      "lib_mail_api_mappagedresponse",
+      "lib_mail_api_markread",
+      "lib_mail_api_restoremailroot",
+      "lib_mail_api_searchmailsreport",
+      "lib_mail_api_sendfromdraft",
+      "lib_mail_api_sendmaildirect",
+      "lib_mail_api_ts",
+      "lib_mail_api_updatedraft",
+      "mnt_data_html_mail_fe_src_lib_mail_api_ts"
+    ],
+    "3": [
+      "components_publication_publication_form_dialog_tsx",
+      "hooks_publication_hooks_formatdate",
+      "hooks_publication_hooks_formatfilesize",
+      "hooks_publication_hooks_getfiletype",
+      "hooks_publication_hooks_statusbadge",
+      "hooks_publication_hooks_tsx",
+      "hooks_publication_hooks_usedocumenttypeoptions",
+      "hooks_publication_hooks_usepublication",
+      "hooks_publication_hooks_usepublications",
+      "mnt_data_html_mail_fe_src_components_publication_publication_form_dialog_tsx",
+      "mnt_data_html_mail_fe_src_hooks_publication_hooks_tsx",
+      "publication_publication_form_dialog_createpublicationdialog"
+    ],
+    "4": [
+      "components_mail_category_mail_category_form_dialog_tsx",
+      "hooks_mail_category_hooks_tsx",
+      "hooks_mail_category_hooks_usecreatemailcategory",
+      "hooks_mail_category_hooks_usedeletemailcategory",
+      "hooks_mail_category_hooks_usemailcategories",
+      "hooks_mail_category_hooks_usemailcategory",
+      "hooks_mail_category_hooks_usemailtypeoptions",
+      "hooks_mail_category_hooks_useupdatemailcategory",
+      "mail_category_mail_category_form_dialog_createmailcategorydialog",
+      "mnt_data_html_mail_fe_src_components_mail_category_mail_category_form_dialog_tsx",
+      "mnt_data_html_mail_fe_src_hooks_mail_category_hooks_tsx"
+    ],
+    "5": [
+      "lib_mail_folder_api_createfolder",
+      "lib_mail_folder_api_deletefolder",
+      "lib_mail_folder_api_deletemailfromfolder",
+      "lib_mail_folder_api_emptytrash",
+      "lib_mail_folder_api_fetchfoldercounters",
+      "lib_mail_folder_api_fetchfoldertree",
+      "lib_mail_folder_api_movemails",
+      "lib_mail_folder_api_renamefolder",
+      "lib_mail_folder_api_restoremailtofolder",
+      "lib_mail_folder_api_ts",
+      "mnt_data_html_mail_fe_src_lib_mail_folder_api_ts"
+    ],
+    "6": [
+      "lib_rbac_candeletemail",
+      "lib_rbac_caneditmail",
+      "lib_rbac_canmanageattachment",
+      "lib_rbac_canmanagefolder",
+      "lib_rbac_cansendmail",
+      "lib_rbac_getallpermissions",
+      "lib_rbac_getjabatan",
+      "lib_rbac_haspermission",
+      "lib_rbac_issuperuser",
+      "lib_rbac_ts",
+      "mnt_data_html_mail_fe_src_lib_rbac_ts"
+    ],
+    "7": [
+      "components_ui_sidebar_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_sidebar_tsx",
+      "ui_sidebar_cn",
+      "ui_sidebar_handlekeydown",
+      "ui_sidebar_sidebargroupcontent",
+      "ui_sidebar_sidebarmenu",
+      "ui_sidebar_sidebarmenuaction",
+      "ui_sidebar_sidebarmenubutton",
+      "ui_sidebar_sidebarmenuitem",
+      "ui_sidebar_sidebarmenusubbutton",
+      "ui_sidebar_usesidebar"
+    ],
+    "8": [
+      "mnt_data_html_mail_fe_src_proxy_ts",
+      "proxy_ts",
+      "src_proxy_cleanupdecryptcache",
+      "src_proxy_decryptappwritesession",
+      "src_proxy_gettokenexp",
+      "src_proxy_isprotectedpath",
+      "src_proxy_proxy",
+      "src_proxy_refreshjwt",
+      "src_proxy_resolvesession",
+      "src_proxy_setcookieonresponse"
+    ],
+    "9": [
+      "components_ui_select_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_select_tsx",
+      "ui_select_selectcontent",
+      "ui_select_selectgroup",
+      "ui_select_selectitem",
+      "ui_select_selectlabel",
+      "ui_select_selectscrolldownbutton",
+      "ui_select_selectseparator",
+      "ui_select_selecttrigger",
+      "ui_select_selectvalue"
+    ],
+    "10": [
+      "lib_mail_recipient_api_addrecipient",
+      "lib_mail_recipient_api_addrecipientsbatch",
+      "lib_mail_recipient_api_copyfrom",
+      "lib_mail_recipient_api_copythread",
+      "lib_mail_recipient_api_deleterecipient",
+      "lib_mail_recipient_api_deleterecipientsbatch",
+      "lib_mail_recipient_api_fetchrecipients",
+      "lib_mail_recipient_api_ts",
+      "lib_mail_recipient_api_updatenotifflags",
+      "mnt_data_html_mail_fe_src_lib_mail_recipient_api_ts"
+    ],
+    "11": [
+      "lib_mail_type_api_createmailtype",
+      "lib_mail_type_api_deletemailtype",
+      "lib_mail_type_api_fetchmailtype",
+      "lib_mail_type_api_fetchmailtypes",
+      "lib_mail_type_api_fetchmailtypeslookup",
+      "lib_mail_type_api_togglemailtypestatus",
+      "lib_mail_type_api_ts",
+      "lib_mail_type_api_updatemailtype",
+      "mnt_data_html_mail_fe_src_lib_mail_type_api_ts"
+    ],
+    "12": [
+      "lib_document_type_api_createdocumenttype",
+      "lib_document_type_api_deletedocumenttype",
+      "lib_document_type_api_fetchdocumenttype",
+      "lib_document_type_api_fetchdocumenttypes",
+      "lib_document_type_api_fetchdocumenttypeslookup",
+      "lib_document_type_api_toggledocumenttypestatus",
+      "lib_document_type_api_ts",
+      "lib_document_type_api_updatedocumenttype",
+      "mnt_data_html_mail_fe_src_lib_document_type_api_ts"
+    ],
+    "13": [
+      "components_ui_menubar_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_menubar_tsx",
+      "ui_menubar_cn",
+      "ui_menubar_menubar",
+      "ui_menubar_menubargroup",
+      "ui_menubar_menubarmenu",
+      "ui_menubar_menubarportal",
+      "ui_menubar_menubarradiogroup",
+      "ui_menubar_menubarradioitem"
+    ],
+    "14": [
+      "components_document_type_document_type_form_dialog_tsx",
+      "document_type_document_type_form_dialog_createdocumenttypedialog",
+      "hooks_document_type_hooks_tsx",
+      "hooks_document_type_hooks_usecreatedocumenttype",
+      "hooks_document_type_hooks_usedocumenttypes",
+      "hooks_document_type_hooks_useupdatedocumenttype",
+      "mnt_data_html_mail_fe_src_components_document_type_document_type_form_dialog_tsx",
+      "mnt_data_html_mail_fe_src_hooks_document_type_hooks_tsx"
+    ],
+    "15": [
+      "components_mail_type_mail_type_form_dialog_tsx",
+      "hooks_mail_type_hooks_tsx",
+      "hooks_mail_type_hooks_usecreatemailtype",
+      "hooks_mail_type_hooks_usemailtypes",
+      "hooks_mail_type_hooks_useupdatemailtype",
+      "mail_type_mail_type_form_dialog_createmailtypedialog",
+      "mnt_data_html_mail_fe_src_components_mail_type_mail_type_form_dialog_tsx",
+      "mnt_data_html_mail_fe_src_hooks_mail_type_hooks_tsx"
+    ],
+    "16": [
+      "components_quick_message_quick_message_form_dialog_tsx",
+      "hooks_quick_message_hooks_tsx",
+      "hooks_quick_message_hooks_usecreatequickmessage",
+      "hooks_quick_message_hooks_usequickmessages",
+      "hooks_quick_message_hooks_useupdatequickmessage",
+      "mnt_data_html_mail_fe_src_components_quick_message_quick_message_form_dialog_tsx",
+      "mnt_data_html_mail_fe_src_hooks_quick_message_hooks_tsx",
+      "quick_message_quick_message_form_dialog_createquickmessagedialog"
+    ],
+    "17": [
+      "lib_mail_category_api_createmailcategory",
+      "lib_mail_category_api_deletemailcategory",
+      "lib_mail_category_api_fetchmailcategories",
+      "lib_mail_category_api_fetchmailcategory",
+      "lib_mail_category_api_togglemailcategorystatus",
+      "lib_mail_category_api_ts",
+      "lib_mail_category_api_updatemailcategory",
+      "mnt_data_html_mail_fe_src_lib_mail_category_api_ts"
+    ],
+    "18": [
+      "lib_attachment_api_deleteattachment",
+      "lib_attachment_api_downloadattachment",
+      "lib_attachment_api_fetchattachments",
+      "lib_attachment_api_getattachmentdownloadurl",
+      "lib_attachment_api_triggerattachmentdownload",
+      "lib_attachment_api_ts",
+      "lib_attachment_api_uploadattachment",
+      "mnt_data_html_mail_fe_src_lib_attachment_api_ts"
+    ],
+    "19": [
+      "hooks_use_pagination_ts",
+      "hooks_use_pagination_usepagination",
+      "hooks_use_query_state_ts",
+      "hooks_use_query_state_usequerystate",
+      "hooks_use_query_state_usequerystates",
+      "mnt_data_html_mail_fe_src_hooks_use_pagination_ts",
+      "mnt_data_html_mail_fe_src_hooks_use_query_state_ts"
+    ],
+    "20": [
+      "lib_file_rule_api_createfilerule",
+      "lib_file_rule_api_deletefilerule",
+      "lib_file_rule_api_fetchfilerules",
+      "lib_file_rule_api_fetchfileruleslookup",
+      "lib_file_rule_api_ts",
+      "lib_file_rule_api_updatefilerule",
+      "mnt_data_html_mail_fe_src_lib_file_rule_api_ts"
+    ],
+    "21": [
+      "lib_quick_message_api_createquickmessage",
+      "lib_quick_message_api_deletequickmessage",
+      "lib_quick_message_api_fetchquickmessage",
+      "lib_quick_message_api_fetchquickmessages",
+      "lib_quick_message_api_ts",
+      "lib_quick_message_api_updatequickmessage",
+      "mnt_data_html_mail_fe_src_lib_quick_message_api_ts"
+    ],
+    "22": [
+      "components_ui_navigation_menu_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_navigation_menu_tsx",
+      "ui_navigation_menu_navigationmenu",
+      "ui_navigation_menu_navigationmenucontent",
+      "ui_navigation_menu_navigationmenulink",
+      "ui_navigation_menu_navigationmenulist",
+      "ui_navigation_menu_navigationmenutrigger"
+    ],
+    "23": [
+      "components_publication_publication_pdf_viewer_tsx",
+      "mnt_data_html_mail_fe_src_components_publication_publication_pdf_viewer_tsx",
+      "publication_publication_pdf_viewer_changepage",
+      "publication_publication_pdf_viewer_handlerotate",
+      "publication_publication_pdf_viewer_handlezoomin",
+      "publication_publication_pdf_viewer_handlezoomout",
+      "publication_publication_pdf_viewer_ondocumentloadsuccess"
+    ],
+    "24": [
+      "hooks_file_rule_hooks_tsx",
+      "hooks_file_rule_hooks_usecreatefilerule",
+      "hooks_file_rule_hooks_usedeletefilerule",
+      "hooks_file_rule_hooks_usefilerules",
+      "hooks_file_rule_hooks_useupdatefilerule",
+      "mnt_data_html_mail_fe_src_hooks_file_rule_hooks_tsx"
+    ],
+    "25": [
+      "hooks_use_top_menu_ts",
+      "hooks_use_top_menu_usetopmenu",
+      "hooks_use_user_ts",
+      "hooks_use_user_useuser",
+      "mnt_data_html_mail_fe_src_hooks_use_top_menu_ts",
+      "mnt_data_html_mail_fe_src_hooks_use_user_ts"
+    ],
+    "26": [
+      "components_ui_tabs_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_tabs_tsx",
+      "ui_tabs_tabs",
+      "ui_tabs_tabscontent",
+      "ui_tabs_tabslist",
+      "ui_tabs_tabstrigger"
+    ],
+    "27": [
+      "components_ui_table_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_table_tsx",
+      "ui_table_cn",
+      "ui_table_table",
+      "ui_table_tablebody",
+      "ui_table_tableheader"
+    ],
+    "28": [
+      "components_ui_badge_tsx",
+      "components_ui_separator_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_badge_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_separator_tsx",
+      "ui_badge_badge",
+      "ui_separator_cn"
+    ],
+    "29": [
+      "components_persuratan_mail_folder_tree_tsx",
+      "mnt_data_html_mail_fe_src_components_persuratan_mail_folder_tree_tsx",
+      "persuratan_mail_folder_tree_cn",
+      "persuratan_mail_folder_tree_geticon",
+      "persuratan_mail_folder_tree_handleselectfolder"
+    ],
+    "30": [
+      "components_ui_avatar_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_avatar_tsx",
+      "ui_avatar_avatar",
+      "ui_avatar_avatarfallback",
+      "ui_avatar_avatarimage"
+    ],
+    "31": [
+      "components_ui_popover_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_popover_tsx",
+      "ui_popover_cn",
+      "ui_popover_popoverdescription",
+      "ui_popover_popovertitle"
+    ],
+    "32": [
+      "components_ui_card_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_card_tsx",
+      "ui_card_cardaction",
+      "ui_card_carddescription",
+      "ui_card_cn"
+    ],
+    "33": [
+      "components_ui_sheet_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_sheet_tsx",
+      "ui_sheet_cn",
+      "ui_sheet_sheetdescription",
+      "ui_sheet_sheettitle"
+    ],
+    "34": [
+      "hooks_auth_hooks_tsx",
+      "hooks_auth_hooks_uselogin",
+      "hooks_auth_hooks_uselogout",
+      "mnt_data_html_mail_fe_src_hooks_auth_hooks_tsx"
+    ],
+    "35": [
+      "components_ui_data_table_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_data_table_tsx",
+      "ui_data_table_handleclearsearch",
+      "ui_data_table_handlesearchinput"
+    ],
+    "36": [
+      "components_ui_collapsible_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_collapsible_tsx",
+      "ui_collapsible_collapsiblecontent",
+      "ui_collapsible_collapsibletrigger"
+    ],
+    "37": [
+      "components_ui_tooltip_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_tooltip_tsx",
+      "ui_tooltip_tooltipcontent",
+      "ui_tooltip_tooltipprovider"
+    ],
+    "38": [
+      "app_layout_rootlayout",
+      "app_layout_tsx",
+      "mnt_data_html_mail_fe_src_app_layout_tsx"
+    ],
+    "39": [
+      "app_theme_providers_customthemeprovider",
+      "app_theme_providers_tsx",
+      "mnt_data_html_mail_fe_src_app_theme_providers_tsx"
+    ],
+    "40": [
+      "app_not_found_notfound",
+      "app_not_found_tsx",
+      "mnt_data_html_mail_fe_src_app_not_found_tsx"
+    ],
+    "41": [
+      "app_main_persuratan_page_tsx",
+      "mnt_data_html_mail_fe_src_app_main_persuratan_page_tsx",
+      "persuratan_page_persuratanpage"
+    ],
+    "42": [
+      "app_main_publikasi_page_tsx",
+      "mnt_data_html_mail_fe_src_app_main_publikasi_page_tsx",
+      "publikasi_page_publikasipage"
+    ],
+    "43": [
+      "app_main_publikasi_template_tsx",
+      "mnt_data_html_mail_fe_src_app_main_publikasi_template_tsx",
+      "publikasi_template_template"
+    ],
+    "44": [
+      "app_login_page_tsx",
+      "login_page_page",
+      "mnt_data_html_mail_fe_src_app_login_page_tsx"
+    ],
+    "45": [
+      "app_login_template_tsx",
+      "login_template_template",
+      "mnt_data_html_mail_fe_src_app_login_template_tsx"
+    ],
+    "46": [
+      "app_master_master_template_tsx",
+      "master_template_masterlayout",
+      "mnt_data_html_mail_fe_src_app_master_master_template_tsx"
+    ],
+    "47": [
+      "app_master_master_tipe_surat_page_tsx",
+      "mnt_data_html_mail_fe_src_app_master_master_tipe_surat_page_tsx",
+      "tipe_surat_page_tipesuratpage"
+    ],
+    "48": [
+      "app_master_master_jenis_dokumen_page_tsx",
+      "jenis_dokumen_page_jenisdokumenpage",
+      "mnt_data_html_mail_fe_src_app_master_master_jenis_dokumen_page_tsx"
+    ],
+    "49": [
+      "app_master_master_file_rule_page_tsx",
+      "file_rule_page_filerulepage",
+      "mnt_data_html_mail_fe_src_app_master_master_file_rule_page_tsx"
+    ],
+    "50": [
+      "app_master_master_kategori_surat_page_tsx",
+      "kategori_surat_page_kategorisuratpage",
+      "mnt_data_html_mail_fe_src_app_master_master_kategori_surat_page_tsx"
+    ],
+    "51": [
+      "app_master_master_pesan_singkat_page_tsx",
+      "mnt_data_html_mail_fe_src_app_master_master_pesan_singkat_page_tsx",
+      "pesan_singkat_page_pesansingkatpage"
+    ],
+    "52": [
+      "hooks_use_debounced_value_ts",
+      "hooks_use_debounced_value_usedebouncedvalue",
+      "mnt_data_html_mail_fe_src_hooks_use_debounced_value_ts"
+    ],
+    "53": [
+      "hooks_use_mobile_ts",
+      "hooks_use_mobile_useismobile",
+      "mnt_data_html_mail_fe_src_hooks_use_mobile_ts"
+    ],
+    "54": [
+      "hooks_persuratan_use_mail_navigation_ts",
+      "mnt_data_html_mail_fe_src_hooks_persuratan_use_mail_navigation_ts",
+      "persuratan_use_mail_navigation_usemailnavigation"
+    ],
+    "55": [
+      "hooks_persuratan_use_mail_folder_tree_ts",
+      "mnt_data_html_mail_fe_src_hooks_persuratan_use_mail_folder_tree_ts",
+      "persuratan_use_mail_folder_tree_usemailfoldertree"
+    ],
+    "56": [
+      "hooks_persuratan_use_mail_toolbar_ts",
+      "mnt_data_html_mail_fe_src_hooks_persuratan_use_mail_toolbar_ts",
+      "persuratan_use_mail_toolbar_usemailtoolbar"
+    ],
+    "57": [
+      "hooks_persuratan_use_mail_list_state_ts",
+      "mnt_data_html_mail_fe_src_hooks_persuratan_use_mail_list_state_ts",
+      "persuratan_use_mail_list_state_usemailliststate"
+    ],
+    "58": [
+      "hooks_persuratan_use_mail_detail_state_ts",
+      "mnt_data_html_mail_fe_src_hooks_persuratan_use_mail_detail_state_ts",
+      "persuratan_use_mail_detail_state_usemaildetailstate"
+    ],
+    "59": [
+      "lib_date_helper_formatindonesiandate",
+      "lib_date_helper_ts",
+      "mnt_data_html_mail_fe_src_lib_date_helper_ts"
+    ],
+    "60": [
+      "lib_utils_cn",
+      "lib_utils_ts",
+      "mnt_data_html_mail_fe_src_lib_utils_ts"
+    ],
+    "61": [
+      "components_persuratan_mail_list_toggle_tsx",
+      "mnt_data_html_mail_fe_src_components_persuratan_mail_list_toggle_tsx",
+      "persuratan_mail_list_toggle_maillisttoggle"
+    ],
+    "62": [
+      "builder_delete_confirm_dialog_deleteconfirmdialog",
+      "components_builder_delete_confirm_dialog_tsx",
+      "mnt_data_html_mail_fe_src_components_builder_delete_confirm_dialog_tsx"
+    ],
+    "63": [
+      "builder_input_file_controll_inputfilecontroll",
+      "components_builder_input_file_controll_tsx",
+      "mnt_data_html_mail_fe_src_components_builder_input_file_controll_tsx"
+    ],
+    "64": [
+      "components_ui_theme_toggle_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_theme_toggle_tsx",
+      "ui_theme_toggle_toggletheme"
+    ],
+    "65": [
+      "components_ui_button_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_button_tsx",
+      "ui_button_cn"
+    ],
+    "66": [
+      "components_ui_skeleton_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_skeleton_tsx",
+      "ui_skeleton_skeleton"
+    ],
+    "67": [
+      "components_ui_field_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_field_tsx",
+      "ui_field_cn"
+    ],
+    "68": [
+      "components_ui_tooltip_button_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_tooltip_button_tsx",
+      "ui_tooltip_button_tooltipbutton"
+    ],
+    "69": [
+      "components_ui_dropdown_menu_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_dropdown_menu_tsx",
+      "ui_dropdown_menu_dropdownmenuportal"
+    ],
+    "70": [
+      "components_ui_label_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_label_tsx",
+      "ui_label_cn"
+    ],
+    "71": [
+      "components_ui_dialog_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_dialog_tsx",
+      "ui_dialog_cn"
+    ],
+    "72": [
+      "components_ui_smart_office_icon_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_smart_office_icon_tsx",
+      "ui_smart_office_icon_smartofficeicon"
+    ],
+    "73": [
+      "components_ui_input_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_input_tsx",
+      "ui_input_input"
+    ],
+    "74": [
+      "components_ui_logo_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_logo_tsx",
+      "ui_logo_logo"
+    ],
+    "75": [
+      "components_ui_switch_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_switch_tsx",
+      "ui_switch_switch"
+    ],
+    "76": [
+      "components_ui_audit_trail_info_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_audit_trail_info_tsx",
+      "ui_audit_trail_info_audittrailinfo"
+    ],
+    "77": [
+      "components_ui_textarea_tsx",
+      "mnt_data_html_mail_fe_src_components_ui_textarea_tsx",
+      "ui_textarea_cn"
+    ],
+    "78": [
+      "components_dashboard_footer_tsx",
+      "dashboard_footer_footer",
+      "mnt_data_html_mail_fe_src_components_dashboard_footer_tsx"
+    ],
+    "79": [
+      "app_page_tsx"
+    ],
+    "80": [
+      "app_global_error_tsx"
+    ],
+    "81": [
+      "app_error_tsx"
+    ],
+    "82": [
+      "app_main_error_tsx"
+    ],
+    "83": [
+      "app_main_template_tsx"
+    ],
+    "84": [
+      "app_main_dashboard_page_tsx"
+    ],
+    "85": [
+      "app_master_master_layout_tsx"
+    ],
+    "86": [
+      "app_master_master_error_tsx"
+    ],
+    "87": [
+      "types_commons_ts"
+    ],
+    "88": [
+      "types_mail_category_ts"
+    ],
+    "89": [
+      "types_mail_ts"
+    ],
+    "90": [
+      "types_quick_message_ts"
+    ],
+    "91": [
+      "types_auth_ts"
+    ],
+    "92": [
+      "types_file_rule_ts"
+    ],
+    "93": [
+      "types_publication_ts"
+    ],
+    "94": [
+      "types_mail_type_ts"
+    ],
+    "95": [
+      "types_attachment_ts"
+    ],
+    "96": [
+      "types_document_type_ts"
+    ],
+    "97": [
+      "lib_constants_ts"
+    ],
+    "98": [
+      "lib_dal_ts"
+    ],
+    "99": [
+      "lib_app_meta_ts"
+    ],
+    "100": [
+      "lib_dummy_mail_dummy_ts"
+    ],
+    "101": [
+      "components_document_type_document_type_content_tsx"
+    ],
+    "102": [
+      "components_document_type_document_type_delete_dialog_tsx"
+    ],
+    "103": [
+      "components_persuratan_mail_toolbar_tsx"
+    ],
+    "104": [
+      "components_persuratan_persuratan_content_tsx"
+    ],
+    "105": [
+      "components_persuratan_mail_list_tsx"
+    ],
+    "106": [
+      "components_persuratan_mail_detail_tsx"
+    ],
+    "107": [
+      "components_builder_input_number_controll_tsx"
+    ],
+    "108": [
+      "components_builder_checkbox_controll_tsx"
+    ],
+    "109": [
+      "components_builder_select_controll_tsx"
+    ],
+    "110": [
+      "components_builder_input_text_controll_tsx"
+    ],
+    "111": [
+      "components_builder_textarea_controll_tsx"
+    ],
+    "112": [
+      "components_quick_message_quick_message_delete_dialog_tsx"
+    ],
+    "113": [
+      "components_quick_message_quick_message_content_tsx"
+    ],
+    "114": [
+      "components_file_rule_file_rule_form_dialog_tsx"
+    ],
+    "115": [
+      "components_file_rule_file_rule_delete_dialog_tsx"
+    ],
+    "116": [
+      "components_file_rule_file_rule_content_tsx"
+    ],
+    "117": [
+      "components_mail_category_mail_category_delete_dialog_tsx"
+    ],
+    "118": [
+      "components_mail_category_mail_category_content_tsx"
+    ],
+    "119": [
+      "components_ui_table_skeleton_tsx"
+    ],
+    "120": [
+      "components_ui_resizable_tsx"
+    ],
+    "121": [
+      "components_ui_sonner_tsx"
+    ],
+    "122": [
+      "components_ui_sticky_table_tsx"
+    ],
+    "123": [
+      "components_ui_sticky_data_table_tsx"
+    ],
+    "124": [
+      "components_mail_type_mail_type_delete_dialog_tsx"
+    ],
+    "125": [
+      "components_mail_type_mail_type_content_tsx"
+    ],
+    "126": [
+      "components_auth_login_form_tsx"
+    ],
+    "127": [
+      "components_dashboard_user_profile_button_tsx"
+    ],
+    "128": [
+      "components_dashboard_stats_card_tsx"
+    ],
+    "129": [
+      "components_dashboard_activity_feed_tsx"
+    ],
+    "130": [
+      "components_dashboard_quick_actions_tsx"
+    ],
+    "131": [
+      "components_dashboard_top_menu_tsx"
+    ],
+    "132": [
+      "components_dashboard_topbar_tsx"
+    ],
+    "133": [
+      "components_publication_publication_publish_dialog_tsx"
+    ],
+    "134": [
+      "components_publication_publication_form_fields_tsx"
+    ],
+    "135": [
+      "components_publication_publication_detail_dialog_tsx"
+    ],
+    "136": [
+      "components_publication_publication_delete_dialog_tsx"
+    ],
+    "137": [
+      "components_publication_publication_content_tsx"
+    ],
+    "138": [
+      "mnt_data_html_mail_fe_src_app_page_tsx"
+    ],
+    "139": [
+      "mnt_data_html_mail_fe_src_app_global_error_tsx"
+    ],
+    "140": [
+      "mnt_data_html_mail_fe_src_app_error_tsx"
+    ],
+    "141": [
+      "mnt_data_html_mail_fe_src_app_main_error_tsx"
+    ],
+    "142": [
+      "mnt_data_html_mail_fe_src_app_main_template_tsx"
+    ],
+    "143": [
+      "mnt_data_html_mail_fe_src_app_main_dashboard_page_tsx"
+    ],
+    "144": [
+      "mnt_data_html_mail_fe_src_app_master_master_layout_tsx"
+    ],
+    "145": [
+      "mnt_data_html_mail_fe_src_app_master_master_error_tsx"
+    ],
+    "146": [
+      "mnt_data_html_mail_fe_src_types_commons_ts"
+    ],
+    "147": [
+      "mnt_data_html_mail_fe_src_types_mail_category_ts"
+    ],
+    "148": [
+      "mnt_data_html_mail_fe_src_types_mail_ts"
+    ],
+    "149": [
+      "mnt_data_html_mail_fe_src_types_quick_message_ts"
+    ],
+    "150": [
+      "mnt_data_html_mail_fe_src_types_auth_ts"
+    ],
+    "151": [
+      "mnt_data_html_mail_fe_src_types_file_rule_ts"
+    ],
+    "152": [
+      "mnt_data_html_mail_fe_src_types_publication_ts"
+    ],
+    "153": [
+      "mnt_data_html_mail_fe_src_types_mail_type_ts"
+    ],
+    "154": [
+      "mnt_data_html_mail_fe_src_types_attachment_ts"
+    ],
+    "155": [
+      "mnt_data_html_mail_fe_src_types_document_type_ts"
+    ],
+    "156": [
+      "mnt_data_html_mail_fe_src_lib_constants_ts"
+    ],
+    "157": [
+      "mnt_data_html_mail_fe_src_lib_dal_ts"
+    ],
+    "158": [
+      "mnt_data_html_mail_fe_src_lib_app_meta_ts"
+    ],
+    "159": [
+      "mnt_data_html_mail_fe_src_lib_dummy_mail_dummy_ts"
+    ],
+    "160": [
+      "mnt_data_html_mail_fe_src_components_document_type_document_type_content_tsx"
+    ],
+    "161": [
+      "mnt_data_html_mail_fe_src_components_document_type_document_type_delete_dialog_tsx"
+    ],
+    "162": [
+      "mnt_data_html_mail_fe_src_components_persuratan_mail_toolbar_tsx"
+    ],
+    "163": [
+      "mnt_data_html_mail_fe_src_components_persuratan_persuratan_content_tsx"
+    ],
+    "164": [
+      "mnt_data_html_mail_fe_src_components_persuratan_mail_list_tsx"
+    ],
+    "165": [
+      "mnt_data_html_mail_fe_src_components_persuratan_mail_detail_tsx"
+    ],
+    "166": [
+      "mnt_data_html_mail_fe_src_components_builder_input_number_controll_tsx"
+    ],
+    "167": [
+      "mnt_data_html_mail_fe_src_components_builder_checkbox_controll_tsx"
+    ],
+    "168": [
+      "mnt_data_html_mail_fe_src_components_builder_select_controll_tsx"
+    ],
+    "169": [
+      "mnt_data_html_mail_fe_src_components_builder_input_text_controll_tsx"
+    ],
+    "170": [
+      "mnt_data_html_mail_fe_src_components_builder_textarea_controll_tsx"
+    ],
+    "171": [
+      "mnt_data_html_mail_fe_src_components_quick_message_quick_message_delete_dialog_tsx"
+    ],
+    "172": [
+      "mnt_data_html_mail_fe_src_components_quick_message_quick_message_content_tsx"
+    ],
+    "173": [
+      "mnt_data_html_mail_fe_src_components_file_rule_file_rule_form_dialog_tsx"
+    ],
+    "174": [
+      "mnt_data_html_mail_fe_src_components_file_rule_file_rule_delete_dialog_tsx"
+    ],
+    "175": [
+      "mnt_data_html_mail_fe_src_components_file_rule_file_rule_content_tsx"
+    ],
+    "176": [
+      "mnt_data_html_mail_fe_src_components_mail_category_mail_category_delete_dialog_tsx"
+    ],
+    "177": [
+      "mnt_data_html_mail_fe_src_components_mail_category_mail_category_content_tsx"
+    ],
+    "178": [
+      "mnt_data_html_mail_fe_src_components_ui_table_skeleton_tsx"
+    ],
+    "179": [
+      "mnt_data_html_mail_fe_src_components_ui_resizable_tsx"
+    ],
+    "180": [
+      "mnt_data_html_mail_fe_src_components_ui_sonner_tsx"
+    ],
+    "181": [
+      "mnt_data_html_mail_fe_src_components_ui_sticky_table_tsx"
+    ],
+    "182": [
+      "mnt_data_html_mail_fe_src_components_ui_sticky_data_table_tsx"
+    ],
+    "183": [
+      "mnt_data_html_mail_fe_src_components_mail_type_mail_type_delete_dialog_tsx"
+    ],
+    "184": [
+      "mnt_data_html_mail_fe_src_components_mail_type_mail_type_content_tsx"
+    ],
+    "185": [
+      "mnt_data_html_mail_fe_src_components_auth_login_form_tsx"
+    ],
+    "186": [
+      "mnt_data_html_mail_fe_src_components_dashboard_user_profile_button_tsx"
+    ],
+    "187": [
+      "mnt_data_html_mail_fe_src_components_dashboard_stats_card_tsx"
+    ],
+    "188": [
+      "mnt_data_html_mail_fe_src_components_dashboard_activity_feed_tsx"
+    ],
+    "189": [
+      "mnt_data_html_mail_fe_src_components_dashboard_quick_actions_tsx"
+    ],
+    "190": [
+      "mnt_data_html_mail_fe_src_components_dashboard_top_menu_tsx"
+    ],
+    "191": [
+      "mnt_data_html_mail_fe_src_components_dashboard_topbar_tsx"
+    ],
+    "192": [
+      "mnt_data_html_mail_fe_src_components_publication_publication_publish_dialog_tsx"
+    ],
+    "193": [
+      "mnt_data_html_mail_fe_src_components_publication_publication_form_fields_tsx"
+    ],
+    "194": [
+      "mnt_data_html_mail_fe_src_components_publication_publication_detail_dialog_tsx"
+    ],
+    "195": [
+      "mnt_data_html_mail_fe_src_components_publication_publication_delete_dialog_tsx"
+    ],
+    "196": [
+      "mnt_data_html_mail_fe_src_components_publication_publication_content_tsx"
+    ]
+  },
+  "cohesion": {
+    "0": 0.21,
+    "1": 0.24,
+    "2": 0.27,
+    "3": 0.26,
+    "4": 0.29,
+    "5": 0.33,
+    "6": 0.42,
+    "7": 0.4,
+    "8": 0.49,
+    "9": 0.36,
+    "10": 0.36,
+    "11": 0.39,
+    "12": 0.39,
+    "13": 0.39,
+    "14": 0.32,
+    "15": 0.32,
+    "16": 0.32,
+    "17": 0.43,
+    "18": 0.5,
+    "19": 0.33,
+    "20": 0.48,
+    "21": 0.48,
+    "22": 0.48,
+    "23": 0.48,
+    "24": 0.53,
+    "25": 0.33,
+    "26": 0.53,
+    "27": 0.53,
+    "28": 0.33,
+    "29": 0.6,
+    "30": 0.6,
+    "31": 0.6,
+    "32": 0.6,
+    "33": 0.6,
+    "34": 0.67,
+    "35": 0.67,
+    "36": 0.67,
+    "37": 0.67,
+    "38": 0.67,
+    "39": 0.67,
+    "40": 0.67,
+    "41": 0.67,
+    "42": 0.67,
+    "43": 0.67,
+    "44": 0.67,
+    "45": 0.67,
+    "46": 0.67,
+    "47": 0.67,
+    "48": 0.67,
+    "49": 0.67,
+    "50": 0.67,
+    "51": 0.67,
+    "52": 0.67,
+    "53": 0.67,
+    "54": 0.67,
+    "55": 0.67,
+    "56": 0.67,
+    "57": 0.67,
+    "58": 0.67,
+    "59": 0.67,
+    "60": 0.67,
+    "61": 0.67,
+    "62": 0.67,
+    "63": 0.67,
+    "64": 0.67,
+    "65": 0.67,
+    "66": 0.67,
+    "67": 0.67,
+    "68": 0.67,
+    "69": 0.67,
+    "70": 0.67,
+    "71": 0.67,
+    "72": 0.67,
+    "73": 0.67,
+    "74": 0.67,
+    "75": 0.67,
+    "76": 0.67,
+    "77": 0.67,
+    "78": 0.67,
+    "79": 1.0,
+    "80": 1.0,
+    "81": 1.0,
+    "82": 1.0,
+    "83": 1.0,
+    "84": 1.0,
+    "85": 1.0,
+    "86": 1.0,
+    "87": 1.0,
+    "88": 1.0,
+    "89": 1.0,
+    "90": 1.0,
+    "91": 1.0,
+    "92": 1.0,
+    "93": 1.0,
+    "94": 1.0,
+    "95": 1.0,
+    "96": 1.0,
+    "97": 1.0,
+    "98": 1.0,
+    "99": 1.0,
+    "100": 1.0,
+    "101": 1.0,
+    "102": 1.0,
+    "103": 1.0,
+    "104": 1.0,
+    "105": 1.0,
+    "106": 1.0,
+    "107": 1.0,
+    "108": 1.0,
+    "109": 1.0,
+    "110": 1.0,
+    "111": 1.0,
+    "112": 1.0,
+    "113": 1.0,
+    "114": 1.0,
+    "115": 1.0,
+    "116": 1.0,
+    "117": 1.0,
+    "118": 1.0,
+    "119": 1.0,
+    "120": 1.0,
+    "121": 1.0,
+    "122": 1.0,
+    "123": 1.0,
+    "124": 1.0,
+    "125": 1.0,
+    "126": 1.0,
+    "127": 1.0,
+    "128": 1.0,
+    "129": 1.0,
+    "130": 1.0,
+    "131": 1.0,
+    "132": 1.0,
+    "133": 1.0,
+    "134": 1.0,
+    "135": 1.0,
+    "136": 1.0,
+    "137": 1.0,
+    "138": 1.0,
+    "139": 1.0,
+    "140": 1.0,
+    "141": 1.0,
+    "142": 1.0,
+    "143": 1.0,
+    "144": 1.0,
+    "145": 1.0,
+    "146": 1.0,
+    "147": 1.0,
+    "148": 1.0,
+    "149": 1.0,
+    "150": 1.0,
+    "151": 1.0,
+    "152": 1.0,
+    "153": 1.0,
+    "154": 1.0,
+    "155": 1.0,
+    "156": 1.0,
+    "157": 1.0,
+    "158": 1.0,
+    "159": 1.0,
+    "160": 1.0,
+    "161": 1.0,
+    "162": 1.0,
+    "163": 1.0,
+    "164": 1.0,
+    "165": 1.0,
+    "166": 1.0,
+    "167": 1.0,
+    "168": 1.0,
+    "169": 1.0,
+    "170": 1.0,
+    "171": 1.0,
+    "172": 1.0,
+    "173": 1.0,
+    "174": 1.0,
+    "175": 1.0,
+    "176": 1.0,
+    "177": 1.0,
+    "178": 1.0,
+    "179": 1.0,
+    "180": 1.0,
+    "181": 1.0,
+    "182": 1.0,
+    "183": 1.0,
+    "184": 1.0,
+    "185": 1.0,
+    "186": 1.0,
+    "187": 1.0,
+    "188": 1.0,
+    "189": 1.0,
+    "190": 1.0,
+    "191": 1.0,
+    "192": 1.0,
+    "193": 1.0,
+    "194": 1.0,
+    "195": 1.0,
+    "196": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_proxy_resolvesession",
+      "label": "resolveSession()",
+      "degree": 6
+    },
+    {
+      "id": "actions_auth_dologin",
+      "label": "doLogin()",
+      "degree": 6
+    },
+    {
+      "id": "lib_rbac_caneditmail",
+      "label": "canEditMail()",
+      "degree": 6
+    },
+    {
+      "id": "src_proxy_proxy",
+      "label": "proxy()",
+      "degree": 5
+    },
+    {
+      "id": "actions_auth_logout",
+      "label": "logout()",
+      "degree": 5
+    },
+    {
+      "id": "ui_sidebar_cn",
+      "label": "cn()",
+      "degree": 5
+    },
+    {
+      "id": "lib_publication_api_downloadpublication",
+      "label": "downloadPublication()",
+      "degree": 4
+    },
+    {
+      "id": "lib_publication_api_triggerdownload",
+      "label": "triggerDownload()",
+      "degree": 4
+    },
+    {
+      "id": "lib_attachment_api_downloadattachment",
+      "label": "downloadAttachment()",
+      "degree": 4
+    },
+    {
+      "id": "lib_email_validator_isemailvalid",
+      "label": "isEmailValid()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "doLogin()",
+      "target": "isEmailValid()",
+      "source_files": [
+        "actions/auth.ts",
+        "lib/email-validator.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "doLogin()",
+      "target": "createSession()",
+      "source_files": [
+        "actions/auth.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "logout()",
+      "target": "getSession()",
+      "source_files": [
+        "actions/auth.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "logout()",
+      "target": "getAppwriteSession()",
+      "source_files": [
+        "actions/auth.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "logout()",
+      "target": "deleteSession()",
+      "source_files": [
+        "actions/auth.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    }
+  ],
+  "questions": [
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `doLogin()` (e.g. with `isEmailValid()` and `createSession()`) actually correct?",
+      "why": "`doLogin()` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 3 inferred relationships involving `logout()` (e.g. with `getSession()` and `getAppwriteSession()`) actually correct?",
+      "why": "`logout()` has 3 INFERRED edges - model-reasoned connections that need verification."
+    }
+  ]
+}

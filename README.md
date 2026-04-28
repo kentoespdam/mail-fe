@@ -203,6 +203,12 @@ Dokumentasi lengkap ada di `apidocs/`. Ringkasan endpoint:
 | **Transaksi** | `mail`, `sys_user_task`, `mail_recipient`, `mail_archive`, `mail_archive_access`, `mail_archive_notif`, `mail_archive_notif_log`, `attachments`, `attachment_download_history`, `mail_respontime`, `print_log`, `smtp_mail_log` |
 | **Pelaporan** | `mail_category_statistic`, `mail_org_statistic` |
 
+## Run with Docker
+
+1. `cp .env.example .env` lalu isi nilai yang dibutuhkan.
+2. `docker compose up -d --build`
+3. Akses di http://localhost:3000
+4. Stop: `docker compose down`
 ---
 
 *Frontend development plan untuk migrasi SmartOffice Mail Service (CodeIgniter 2 → Spring Boot + Next.js)*

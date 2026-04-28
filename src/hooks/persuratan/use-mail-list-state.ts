@@ -3,7 +3,11 @@
 import { useQuery } from "@tanstack/react-query";
 import type { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
-import { queryParsers, querySerializers, useQueryState } from "@/hooks/use-query-state"; // Assuming this hook exists and is imported like this
+import {
+	queryParsers,
+	querySerializers,
+	useQueryState,
+} from "@/hooks/use-query-state"; // Assuming this hook exists and is imported like this
 import { fetchMailsInFolder } from "@/lib/mail-api";
 
 export const useMailListState = (selectedFolderId: string) => {
